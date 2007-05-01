@@ -208,8 +208,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 199739958;
-			PBXWorkspaceStateSaveDate = 199739958;
+			PBXPerProjectTemplateStateSaveDate = 199741391;
+			PBXWorkspaceStateSaveDate = 199741391;
 		};
 		sourceControlManager = D24CA2350AFE38AB003C3289 /* Source Control */;
 		userBuildSettings = {
@@ -467,7 +467,7 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 1;
 		scmConfiguration = {
-			SubversionToolPath = /usr/local/bin/svn;
+			SubversionToolPath = /sw/bin/svn;
 		};
 		scmType = scm.subversion;
 	};

@@ -1,1 +1,0 @@
- const unsigned char iFragVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:iFrag  PROJECT:iFrag-  DEVELOPER:cereal  BUILT:" __DATE__  " " __TIME__ "" "\n"; const double iFragVersionNumber __attribute__ ((used)) = (double)0.;

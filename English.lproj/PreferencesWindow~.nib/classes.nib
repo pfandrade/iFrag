@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                addServer = id; 
+                addToFavorites = id; 
+                playGame = id; 
+                refreshSelectedServers = id; 
+                refreshServerList = id; 
+                reloadServerList = id; 
+                removeServers = id; 
+                showPreferences = id; 
+            }; 
+            CLASS = MMainController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addServerWindowController = NSWindowController; 
+                filterBar = AMButtonBar; 
+                gamesOutlineView = id; 
+                mainWindow = NSWindow; 
+                preferencesWindow = NSWindow; 
+                rightSplitView = MInnerSplitView; 
+                serversDataSource = id; 
+                splitView = MThinSplitView; 
+                toolbarController = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

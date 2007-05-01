@@ -1,0 +1,113 @@
+{
+    IBClasses = (
+        {
+            CLASS = AMButtonBar; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = KBGradientOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {
+            CLASS = LRFilterBar; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {originalSender = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {add = id; cancel = id; }; 
+            CLASS = MAddServerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                address = NSTextField; 
+                image = NSImageView; 
+                kind = NSPopUpButton; 
+                mainController = id; 
+                subTitle = NSTextField; 
+                title = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = MDragHandleButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {CLASS = MInnerSplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
+        {
+            CLASS = MInspectorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                gameIcon = NSImageView; 
+                gameName = NSTextField; 
+                gamePath = NSTextField; 
+                serverAddress = NSTextField; 
+                serverFlags = id; 
+                serverName = NSTextField; 
+                serverPing = NSTextField; 
+                serverRulesTableView = NSTableView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                addServer = id; 
+                addToFavorites = id; 
+                playGame = id; 
+                refreshSelectedServers = id; 
+                refreshServerList = id; 
+                reloadServerList = id; 
+                removeServers = id; 
+            }; 
+            CLASS = MMainController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addServerWindowController = NSWindowController; 
+                filterBar = AMButtonBar; 
+                gamesOutlineView = id; 
+                mainWindow = NSWindow; 
+                rightSplitView = MInnerSplitView; 
+                serversDataSource = id; 
+                splitView = MThinSplitView; 
+                toolbarController = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MPlayersController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {playersTableView = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {serverInfo = id; togglePlayersDrawer = id; }; 
+            CLASS = MServersController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                infoWindow = id; 
+                infoWindowDataSource = id; 
+                playersDataSource = id; 
+                playersDrawer = id; 
+                serversTableView = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MSplitViewsDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {mainController = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MThinSplitView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {resizeHandle = id; }; 
+            SUPERCLASS = NSSplitView; 
+        }, 
+        {
+            CLASS = MToolbarController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {mainController = id; serversController = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

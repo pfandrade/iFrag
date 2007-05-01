@@ -1,0 +1,34 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = MInspectorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                gameIcon = NSImageView; 
+                gameName = NSTextField; 
+                gamePath = NSTextField; 
+                serverAddress = NSTextField; 
+                serverFlags = id; 
+                serverName = NSTextField; 
+                serverPing = NSTextField; 
+                serverRulesTableView = NSTableView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {serverInfo = id; togglePlayersDrawer = id; }; 
+            CLASS = MServersController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                infoWindow = id; 
+                infoWindowDataSource = id; 
+                playersDataSource = id; 
+                playersDrawer = id; 
+                serversTableView = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

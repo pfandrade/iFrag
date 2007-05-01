@@ -1,0 +1,26 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {add = id; cancel = id; }; 
+            CLASS = MAddServerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                address = NSTextField; 
+                image = NSImageView; 
+                kind = NSPopUpButton; 
+                mainController = id; 
+                subTitle = NSTextField; 
+                title = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

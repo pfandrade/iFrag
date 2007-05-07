@@ -8,14 +8,13 @@
 
 #import "MRule.h"
 #import "MServer.h"
-#import "MServerListManager.h"
 
 @implementation MRule
 
-+ (MRule *)createRule
++ (MRule *)createRuleInContext:(NSManagedObjectContext *)context
 {
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Rule"
-										 inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+										 inManagedObjectContext:context];
 }
 
 - (NSString *)name 

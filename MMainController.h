@@ -10,7 +10,6 @@
 #import "MThinSplitView.h"
 #import "MInnerSplitView.h"
 #import "AMButtonBar.h"
-#import "MServerListManager.h"
 
 @interface MMainController : NSObject
 {

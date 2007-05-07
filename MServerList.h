@@ -13,7 +13,7 @@
 	
 }
 
-+ (id)createServerListForGame:(MGenericGame *)theGame;
++ (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context;
 
 #pragma mark Accessors
 - (NSString *)gameServerType;

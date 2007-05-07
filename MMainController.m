@@ -14,6 +14,7 @@
 #import "CTGradient_AMButtonBar.h"
 #import "MNotifications.h"
 #import "MFavorites.h"
+#import "MServerList.h"
 #import "MServersController.h"
 
 #define THINSPLITVIEW_SAVE_NAME @"thinsplitview"

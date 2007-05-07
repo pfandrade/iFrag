@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define kQueryTerminated 100
+
 @class MServer;
 @class MServerList;
 
@@ -22,7 +24,7 @@ static NSString *const MQueryDidTerminateNotification = @"QueryDidTerminate";
 - (void)setProgressDelegate:(id)value;
 
 
-- (void)reloadServerList:(MServerList *)sl;
+- (void)reloadServerList:(NSArray *)args;
 - (void)refreshGameServers:(NSArray *)servers;
 
 @end

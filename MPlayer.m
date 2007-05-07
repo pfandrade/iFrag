@@ -9,14 +9,13 @@
 #import "MPlayer.h"
 #import "MServer.h"
 #import "MGenericGame.h"
-#import "MServerListManager.h"
 
 @implementation MPlayer
 
-+ (MPlayer *)createPlayer
++ (MPlayer *)createPlayerInContext:(NSManagedObjectContext *)context
 {
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Player"
-										 inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+										 inManagedObjectContext:context];
 }
 
 // Derived properties

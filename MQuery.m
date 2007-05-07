@@ -33,9 +33,15 @@
     }
 }
 
-- (void)reloadServerList:(MServerList *)sl
+- (void)reloadServerList:(NSArray *)args
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	// create new context for this thread
+	NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
+	[context setPersistentStoreCoordinator:[[NSApp delegate] persistentStoreCoordinator]];
+	
+	MServerList *sl = [context objectWithID:[args objectAtIndex:0]];
+	NSPort *port = [args objectAtIndex:1];
 	
 	[progressDelegate started];
 //	id qstat = [[MQStatTask alloc] init];
@@ -55,17 +61,25 @@
 //	[qstat release];
 
 	NSURL *qstatQueryResultingXMLFile = [NSURL fileURLWithPath:@"/Users/cereal/Desktop/iFrag_stuff/qstat_small.xml"];
+	
 	MQStatXMLParser *qParser = [MQStatXMLParser new];
+	[qParser setProgressDelegate:progressDelegate];
+	
+	//TODO: try catch aqui por causa do NoInternetConnection etc.
 	NSArray *parsedServers = [qParser parseServersInURL:qstatQueryResultingXMLFile 
-										 fromServerList:sl 
-										   withDelegate:[self progressDelegate]
-												  count:nil];
+												  count:nil context:context];
 	[progressDelegate finished];
 	[qParser release];
 	
 	[sl addServers:[NSSet setWithArray:parsedServers]];
-	[[NSNotificationCenter defaultCenter] postNotificationName:MQueryDidTerminateNotification 
-														object:self];
+	[context save];
+	[context release];
+	
+	NSPortMessage *message = [[NSPortMessage alloc] initWithSendPort:port receivePort:nil components:nil];
+	[message setMsgid:kQueryTerminated];
+	[message sendBeforeDate:[NSDate date]];
+	
+	[message release];
 	[pool release];
 }
 

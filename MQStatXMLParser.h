@@ -14,7 +14,7 @@
 @interface MQStatXMLParser : NSObject {
 	NSXMLParser *qstatParser;
 	id progressDelegate;
-	id serverList;
+	NSManagedObjectContext *context;
 @private
 	NSNumber *count;
 	NSMutableArray *parsedServers;
@@ -27,7 +27,11 @@
 	BOOL inElement, inPlayers;
 }
 
-- (NSArray *)parseServersInURL:(NSURL *)file fromServerList:(id)sl withDelegate:(id)delegate count:(NSNumber *)n;
+- (id)progressDelegate;
+- (void)setProgressDelegate:(id)value;
+
+
+- (NSArray *)parseServersInURL:(NSURL *)file count:(NSNumber *)n context:(NSManagedObjectContext *)moc;
 
 //private
 - (NSString *)replaceEscapedCharacters:(NSString *)string;

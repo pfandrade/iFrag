@@ -17,10 +17,10 @@
 	[self setKeys:[NSArray arrayWithObjects:@"servers",nil] triggerChangeNotificationsForDependentKey:@"serverArray"];
 }
 
-+ (id)createServerListForGame:(MGenericGame *)theGame
++ (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context
 {
 	MServerList *sl =  [NSEntityDescription insertNewObjectForEntityForName:@"ServerList"
-													 inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+													 inManagedObjectContext:context];
 	
 	[sl setGameServerType:[theGame serverTypeString]];
 	return sl;
@@ -104,22 +104,6 @@
     [self didChangeValueForKey: @"busyFlag"];
 }
 
-- (BOOL)trySetBusyFlag
-{
-	NSManagedObjectContext *context = [self managedObjectContext];
-	
-	if(![context tryLock])//if we can't lock we're busy
-		return NO;
-	//we have the lock
-	
-	if([[self busyFlag] boolValue]){
-		[context unlock];
-		return NO;
-	}
-	[self setBusyFlag:[NSNumber numberWithBool:YES]];
-	[context unlock];
-	return YES;
-}
 
 - (MServer *)serverWithAddress:(NSString *)address
 {
@@ -134,9 +118,7 @@
 	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
 	[fetchRequest setEntity:ed];
 	
-	[context lock];
 	NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
-	[context unlock];
 	if ([results count] == 0){
 		return nil;
 	}
@@ -161,22 +143,23 @@
 {    
     NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
 	NSManagedObjectContext *context = [self managedObjectContext];
+	
 	MServer *existingServer = [self serverWithAddress:[value address]];
 	//test to see if they are the same
 	if([[existingServer objectID] isEqual:[value objectID]])
 		return;
-    [context lock];
+    
 	if(existingServer != nil){
 		[context deleteObject:existingServer];
 	}
     [self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
     [[self primitiveValueForKey: @"servers"] addObject: value];
     [self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-    [context unlock];
+    [changedObjects release];
+	
 	NSError *error = nil;
 	[context save:&error];
 	NSLog(@"Error %@",error);
-    [changedObjects release];
 }
 
 - (void)removeServersObject:(MServer *)value 
@@ -184,15 +167,14 @@
     NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
     NSManagedObjectContext *context = [self managedObjectContext];
 	
-	[context lock];
     [self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
     [[self primitiveValueForKey: @"servers"] removeObject: value];
     [self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
-    [context unlock];
+    [changedObjects release];
+	
 	NSError *error = nil;
 	[context save:&error];
 	NSLog(@"Error %@",error);
-    [changedObjects release];
 }
 
 
@@ -203,7 +185,6 @@
 	NSEnumerator *server_enum = [inServers objectEnumerator];
 	MServer *server, *existingServer;
 	
-	[context lock];
     [self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:inServers];
 	while((server = [server_enum nextObject])){
 		existingServer = [self serverWithAddress:[server address]];
@@ -215,7 +196,6 @@
 		[[self primitiveValueForKey: @"servers"] addObject: server];		
 	}
 	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:inServers];
-	[context unlock];
 	
 	NSError *error = nil;
 	[context save:&error];
@@ -242,39 +222,43 @@
 
 -(void)reloadWithProgressDelegate:(id)delegate
 {
-	if(![self trySetBusyFlag])
+	//if we are busy return
+	if([self busyFlag])
 		return;
+	[self setBusyFlag:[NSNumber numberWithBool:YES]];
+	
 	MQuery *q = [[MQuery new] autorelease];
 	[q setProgressDelegate:delegate];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(queryDidTerminate:)
-												 name:MQueryDidTerminateNotification 
-											   object:q];
-	[NSThread detachNewThreadSelector:@selector(reloadServerList:) toTarget:q withObject:self];
+	NSPort *port = [NSPort port];
+	[port setDelegate:self];
+	[[NSRunLoop currentRunLoop] addPort:port forMode:NSDefaultRunLoopMode];
+	
+	NSArray *threadArgs = [NSArray arrayWithObjects:[self objectID], port, nil];
+	[NSThread detachNewThreadSelector:@selector(reloadServerList:) toTarget:q withObject:threadArgs];
 }
 
 -(void)refreshServers:(NSArray *)inServers withProgressDelegate:(id)delegate
 {
-	if(![self trySetBusyFlag])
+	if([self busyFlag])
 		return;
+	[self setBusyFlag:[NSNumber numberWithBool:YES]];
+	
 	MQuery *q = [[MQuery new] autorelease];
 	[q setProgressDelegate:delegate];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(queryDidTerminate:)
-												 name:MQueryDidTerminateNotification 
-											   object:q];
+		
 	[NSThread detachNewThreadSelector:@selector(refreshGameServers:) toTarget:q withObject:inServers];
 }
 
-- (void)queryDidTerminate:(NSNotification *)n
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-	[context lock];
-	[self setBusyFlag:[NSNumber numberWithBool:NO]];
-	[context unlock];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:MQueryDidTerminateNotification object:nil];
+- (void)handlePortMessage:(NSPortMessage *)portMessage
+{	
+	unsigned int messageId = [portMessage msgid];
+	if(messageId == kQueryTerminated){
+		[self setBusyFlag:[NSNumber numberWithBool:NO]];
+		[[self managedObjectContext] refreshObject:self mergeChanges:YES];
+		//remove port from the runLoop
+		[[NSRunLoop currentRunLoop] removePort:[portMessage receivePort] forMode:NSDefaultRunLoopMode];
+	}
 }
 
 @end

@@ -8,15 +8,13 @@
 
 #import "MServer.h"
 #import "MGenericGame.h"
-#import "MServerListManager.h"
 #import "MPlayer.h"
 #import "MRule.h"
 
 @implementation MServer
 
-+ (MServer *)createServerWithAddress:(NSString *)address
++ (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context
 {
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
 	NSManagedObjectModel *model = [[NSApp delegate] managedObjectModel];
 	MServer *server;
 	
@@ -28,9 +26,8 @@
 	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
 	[fetchRequest setEntity:ed];
 	
-	[context lock];
 	NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
-	[context unlock];
+
 	if ([results count] == 0){
 		server = [NSEntityDescription insertNewObjectForEntityForName:@"Server"
 											   inManagedObjectContext:context];

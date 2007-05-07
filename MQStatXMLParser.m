@@ -7,15 +7,10 @@
 //
 
 #import "MQStatXMLParser.h"
-#import "MServerList.h"
 #import "MServer.h"
 #import "MPlayer.h"
 #import "MRule.h"
 #import "MProgressDelegate.h"
-
-@interface NSObject (ServerListPrivateMethod)
-	- (NSNumber *)refreshServerCount;
-@end
 
 @implementation MQStatXMLParser
 
@@ -29,9 +24,9 @@
 
 -(void)dealloc
 {
+	[context release];
 	[count release];
 	[qstatParser release];
-	[serverList release];
 	[progressDelegate release];
 	[currentServer release];
 //	[currentRules release];
@@ -42,16 +37,23 @@
 	[super dealloc];
 }
 
-- (NSArray *)parseServersInURL:(NSURL *)file fromServerList:(id)sl withDelegate:(id)delegate count:(NSNumber *)n
+- (id)progressDelegate {
+    return [[progressDelegate retain] autorelease];
+}
+
+- (void)setProgressDelegate:(id)value {
+    if (progressDelegate != value) {
+        [progressDelegate release];
+        progressDelegate = [value retain];
+    }
+}
+
+
+- (NSArray *)parseServersInURL:(NSURL *)file count:(NSNumber *)n context:(NSManagedObjectContext *)moc
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	serverList = (MServerList *)[sl retain];
-	progressDelegate = [delegate retain];
 	count = [n retain];
-
-	if(qstatParser){
-		[qstatParser release];
-	}
+	context = [moc retain];
 	
 	qstatParser = [[NSXMLParser alloc] initWithContentsOfURL:file];
 	[qstatParser setDelegate:self];
@@ -74,7 +76,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
-	//[serverList addServers:parsedServers];
+	//nothing
 }
 
 - (void)parser:(NSXMLParser *)parser 
@@ -96,7 +98,7 @@ didStartElement:(NSString *)elementName
 
 		 //Isto nao devia acontecer
 		[currentServer release];
-		currentServer = [[MServer createServerWithAddress:[attributeDict objectForKey:@"address"]] retain];
+		currentServer = [[MServer createServerWithAddress:[attributeDict objectForKey:@"address"] inContext:context] retain];
 		
 		NSString *status = [attributeDict objectForKey:@"status"]; 
 		if([status isEqualToString:@"DOWN"] || [status isEqualToString:@"TIMEOUT"]){
@@ -181,7 +183,7 @@ didStartElement:(NSString *)elementName
 			 //Isto nao devia acontecer
 			[currentPlayer release];
 		}
-		currentPlayer = [[MPlayer createPlayer] retain];
+		currentPlayer = [[MPlayer createPlayerInContext:context] retain];
         return;
 	}
 	
@@ -277,7 +279,7 @@ didStartElement:(NSString *)elementName
 	// --------- Element rule ---------
 	if ([elementName isEqualToString:@"rule"]) {
 		//[currentRules setObject:currentString forKey:currentRuleName];
-		MRule *rule = [MRule createRule];
+		MRule *rule = [MRule createRuleInContext:context];
 		[rule setName:currentRuleName]; [rule setValue:currentString];
 		[currentServer addRulesObject:rule];
 		[currentString release]; currentString = nil;

@@ -14,7 +14,7 @@
 
 }
 
-+ (MRule *)createRule;
++ (MRule *)createRuleInContext:(NSManagedObjectContext *)context;
 
 - (NSString *)name;
 - (void)setName:(NSString *)value;

@@ -17,7 +17,7 @@
 
 }
 
-+ (MServer *)createServerWithAddress:(NSString *)address;
++ (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context;
 
 // Derived properties
 

@@ -37,7 +37,7 @@
 		gameString = [installedGamesStrings objectAtIndex:i];
 		
 		if(![serverListsStrings containsObject:[gameString uppercaseString]]){ //if we don't have this game yet
-			[self addObject:[MServerList createServerListForGame:[installedGames objectAtIndex:i]]];
+			[self addObject:[MServerList createServerListForGame:[installedGames objectAtIndex:i] inContext:[self managedObjectContext]]];
 		}
 	}
 //TODO: retirar os jogos que ja nao estao instalados	

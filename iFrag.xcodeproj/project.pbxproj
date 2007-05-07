@@ -60,6 +60,7 @@
 		D29C6DC30BD952F900F816AD /* domain.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D29C6DC20BD952F900F816AD /* domain.xcdatamodel */; };
 		D2AD5F3E0BD41A6600C0F614 /* MActionButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */; };
 		D2AD5F850BD421A900C0F614 /* MActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AD5F830BD421A900C0F614 /* MActionButton.m */; };
+		D2B9ABA80BEFCAA90091B4A1 /* MNotifications.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2B9ABA70BEFCAA90091B4A1 /* MNotifications.h */; };
 		D2BF91270B03A383004BCD69 /* MServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BF91250B03A383004BCD69 /* MServer.m */; };
 		D2BF91620B03B78A004BCD69 /* MPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BF91600B03B78A004BCD69 /* MPlayer.m */; };
 		D2E052360B8CA07C00297692 /* Folder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2E052350B8CA07C00297692 /* Folder.tiff */; };
@@ -82,6 +83,7 @@
 			files = (
 				D240CFA50B1903CE00651B0B /* qstat in CopyFiles */,
 				D213510B0BE794AE0035C46A /* MServerListsController.h in CopyFiles */,
+				D2B9ABA80BEFCAA90091B4A1 /* MNotifications.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +99,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* iFrag_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iFrag_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* iFrag.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iFrag.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* iFrag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iFrag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20DE6BB0BCD84F1000E8B31 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AddServerDialog.nib; sourceTree = "<group>"; };
 		D20DE6C50BCD8528000E8B31 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add.tiff; sourceTree = "<group>"; };
 		D211CAC50BD1741C004633F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PreferencesWindow.nib; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MActionButtonCell.m; sourceTree = "<group>"; };
 		D2AD5F820BD421A900C0F614 /* MActionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MActionButton.h; sourceTree = "<group>"; };
 		D2AD5F830BD421A900C0F614 /* MActionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MActionButton.m; sourceTree = "<group>"; };
+		D2B9ABA70BEFCAA90091B4A1 /* MNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNotifications.h; sourceTree = "<group>"; };
 		D2BF91240B03A383004BCD69 /* MServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServer.h; sourceTree = "<group>"; };
 		D2BF91250B03A383004BCD69 /* MServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServer.m; sourceTree = "<group>"; };
 		D2BF915F0B03B78A004BCD69 /* MPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayer.h; sourceTree = "<group>"; };
@@ -405,6 +408,7 @@
 				D2E286170B98C3DE0078CC28 /* MErrorCodes.h */,
 				D28127AF0BA2E270007FC6FA /* MComparableAttributedString.h */,
 				D28127B00BA2E270007FC6FA /* MComparableAttributedString.m */,
+				D2B9ABA70BEFCAA90091B4A1 /* MNotifications.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";

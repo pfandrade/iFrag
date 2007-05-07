@@ -14,7 +14,7 @@
 
 }
 
-+ (MPlayer *)createPlayer;
++ (MPlayer *)createPlayerInContext:(NSManagedObjectContext *)context;
 
 // Derived properties
 - (NSAttributedString *)attributedName;

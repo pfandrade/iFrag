@@ -11,6 +11,8 @@
 #import "MPlayer.h"
 #import "MRule.h"
 #import "MProgressDelegate.h"
+#import "MServerList.h"
+#import "MQuery.h"
 
 @implementation MQStatXMLParser
 
@@ -48,12 +50,24 @@
     }
 }
 
+- (id)refreshDelegate {
+    return [[refreshDelegate retain] autorelease];
+}
 
-- (NSArray *)parseServersInURL:(NSURL *)file count:(NSNumber *)n context:(NSManagedObjectContext *)moc
+- (void)setRefreshDelegate:(id)value {
+    if (refreshDelegate != value) {
+        [refreshDelegate release];
+        refreshDelegate = [value retain];
+    }
+}
+
+
+- (void)parseServersInURL:(NSURL *)file toServerList:(MServerList *)slist count:(NSNumber *)n context:(NSManagedObjectContext *)moc
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	count = [n retain];
 	context = [moc retain];
+	sl = [slist retain];
 	
 	qstatParser = [[NSXMLParser alloc] initWithContentsOfURL:file];
 	[qstatParser setDelegate:self];
@@ -62,13 +76,12 @@
 	[qstatParser parse];
 	[pool release];
 	
-	return [parsedServers autorelease];
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
+	saveCounter = 100;
 	if(count != nil){
-		parsedServers = [[NSMutableArray alloc] initWithCapacity:[count unsignedIntValue]];
 		[progressDelegate startedProcessing:[count intValue]];
 	}
 	
@@ -89,8 +102,6 @@ didStartElement:(NSString *)elementName
 	if ([elementName isEqualToString:@"server"]) {
 		NSString *nServers;
 		if((nServers = [attributeDict objectForKey:@"servers"]) != nil){
-			[parsedServers release];
-			parsedServers = [[NSMutableArray alloc] initWithCapacity:[nServers intValue]];
 			[progressDelegate startedProcessing:[nServers intValue]];
 			currentServer = nil;
 			return;
@@ -103,8 +114,9 @@ didStartElement:(NSString *)elementName
 		NSString *status = [attributeDict objectForKey:@"status"]; 
 		if([status isEqualToString:@"DOWN"] || [status isEqualToString:@"TIMEOUT"]){
 			[currentServer setPing:[NSNumber numberWithInt:9999]];
-			[currentServer setName:[NSString stringWithFormat:@"unknown (%@)",[attributeDict objectForKey:@"address"]]];
-//			[currentServer setPlayers:[[NSMutableArray new] autorelease]];
+			if([currentServer name] == nil)
+				[currentServer setName:[NSString stringWithFormat:@"unknown (%@)",[attributeDict objectForKey:@"address"]]];
+			[[currentServer mutableSetValueForKey:@"players"] removeAllObjects];
 //			[currentServer setRules:[[NSMutableDictionary new] autorelease]];
 			[currentServer setNumplayers:[NSNumber numberWithInt:-1]];
 			[currentServer setMaxplayers:[NSNumber numberWithInt:-1]];
@@ -147,11 +159,12 @@ didStartElement:(NSString *)elementName
 			
 	// --------- Element rules ---------
 	if ([elementName isEqualToString:@"rules"]) {
-		//if (currentRules){
-//			 //Isto nao devia acontecer
-//			[currentRules release];
-//		}
-//		currentRules = [[NSMutableDictionary alloc] init];
+		if (currentRules){
+			 //Isto nao devia acontecer
+			[currentRules release]; currentRules = nil;
+		}
+		currentRules = [[currentServer mutableSetValueForKey:@"rules"] retain];
+		[currentRules removeAllObjects];
         return;
     }
 
@@ -168,11 +181,12 @@ didStartElement:(NSString *)elementName
 
 	// --------- Element players ---------
 	if ([elementName isEqualToString:@"players"]) {
-		//if (currentPlayers){
-//			 //Isto nao devia acontecer
-//			[currentPlayers release];
-//		}
-//		currentPlayers = [[NSMutableArray alloc] init];
+		if (currentPlayers){
+			 //Isto nao devia acontecer
+			[currentPlayers release];
+		}
+		currentPlayers = [[currentServer mutableSetValueForKey:@"players"] retain];
+		[currentPlayers removeAllObjects];
 		inPlayers = YES;
         return;
 	}
@@ -203,9 +217,16 @@ didStartElement:(NSString *)elementName
 		if(currentServer == nil){ //isto esta aqui para o caso especial do header
 			return;
 		}
-		[parsedServers addObject:currentServer];
+		[sl addServersObject:currentServer];
 		[currentServer release]; currentServer = nil;
 		[progressDelegate incrementByOne];
+		if(!(--saveCounter)){
+			NSError *error = nil;
+			[context save:&error];
+			NSLog(@"Error: %@", error);
+			saveCounter = 100;
+			[refreshDelegate sendRefreshMessage];
+		}
 		return;
     }
 	
@@ -271,8 +292,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element rules ---------
 	if ([elementName isEqualToString:@"rules"]) {
-		//[currentServer setRules:currentRules];
-//		[currentRules release]; currentRules = nil;
+		[currentRules release]; currentRules = nil;
         return;
     }
 	
@@ -281,7 +301,7 @@ didStartElement:(NSString *)elementName
 		//[currentRules setObject:currentString forKey:currentRuleName];
 		MRule *rule = [MRule createRuleInContext:context];
 		[rule setName:currentRuleName]; [rule setValue:currentString];
-		[currentServer addRulesObject:rule];
+		[currentRules addObject:rule];
 		[currentString release]; currentString = nil;
 		[currentRuleName release]; currentRuleName = nil;
 		inElement = NO;
@@ -291,15 +311,15 @@ didStartElement:(NSString *)elementName
 	// --------- Element players ---------
 	if ([elementName isEqualToString:@"players"]) {
 	//	[currentServer setPlayers:currentPlayers];
-//		[currentPlayers release]; currentPlayers = nil;
+		[currentPlayers release]; currentPlayers = nil;
 		inPlayers = NO;
 		return;
 	}
 	
 	//  --------- Element player ---------
 	if ([elementName isEqualToString:@"player"]) {
-		//[currentPlayers addObject:currentPlayer];
-		[currentServer addPlayersObject:currentPlayer];
+		[currentPlayers addObject:currentPlayer];
+		//[currentServer addPlayersObject:currentPlayer];
 		[currentPlayer release]; currentPlayer = nil;
         return;
 	}
@@ -317,12 +337,11 @@ didStartElement:(NSString *)elementName
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
 	[currentServer release];
-//	[currentRules release];
+	[currentRules release];
 	[currentRuleName release];
-//	[currentPlayers release];
+	[currentPlayers release];
 	[currentPlayer release];
 	[currentString release];
-	[parsedServers release];
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string

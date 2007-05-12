@@ -14,7 +14,8 @@ const static float heightPercentage = 0.55;
 @implementation MOutlineCell
 
 - (NSImage *)image {
-    return [[self objectValue] valueForKey:@"icon"];
+	id ret = [[self objectValue] valueForKey:@"icon"];
+    return ([ret isEqual:[NSNull null]]) ? nil : ret;
 }
 
 - (NSString *)title {
@@ -36,16 +37,9 @@ const static float heightPercentage = 0.55;
 }
 
 - (NSProgressIndicator *)progressIndicator {
-    return [[progressIndicator retain] autorelease];
+	id ret = [[[self objectValue] valueForKey:@"progressDelegate"] valueForKey:@"progressIndicator"];
+    return ([ret isEqual:[NSNull null]]) ? nil : ret;
 }
-
-- (void)setProgressIndicator:(NSProgressIndicator *)value {
-    if (progressIndicator != value) {
-        [progressIndicator release];
-        progressIndicator = [value retain];
-    }
-}
-
 
 
 - (NSRect)imageFrameForCellFrame:(NSRect)cellFrame {

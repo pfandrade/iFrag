@@ -8,7 +8,6 @@
 #import "MMainController.h"
 #import "KBGradientOutlineView.h"
 #import "MOutlineCell.h"
-#import "MProgressDelegate.h"
 #import "MComparableAttributedString.h"
 #import "AMButtonBarItem.h"
 #import "CTGradient_AMButtonBar.h"
@@ -23,17 +22,6 @@
 
 - (void)awakeFromNib
 {
-	
-//	// Get the Server List Manager shared object
-//	if(serverListManager == nil){
-//		serverListManager = [MServerListManager sharedManager];
-//		[serverListManager setDelegate:self];
-//		serverLists = [[serverListManager installedServerLists] retain];
-//		[gamesOutlineView setDataSource:self];
-//		[gamesOutlineView setNeedsDisplay:YES];
-//	}
-	
-			
 	// Setup the Button Bar
 //	[rightSplitView showFilterBar];
 //	[filterBar setShowsBaselineSeparator:NO];
@@ -142,44 +130,24 @@
 
 - (IBAction)refreshSelectedServers:(id)sender
 {
-//	int row = [gamesOutlineView selectedRow];
-//	NSTableColumn *tc = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
-//	
-//	MProgressDelegate *pd = [MProgressDelegate progressDelegate];
-//	[[tc dataCellForRow:row] setProgressIndicator:[pd progressIndicator]];
-//	
-//	NSArray *selServers = [serversDataSource selectedObjects];
-//	if([selServers count] > 0)
-//		[currentServerList refreshServers:selServers 
-//					 withProgressDelegate:pd];
-//	else
-//		[currentServerList refreshServers:nil 
-//					 withProgressDelegate:pd];
+	NSArray *selServers = [serversController selectedObjects];
+	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	if([selServers count] > 0)
+		[currentServerList refreshServers:selServers];
+	else
+		[currentServerList refreshServers:nil];
 }
 
 - (IBAction)refreshServerList:(id)sender
 {
-//	int row = [gamesOutlineView selectedRow];
-//	NSTableColumn *tc = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
-//	
-//	MProgressDelegate *pd = [MProgressDelegate progressDelegate];
-//	[[tc dataCellForRow:row] setProgressIndicator:[pd progressIndicator]];
-//	
-//	[currentServerList refreshServers:nil 
-//				 withProgressDelegate:pd];
+	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	[currentServerList refreshServers:nil]; // talvez o melhor seja passar todos em vez de nil
 }
 
 - (IBAction)reloadServerList:(id)sender
 {
-//	int row = [gamesOutlineView selectedRow];
-//	NSTableColumn *tc = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
-//	
-	MProgressDelegate *pd = [MProgressDelegate progressDelegate];
-//	[[tc dataCellForRow:row] setProgressIndicator:[pd progressIndicator]];
-//
-	//TODO: Talvez um dia tirar o objectAtIndex e invocar o reload para todos? :)
-	[[[serverListsController selectedObjects] objectAtIndex:0] reloadWithProgressDelegate:pd];
-	//[currentServerList backdoor:[[[NSURL alloc] initFileURLWithPath:@"/Users/cereal/Desktop/iFrag_stuff/qstat-2.11/teste_big.xml"]autorelease]];
+	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	[currentServerList reload];
 }
 
 #pragma mark -
@@ -221,6 +189,8 @@
 //		[currentServerList name], 
 //		[[currentServerList valueForKey:@"servers"] count]]];
 //	[mainWindow displayIfNeeded];
+	
+	//TODO por aqui um refreshObjects:mergeChanges:NO !
 }
 
 @end

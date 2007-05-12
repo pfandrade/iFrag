@@ -10,15 +10,12 @@
 
 
 @interface MOutlineCell : NSTextFieldCell {
-	@private
-	NSProgressIndicator *progressIndicator;
 }
 
 - (NSImage *)image;
 - (NSString *)title;
 - (NSAttributedString *)attributedTitle;
 - (NSProgressIndicator *)progressIndicator;
-- (void)setProgressIndicator:(NSProgressIndicator *)value;
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;

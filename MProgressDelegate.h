@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MProgressDelegate : NSObject {
+@interface MProgressDelegate : NSObject <NSCoding> {
 	NSProgressIndicator *progressIndicator;
 }
 

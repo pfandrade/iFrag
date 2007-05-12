@@ -10,28 +10,30 @@
 
 @class MServer;
 @class MPlayer;
+@class MServerList;
 
 @interface MQStatXMLParser : NSObject {
+	@private
 	NSXMLParser *qstatParser;
 	id progressDelegate;
 	NSManagedObjectContext *context;
-@private
+	MServerList *sl;
 	NSNumber *count;
-	NSMutableArray *parsedServers;
+	NSMutableSet *currentServers;
 	MServer *currentServer;
-//	NSMutableDictionary *currentRules;
+	NSMutableSet *currentRules;
 	NSString *currentRuleName;
-//	NSMutableArray *currentPlayers;
+	NSMutableSet *currentPlayers;
 	MPlayer *currentPlayer;
 	NSMutableString *currentString;
 	BOOL inElement, inPlayers;
+	NSAutoreleasePool *pool;
 }
 
 - (id)progressDelegate;
 - (void)setProgressDelegate:(id)value;
 
-
-- (NSArray *)parseServersInURL:(NSURL *)file count:(NSNumber *)n context:(NSManagedObjectContext *)moc;
+- (void)parseServersInURL:(NSURL *)file toServerList:(MServerList *)slist count:(NSNumber *)n context:(NSManagedObjectContext *)moc;
 
 //private
 - (NSString *)replaceEscapedCharacters:(NSString *)string;

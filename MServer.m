@@ -13,6 +13,11 @@
 
 @implementation MServer
 
++ (void)initialize
+{
+	[self setKeys:[NSArray arrayWithObjects:@"numplayers", @"maxplayers", nil] triggerChangeNotificationsForDependentKey:@"fullness"];
+}
+
 + (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context
 {
 	NSManagedObjectModel *model = [[NSApp delegate] managedObjectModel];
@@ -36,6 +41,42 @@
 	}
 	
 	return server;
+}
+
+- (void)refreshPlayersFromStore:(NSArray *)objectIDs
+{
+	//to be executed in the main thread!
+	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+	MServer *mainThreadServer = (MServer *)[context objectWithID:[self objectID]];
+	NSEnumerator *enumerator = [objectIDs objectEnumerator];
+	NSManagedObjectID *objID;
+	MPlayer *player;
+	
+	while(objID = [enumerator nextObject]){
+		player = (MPlayer *)[context objectWithID:objID];
+		[context refreshObject:player mergeChanges:YES];
+		
+	}
+	
+	[context refreshObject:mainThreadServer mergeChanges:NO];
+}
+
+- (void)refreshRulesFromStore:(NSArray *)objectIDs
+{
+	//to be executed in the main thread!
+	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+	MServer *mainThreadServer = (MServer *)[context objectWithID:[self objectID]];
+	NSEnumerator *enumerator = [objectIDs objectEnumerator];
+	NSManagedObjectID *objID;
+	MRule *rule;
+	
+	while(objID = [enumerator nextObject]){
+		rule = (MRule *)[context objectWithID:objID];
+		[context refreshObject:rule mergeChanges:YES];
+		
+	}
+	
+	[context refreshObject:mainThreadServer mergeChanges:NO];
 }
 
 // Derived attributes
@@ -71,7 +112,7 @@
     tmpValue = [self primitiveValueForKey: @"fullness"];
     [self didAccessValueForKey: @"fullness"];
     
-	if(tmpValue == nil){
+	if(YES){
 		NSNumber *num_players = [self numplayers];
 		NSNumber *max_players = [self maxplayers];
 		tmpValue = [NSString stringWithFormat:@"%@/%@",	([num_players intValue] == -1) ? @"?" : num_players,
@@ -324,6 +365,8 @@
     
     [self didChangeValueForKey:@"players" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
     
+	[[self managedObjectContext] deleteObject:value];
+	
     [changedObjects release];
 }
 
@@ -361,6 +404,8 @@
     
     [self didChangeValueForKey:@"rules" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
     
+	[[self managedObjectContext] deleteObject:value];
+	
     [changedObjects release];
 }
 

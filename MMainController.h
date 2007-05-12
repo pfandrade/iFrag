@@ -27,7 +27,7 @@
 	// Controllers
     IBOutlet id serversController;
 	IBOutlet id serverListsController;
-	
+	IBOutlet id serverTreeController;
 }
 
 - (void)resizedSplitView:(id)theSplitView toSize:(float)newSize;

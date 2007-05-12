@@ -7,13 +7,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MGenericGame.h"
+
+@class MGenericGame;
+@class MProgressDelegate;
+@class MServer;
 
 @interface MServerList : NSManagedObject {
 	
 }
 
 + (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context;
+
+- (void)refreshServersFromStore:(NSArray *)objectIDs;
 
 #pragma mark Accessors
 - (NSString *)gameServerType;
@@ -26,10 +31,24 @@
 - (NSNumber *)busyFlag;
 - (void)setBusyFlag:(NSNumber *)value;
 
-- (MServer *)serverWithAddress:(NSString *)address;
+- (NSData *)serializedProgressDelegate;
+- (void)setSerializedProgressDelegate:(NSData *)value;
+
+- (MProgressDelegate *)progressDelegate;
+- (void)setProgressDelegate:(MProgressDelegate *)value;
+
+//derived attributes
+
+- (NSDictionary *)infoDict;
+- (void)setInfoDict:(NSDictionary *)infoDict;
 
 - (NSString *)name;
+- (void)setName:(NSString *)value;
+
 - (NSImage *)icon;
+- (void)setIcon:(NSImage *)value;
+
+- (MServer *)serverWithAddress:(NSString *)address;
 
 #pragma mark Modifiers
 
@@ -40,7 +59,7 @@
 - (void)addServers:(NSSet *)inServers;
 - (void)removeServers:(NSSet *)inServers;
 
-- (void)reloadWithProgressDelegate:(id)delegate;
-- (void)refreshServers:(NSArray *)inServers withProgressDelegate:(id)delegate;
+- (void)reload;
+- (void)refreshServers:(NSArray *)inServers;
 
 @end

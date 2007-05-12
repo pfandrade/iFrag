@@ -27,7 +27,6 @@
 											   object:nil];
 }
 
-	
 #pragma mark Actions
 
 - (IBAction)serverInfo:(id)sender

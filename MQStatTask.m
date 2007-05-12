@@ -10,8 +10,6 @@
 #import "MServer.h"
 #import <unistd.h>
 
-//#define DEFAULT_ARGS @"-nocfg",@"-u", @"-P", @"-R",@"-xml",@"-utf8"
-//#define NDEFAULT_ARGS 6
 #define DEFAULT_ARGS @"-nocfg", @"-P",@"-R",@"-xml",@"-utf8"
 #define NDEFAULT_ARGS 5
 

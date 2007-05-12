@@ -28,9 +28,7 @@
 	NSArray *installedGames = [MGenericGame installedGames];
 	
 	NSArray *installedGamesStrings	= [installedGames valueForKey:@"serverTypeString"];
-	NSLog(@"%@",installedGamesStrings);
 	NSArray *serverListsStrings		= [serverLists valueForKey:@"gameServerType"];
-	NSLog(@"%@",serverListsStrings);
 	NSString *gameString;
 	int i;
 	for( i = 0 ; i < [installedGamesStrings count]; i++){
@@ -59,6 +57,12 @@
 //			[self uninstallServerListForGame:[current_sl game]];
 //		}
 //	}
+	
+	//save changes
+	NSError *error = nil;
+	[[self managedObjectContext] save:&error];
+	if(error != nil)
+		NSLog(@"Save Error :%@", error);
 }
 
 @end

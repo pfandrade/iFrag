@@ -19,6 +19,9 @@
 
 + (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context;
 
+- (void)refreshPlayersFromStore:(NSArray *)objectIDs;
+- (void)refreshRulesFromStore:(NSArray *)objectIDs;
+
 // Derived properties
 
 - (NSAttributedString *)attributedName;

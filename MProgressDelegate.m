@@ -30,6 +30,20 @@
 	return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder 
+{
+	self = [super init];
+	if(self != nil){
+		progressIndicator = [[coder decodeObjectForKey:@"MProgressIndicator"] retain];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+	[coder encodeObject:progressIndicator forKey:@"MProgressIndicator"];
+}
+
 - (NSProgressIndicator *)progressIndicator {
     return [[progressIndicator retain] autorelease];
 }

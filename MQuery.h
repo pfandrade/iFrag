@@ -13,18 +13,18 @@
 @class MServer;
 @class MServerList;
 
-static NSString *const MQueryDidTerminateNotification = @"QueryDidTerminate";
-
 @interface MQuery : NSObject {
 	@private
 	id progressDelegate;
+	NSPort *sendPort;
 }
 
 - (id)progressDelegate;
 - (void)setProgressDelegate:(id)value;
 
+- (void)sendTerminateMessage;
 
 - (void)reloadServerList:(NSArray *)args;
-- (void)refreshGameServers:(NSArray *)servers;
+- (void)refreshGameServers:(NSArray *)args;
 
 @end

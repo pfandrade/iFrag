@@ -26,16 +26,19 @@
 
 -(void)dealloc
 {
-	[context release];
+	[sl release];
 	[count release];
 	[qstatParser release];
 	[progressDelegate release];
+	[currentServers release];
 	[currentServer release];
-//	[currentRules release];
+	[currentRules release];
 	[currentRuleName release];
-//	[currentPlayers release];
+	[currentPlayers release];
 	[currentPlayer release];
-	[currentString release];	
+	[currentString release];
+	[context release];
+	[pool release];
 	[super dealloc];
 }
 
@@ -50,37 +53,24 @@
     }
 }
 
-- (id)refreshDelegate {
-    return [[refreshDelegate retain] autorelease];
-}
-
-- (void)setRefreshDelegate:(id)value {
-    if (refreshDelegate != value) {
-        [refreshDelegate release];
-        refreshDelegate = [value retain];
-    }
-}
-
 
 - (void)parseServersInURL:(NSURL *)file toServerList:(MServerList *)slist count:(NSNumber *)n context:(NSManagedObjectContext *)moc
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	count = [n retain];
 	context = [moc retain];
 	sl = [slist retain];
+	currentServers = [[sl mutableSetValueForKey:@"servers"] retain];
 	
 	qstatParser = [[NSXMLParser alloc] initWithContentsOfURL:file];
 	[qstatParser setDelegate:self];
 	[qstatParser setShouldProcessNamespaces:YES];
 	[qstatParser setShouldResolveExternalEntities:NO];
 	[qstatParser parse];
-	[pool release];
 	
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
-	saveCounter = 100;
 	if(count != nil){
 		[progressDelegate startedProcessing:[count intValue]];
 	}
@@ -89,7 +79,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
-	//nothing
+	//
 }
 
 - (void)parser:(NSXMLParser *)parser 
@@ -100,6 +90,7 @@ didStartElement:(NSString *)elementName
 {
 	// --------- Element server ---------
 	if ([elementName isEqualToString:@"server"]) {
+		pool = [[NSAutoreleasePool alloc] init];
 		NSString *nServers;
 		if((nServers = [attributeDict objectForKey:@"servers"]) != nil){
 			[progressDelegate startedProcessing:[nServers intValue]];
@@ -117,7 +108,6 @@ didStartElement:(NSString *)elementName
 			if([currentServer name] == nil)
 				[currentServer setName:[NSString stringWithFormat:@"unknown (%@)",[attributeDict objectForKey:@"address"]]];
 			[[currentServer mutableSetValueForKey:@"players"] removeAllObjects];
-//			[currentServer setRules:[[NSMutableDictionary new] autorelease]];
 			[currentServer setNumplayers:[NSNumber numberWithInt:-1]];
 			[currentServer setMaxplayers:[NSNumber numberWithInt:-1]];
 		}
@@ -159,10 +149,7 @@ didStartElement:(NSString *)elementName
 			
 	// --------- Element rules ---------
 	if ([elementName isEqualToString:@"rules"]) {
-		if (currentRules){
-			 //Isto nao devia acontecer
-			[currentRules release]; currentRules = nil;
-		}
+		[currentRules release];
 		currentRules = [[currentServer mutableSetValueForKey:@"rules"] retain];
 		[currentRules removeAllObjects];
         return;
@@ -181,10 +168,7 @@ didStartElement:(NSString *)elementName
 
 	// --------- Element players ---------
 	if ([elementName isEqualToString:@"players"]) {
-		if (currentPlayers){
-			 //Isto nao devia acontecer
-			[currentPlayers release];
-		}
+		[currentPlayers release];
 		currentPlayers = [[currentServer mutableSetValueForKey:@"players"] retain];
 		[currentPlayers removeAllObjects];
 		inPlayers = YES;
@@ -217,16 +201,35 @@ didStartElement:(NSString *)elementName
 		if(currentServer == nil){ //isto esta aqui para o caso especial do header
 			return;
 		}
-		[sl addServersObject:currentServer];
+		[currentServers addObject:currentServer];
+		NSArray *arrayForOne = [NSArray arrayWithObject:currentServer];
 		[currentServer release]; currentServer = nil;
 		[progressDelegate incrementByOne];
-		if(!(--saveCounter)){
-			NSError *error = nil;
-			[context save:&error];
-			NSLog(@"Error: %@", error);
-			saveCounter = 100;
-			[refreshDelegate sendRefreshMessage];
-		}
+		
+		
+		//flush changes to disk
+		NSError *error = nil;
+		[context save:&error];
+		if(error != nil)
+			NSLog(@"Save Error: %@", error);
+		// update mainthread
+		//refresh rules
+		[currentServer performSelectorOnMainThread:@selector(refreshRulesFromStore:) 
+										withObject:[currentRules valueForKey:@"objectID"]
+									 waitUntilDone:NO];
+		//refresh players
+		[currentServer performSelectorOnMainThread:@selector(refreshPlayersFromStore:) 
+										withObject:[currentPlayers valueForKey:@"objectID"]
+									 waitUntilDone:NO];
+		//refresh servers
+		[sl performSelectorOnMainThread:@selector(refreshServersFromStore:)
+							 withObject:[arrayForOne valueForKey:@"objectID"]
+						  waitUntilDone:NO];
+		
+		[context refreshObject:sl mergeChanges:NO];
+		//setup new autorelease pool
+		[pool release];
+		pool = [[NSAutoreleasePool alloc] init];
 		return;
     }
 	
@@ -292,7 +295,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element rules ---------
 	if ([elementName isEqualToString:@"rules"]) {
-		[currentRules release]; currentRules = nil;
+		//[currentRules release]; currentRules = nil;
         return;
     }
 	
@@ -310,8 +313,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element players ---------
 	if ([elementName isEqualToString:@"players"]) {
-	//	[currentServer setPlayers:currentPlayers];
-		[currentPlayers release]; currentPlayers = nil;
+		//[currentPlayers release]; currentPlayers = nil;
 		inPlayers = NO;
 		return;
 	}
@@ -319,7 +321,6 @@ didStartElement:(NSString *)elementName
 	//  --------- Element player ---------
 	if ([elementName isEqualToString:@"player"]) {
 		[currentPlayers addObject:currentPlayer];
-		//[currentServer addPlayersObject:currentPlayer];
 		[currentPlayer release]; currentPlayer = nil;
         return;
 	}

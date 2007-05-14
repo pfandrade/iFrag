@@ -64,7 +64,6 @@
 		D2BF91270B03A383004BCD69 /* MServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BF91250B03A383004BCD69 /* MServer.m */; };
 		D2BF91620B03B78A004BCD69 /* MPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BF91600B03B78A004BCD69 /* MPlayer.m */; };
 		D2E052360B8CA07C00297692 /* Folder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2E052350B8CA07C00297692 /* Folder.tiff */; };
-		D2E1F4CD0B95A0A900FFB1F6 /* MServerListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E1F4CB0B95A0A800FFB1F6 /* MServerListManager.m */; };
 		D2F0ADB00B06698A00037C58 /* MServerList.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F0ADAE0B06698A00037C58 /* MServerList.m */; };
 		D2F2894F0BDA632900FF3AD4 /* MRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F2894D0BDA632900FF3AD4 /* MRule.m */; };
 		D2F28CA80BDABF3E00FF3AD4 /* iFrag_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F28CA60BDABF3E00FF3AD4 /* iFrag_AppDelegate.m */; };
@@ -183,8 +182,6 @@
 		D2BF915F0B03B78A004BCD69 /* MPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayer.h; sourceTree = "<group>"; };
 		D2BF91600B03B78A004BCD69 /* MPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPlayer.m; sourceTree = "<group>"; };
 		D2E052350B8CA07C00297692 /* Folder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Folder.tiff; sourceTree = "<group>"; };
-		D2E1F4CA0B95A0A800FFB1F6 /* MServerListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServerListManager.h; sourceTree = "<group>"; };
-		D2E1F4CB0B95A0A800FFB1F6 /* MServerListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServerListManager.m; sourceTree = "<group>"; };
 		D2E286170B98C3DE0078CC28 /* MErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MErrorCodes.h; sourceTree = "<group>"; };
 		D2F0ADAD0B06698A00037C58 /* MServerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServerList.h; sourceTree = "<group>"; };
 		D2F0ADAE0B06698A00037C58 /* MServerList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServerList.m; sourceTree = "<group>"; };
@@ -313,8 +310,6 @@
 			isa = PBXGroup;
 			children = (
 				D232EE330B6C00E500F45D31 /* Qstat */,
-				D2E1F4CA0B95A0A800FFB1F6 /* MServerListManager.h */,
-				D2E1F4CB0B95A0A800FFB1F6 /* MServerListManager.m */,
 				D2F0ADAD0B06698A00037C58 /* MServerList.h */,
 				D2F0ADAE0B06698A00037C58 /* MServerList.m */,
 				D2BF91240B03A383004BCD69 /* MServer.h */,
@@ -323,6 +318,8 @@
 				D2BF91600B03B78A004BCD69 /* MPlayer.m */,
 				D2F2894C0BDA632900FF3AD4 /* MRule.h */,
 				D2F2894D0BDA632900FF3AD4 /* MRule.m */,
+				D289AFE80BBFC94A0000BA5E /* MProgressDelegate.h */,
+				D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */,
 			);
 			name = Server;
 			sourceTree = "<group>";
@@ -450,8 +447,6 @@
 				D2FBCCC00B3B48460055AFFA /* MMainController.m */,
 				D2FBCCA20B3B39390055AFFA /* MToolbarController.h */,
 				D2FBCCA30B3B39390055AFFA /* MToolbarController.m */,
-				D289AFE80BBFC94A0000BA5E /* MProgressDelegate.h */,
-				D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */,
 				D294F87B0BC5A5B3004C48B7 /* MServersController.h */,
 				D294F87C0BC5A5B3004C48B7 /* MServersController.m */,
 				D22276470B9F4F9E0097E93D /* MPlayersController.h */,
@@ -551,7 +546,6 @@
 				D28923880B6CD4F500AD2D6D /* MQuake3.m in Sources */,
 				D289238C0B6CD50900AD2D6D /* MFavorites.m in Sources */,
 				D23884680B9327EC003DA6C7 /* KBGradientOutlineView.m in Sources */,
-				D2E1F4CD0B95A0A900FFB1F6 /* MServerListManager.m in Sources */,
 				D222764A0B9F4F9E0097E93D /* MPlayersController.m in Sources */,
 				D28127B20BA2E270007FC6FA /* MComparableAttributedString.m in Sources */,
 				D2594C5C0BB99C7C00968D46 /* AMButtonBar.m in Sources */,
@@ -670,6 +664,7 @@
 					i386,
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

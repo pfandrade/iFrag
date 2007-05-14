@@ -28,10 +28,33 @@
 	return sl;
 }
 
+- (void)syncObjectsFromStore:(NSSet *)objectIDs
+{
+	//to be executed in the main thread!
+	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+	[context processPendingChanges];
+	[[context undoManager] disableUndoRegistration];
+	
+	NSEnumerator *enumerator = [objectIDs objectEnumerator];
+	NSManagedObjectID *objID;
+	id obj;
+	
+	while(objID = [enumerator nextObject]){
+		obj = [context objectWithID:objID];
+		[context refreshObject:obj mergeChanges:NO];
+		
+	}
+	[context processPendingChanges];
+	[[context undoManager] enableUndoRegistration];
+}
+
 - (void)refreshServersFromStore:(NSArray *)objectIDs
 {
 	//to be executed in the main thread!
 	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+	[context processPendingChanges];
+	[[context undoManager] disableUndoRegistration];
+	
 	MServerList *mainThreadServerList = (MServerList *)[context objectWithID:[self objectID]];
 	NSEnumerator *enumerator = [objectIDs objectEnumerator];
 	NSManagedObjectID *objID;
@@ -44,6 +67,8 @@
 	}
 	
 	[context refreshObject:mainThreadServerList mergeChanges:NO];
+	[context processPendingChanges];
+	[[context undoManager] enableUndoRegistration];
 }
 
 - (void)awakeFromFetch {

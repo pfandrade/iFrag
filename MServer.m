@@ -140,14 +140,10 @@
     
 	if(tmpValue == nil){
 		NSString *gameClassName = [MGenericGame gameClassNameWithServerTypeString:[self serverType]];
-		@try {
+		if(gameClassName != nil){
 			Class gameClass = objc_getClass([gameClassName UTF8String]);
-			tmpValue = [gameClass new];
+			tmpValue = (gameClass != nil) ? [gameClass new] : [MGenericGame new];
 		}
-		@catch (NSException * e) {
-			tmpValue = [MGenericGame new];
-		}
-		
 		[self setPrimitiveValue:tmpValue forKey:@"game"];
 	}
 	

@@ -16,6 +16,15 @@
 
 @implementation MQStatXMLParser
 
++ (void)initialize{
+	
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *appDefaults = [NSDictionary
+        dictionaryWithObject:[NSNumber numberWithInt:100]  forKey:@"serverSyncStep"];
+	
+    [defaults registerDefaults:appDefaults];
+}
+
 -(id)init
 {
 	if ((self = [super init])) {
@@ -60,6 +69,8 @@
 	context = [moc retain];
 	sl = [slist retain];
 	currentServers = [[sl mutableSetValueForKey:@"servers"] retain];
+	serverSyncStep = [[NSUserDefaults standardUserDefaults] integerForKey:@"serverSyncStep"];
+	serverCount = 0;
 	
 	qstatParser = [[NSXMLParser alloc] initWithContentsOfURL:file];
 	[qstatParser setDelegate:self];
@@ -79,7 +90,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
-	//
+	[self syncObjectsWithMainThread];
 }
 
 - (void)parser:(NSXMLParser *)parser 
@@ -202,34 +213,13 @@ didStartElement:(NSString *)elementName
 			return;
 		}
 		[currentServers addObject:currentServer];
-		NSArray *arrayForOne = [NSArray arrayWithObject:currentServer];
 		[currentServer release]; currentServer = nil;
 		[progressDelegate incrementByOne];
-		
-		
-		//flush changes to disk
-		NSError *error = nil;
-		[context save:&error];
-		if(error != nil)
-			NSLog(@"Save Error: %@", error);
-		// update mainthread
-		//refresh rules
-		[currentServer performSelectorOnMainThread:@selector(refreshRulesFromStore:) 
-										withObject:[currentRules valueForKey:@"objectID"]
-									 waitUntilDone:NO];
-		//refresh players
-		[currentServer performSelectorOnMainThread:@selector(refreshPlayersFromStore:) 
-										withObject:[currentPlayers valueForKey:@"objectID"]
-									 waitUntilDone:NO];
-		//refresh servers
-		[sl performSelectorOnMainThread:@selector(refreshServersFromStore:)
-							 withObject:[arrayForOne valueForKey:@"objectID"]
-						  waitUntilDone:NO];
-		
-		[context refreshObject:sl mergeChanges:NO];
-		//setup new autorelease pool
-		[pool release];
-		pool = [[NSAutoreleasePool alloc] init];
+
+		if(++serverCount == serverSyncStep){
+			[self syncObjectsWithMainThread];
+			serverCount = 0;
+		}
 		return;
     }
 	
@@ -295,7 +285,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element rules ---------
 	if ([elementName isEqualToString:@"rules"]) {
-		//[currentRules release]; currentRules = nil;
+		[currentRules release]; currentRules = nil;
         return;
     }
 	
@@ -313,7 +303,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element players ---------
 	if ([elementName isEqualToString:@"players"]) {
-		//[currentPlayers release]; currentPlayers = nil;
+		[currentPlayers release]; currentPlayers = nil;
 		inPlayers = NO;
 		return;
 	}
@@ -394,4 +384,32 @@ didStartElement:(NSString *)elementName
 	
 	return [muts autorelease];
 }
+
+- (void)syncObjectsWithMainThread
+{	
+	NSMutableSet *objectIDsToSync = [[NSMutableSet alloc] initWithSet:[[context insertedObjects] valueForKey:@"objectID"]];
+	[objectIDsToSync unionSet:[[context updatedObjects] valueForKey:@"objectID"]];
+	
+	//flush changes to disk
+	NSError *error = nil;
+	[context save:&error];
+	if(error != nil)
+		NSLog(@"Save Error: %@", error);
+	// update mainthread
+	[sl performSelectorOnMainThread:@selector(syncObjectsFromStore:)
+						 withObject:objectIDsToSync
+					  waitUntilDone:NO];
+
+	[objectIDsToSync release];
+	NSManagedObjectID *tempOID = [sl objectID];
+	[sl release];
+	[currentServers release];
+	[context reset];
+	//setup new autorelease pool
+	[pool release];
+	pool = [[NSAutoreleasePool alloc] init];
+	sl = [[context objectWithID:tempOID] retain];
+	currentServers = [[sl mutableSetValueForKey:@"servers"] retain];
+}
+
 @end

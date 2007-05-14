@@ -18,6 +18,8 @@
 
 + (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context;
 
+- (void)syncObjectsFromStore:(NSSet *)objectIDs;
+
 - (void)refreshServersFromStore:(NSArray *)objectIDs;
 
 #pragma mark Accessors

@@ -53,6 +53,7 @@
                 preferencesWindow = NSWindow; 
                 rightSplitView = MInnerSplitView; 
                 serverListsController = id; 
+                serverTreeController = id; 
                 serversController = id; 
                 splitView = MThinSplitView; 
             }; 

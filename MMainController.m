@@ -162,6 +162,16 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
+	// delete any temporary files that were not deleted
+	NSArray *dirContents = [[NSFileManager defaultManager] directoryContentsAtPath:NSTemporaryDirectory()];
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.lastPathComponent like 'iFrag.*'"];
+	NSEnumerator *filesToDelete = [[dirContents filteredArrayUsingPredicate:pred] objectEnumerator];
+	NSString *file;
+	while(file = [filesToDelete nextObject]){
+		[[NSFileManager defaultManager] removeFileAtPath:[NSString stringWithFormat:@"%@/%@",NSTemporaryDirectory(),file] 
+												 handler:nil];
+	}
+	
 	[splitView storeLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 }
 

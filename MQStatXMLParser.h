@@ -28,6 +28,7 @@
 	NSMutableString *currentString;
 	BOOL inElement, inPlayers;
 	NSAutoreleasePool *pool;
+	int serverSyncStep, serverCount;
 }
 
 - (id)progressDelegate;
@@ -37,5 +38,6 @@
 
 //private
 - (NSString *)replaceEscapedCharacters:(NSString *)string;
+- (void)syncObjectsWithMainThread;
 
 @end

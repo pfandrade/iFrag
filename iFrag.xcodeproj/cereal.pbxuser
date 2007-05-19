@@ -212,8 +212,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 200871614;
-			PBXWorkspaceStateSaveDate = 200871614;
+			PBXPerProjectTemplateStateSaveDate = 201280229;
+			PBXWorkspaceStateSaveDate = 201280229;
 		};
 		sourceControlManager = D24CA2350AFE38AB003C3289 /* Source Control */;
 		userBuildSettings = {
@@ -260,7 +260,7 @@
 		hitCount = 1;
 		lineNumber = 34;
 		location = MServerList.ob;
-		modificationTime = 200825942.367111;
+		modificationTime = 201222938.762173;
 		state = 1;
 	};
 	D20017470BF85A3A002AFB41 /* MQuery.m:101 */ = {
@@ -275,7 +275,7 @@
 		hitCount = 1;
 		lineNumber = 101;
 		location = MQuery.ob;
-		modificationTime = 200825927.240706;
+		modificationTime = 201222816.108295;
 		state = 2;
 	};
 	D200174A0BF85A49002AFB41 /* MQStatXMLParser.m:391 */ = {
@@ -290,7 +290,7 @@
 		hitCount = 1;
 		lineNumber = 391;
 		location = MQStatXMLParser.ob;
-		modificationTime = 200825938.512667;
+		modificationTime = 201222816.108382;
 		state = 2;
 	};
 	D200175C0BF85C85002AFB41 /* MServerList.m:47 */ = {
@@ -302,10 +302,10 @@
 		delayBeforeContinue = 0;
 		fileReference = D2F0ADAE0B06698A00037C58 /* MServerList.m */;
 		functionName = "-syncObjectsFromStore:";
-		hitCount = 0;
+		hitCount = 1;
 		lineNumber = 47;
 		location = MServerList.ob;
-		modificationTime = 200825989.818826;
+		modificationTime = 201222938.762078;
 		state = 1;
 	};
 	D21351090BE794AE0035C46A /* MServerListsController.h */ = {
@@ -550,9 +550,9 @@
 	};
 	D24CA2400AFE39AA003C3289 /* MQStatTask.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {936, 1820}}";
+			sepNavIntBoundsRect = "{{0, 0}, {942, 1820}}";
 			sepNavSelRange = "{727, 11}";
-			sepNavVisRect = "{{0, 233}, {936, 416}}";
+			sepNavVisRect = "{{0, 179}, {942, 656}}";
 			sepNavWindowFrame = "{{226, 22}, {981, 785}}";
 		};
 	};
@@ -725,10 +725,10 @@
 	};
 	D2780DFA0BDD401B008CF458 /* MQuery.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1041, 1988}}";
-			sepNavSelRange = "{2863, 0}";
-			sepNavVisRect = "{{0, 1293}, {1041, 256}}";
-			sepNavWindowFrame = "{{143, 31}, {1096, 725}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1057, 1988}}";
+			sepNavSelRange = "{2205, 0}";
+			sepNavVisRect = "{{0, 792}, {1057, 596}}";
+			sepNavWindowFrame = "{{132, 33}, {1096, 725}}";
 		};
 	};
 	D27D7C2E0B4C75C90052AD60 /* Drawer-Right.tiff */ = {
@@ -852,7 +852,7 @@
 			"Xdesign Model Editor Bookmark Key" = {
 				UIContextForDetailArea = {
 					_indexOfSelectedPane = 0;
-					_indexOfSelectedView = 1;
+					_indexOfSelectedView = 0;
 				};
 				UIContextForEntityArea = {
 					_indexOfSelectedView = 0;
@@ -1003,7 +1003,7 @@
 				"xdesign model browser state key - shown/hidden" = 1;
 				"xdesign model diagram view visible rect key" = "{{-155, -13}, {1007, 440}}";
 			};
-			sepNavWindowFrame = "{{124, 35}, {1022, 794}}";
+			sepNavWindowFrame = "{{137, 38}, {1022, 794}}";
 		};
 	};
 	D2AD5F3B0BD41A6600C0F614 /* MActionButtonCell.h */ = {
@@ -1046,17 +1046,17 @@
 	};
 	D2BF91240B03A383004BCD69 /* MServer.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {982, 1120}}";
-			sepNavSelRange = "{385, 105}";
+			sepNavIntBoundsRect = "{{0, 0}, {982, 1134}}";
+			sepNavSelRange = "{415, 0}";
 			sepNavVisRect = "{{0, 0}, {982, 500}}";
-			sepNavWindowFrame = "{{212, 155}, {1021, 629}}";
+			sepNavWindowFrame = "{{145, 139}, {1021, 629}}";
 		};
 	};
 	D2BF91250B03A383004BCD69 /* MServer.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1041, 5894}}";
-			sepNavSelRange = "{4401, 0}";
-			sepNavVisRect = "{{0, 1850}, {1041, 256}}";
+			sepNavIntBoundsRect = "{{0, 0}, {982, 6538}}";
+			sepNavSelRange = "{2105, 0}";
+			sepNavVisRect = "{{0, 639}, {982, 500}}";
 			sepNavWindowFrame = "{{212, 155}, {1021, 629}}";
 		};
 	};
@@ -1094,9 +1094,9 @@
 	};
 	D2F0ADAE0B06698A00037C58 /* MServerList.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1041, 5852}}";
-			sepNavSelRange = "{762, 48}";
-			sepNavVisRect = "{{0, 287}, {1041, 256}}";
+			sepNavIntBoundsRect = "{{0, 0}, {878, 5852}}";
+			sepNavSelRange = "{7476, 283}";
+			sepNavVisRect = "{{0, 3722}, {718, 696}}";
 			sepNavWindowFrame = "{{360, 7}, {757, 825}}";
 		};
 	};

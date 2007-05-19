@@ -11,36 +11,82 @@
 #import "MPlayer.h"
 #import "MRule.h"
 
+
 @implementation MServer
+
+static NSLock *existingAddressesLock = nil;
+static NSMutableDictionary *existingAddresses = nil;
 
 + (void)initialize
 {
 	[self setKeys:[NSArray arrayWithObjects:@"numplayers", @"maxplayers", nil] triggerChangeNotificationsForDependentKey:@"fullness"];
+	existingAddressesLock = [NSLock new];
+}
+
++ (void)initExistingAddresses
+{
+	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+	
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
+	[fetchRequest setEntity:ed];
+	
+	NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
+	existingAddresses = [[NSMutableDictionary alloc] initWithObjects:[results valueForKey:@"objectID"] 
+															 forKeys:[results valueForKey:@"address"]];
+	
 }
 
 + (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context
 {
-	NSManagedObjectModel *model = [[NSApp delegate] managedObjectModel];
-	MServer *server;
-	
-	NSError *error = nil;
-	NSDictionary *substitutionDictionary = [NSDictionary dictionaryWithObjectsAndKeys: address, @"ADDR", nil];
-	NSFetchRequest *fetchRequest =
-		[model fetchRequestFromTemplateWithName:@"serverWithAddress"
-						  substitutionVariables:substitutionDictionary];
-	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
-	[fetchRequest setEntity:ed];
-	
-	NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
+//	NSManagedObjectModel *model = [[NSApp delegate] managedObjectModel];
+//	MServer *server;
+//	
+//	NSError *error = nil;
+//	NSDictionary *substitutionDictionary = [NSDictionary dictionaryWithObjectsAndKeys: address, @"ADDR", nil];
+//	NSFetchRequest *fetchRequest =
+//		[model fetchRequestFromTemplateWithName:@"serverWithAddress"
+//						  substitutionVariables:substitutionDictionary];
+//	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
+//	[fetchRequest setEntity:ed];
+//	
+//	NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
+//
+//	if ([results count] == 0){
+//		server = [NSEntityDescription insertNewObjectForEntityForName:@"Server"
+//											   inManagedObjectContext:context];
+//	} else {
+//		server = [results objectAtIndex:0];
+//	}
 
-	if ([results count] == 0){
+	[existingAddressesLock lock];
+	if(existingAddresses == nil)
+		[MServer initExistingAddresses];
+	
+	NSManagedObjectID *serverID = [existingAddresses objectForKey:address];
+	[existingAddressesLock unlock];
+	MServer *server;
+	if(serverID == nil){
 		server = [NSEntityDescription insertNewObjectForEntityForName:@"Server"
 											   inManagedObjectContext:context];
-	} else {
-		server = [results objectAtIndex:0];
+	}else{
+		server = (MServer *)[context objectWithID:serverID];
 	}
 	
 	return server;
+}
+
+- (void)didSave
+{
+	[existingAddressesLock lock];
+	
+	if(existingAddresses == nil)
+		[MServer initExistingAddresses];
+	
+	if([existingAddresses objectForKey:[self primitiveValueForKey:@"address"]] == nil)
+		[existingAddresses setObject:[self objectID] forKey:[self primitiveValueForKey:@"address"]];
+	
+	[existingAddressesLock unlock];
 }
 
 - (void)refreshPlayersFromStore:(NSArray *)objectIDs

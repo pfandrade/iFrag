@@ -74,7 +74,7 @@
 //	[qstat release];
 	/*************/
 	
-	NSURL *qstatQueryResultingXMLFile = [NSURL fileURLWithPath:@"/Users/cereal/Desktop/iFrag_stuff/qstat_medium.xml"];
+	NSURL *qstatQueryResultingXMLFile = [NSURL fileURLWithPath:@"/Users/cereal/Desktop/stuff/iFrag_stuff/qstat_out.xml"];
 	
 	/*** xmlParser ***/
 	MQStatXMLParser *qParser = [MQStatXMLParser new];

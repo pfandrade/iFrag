@@ -18,6 +18,7 @@
 }
 
 + (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context;
++ (void)initExistingAddresses;
 
 - (void)refreshPlayersFromStore:(NSArray *)objectIDs;
 - (void)refreshRulesFromStore:(NSArray *)objectIDs;

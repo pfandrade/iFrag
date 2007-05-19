@@ -293,14 +293,14 @@
 	
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
 	
-	MServer *existingServer = [self serverWithAddress:[value address]];
-	//test to see if they are the same
-	if([[existingServer objectID] isEqual:[value objectID]])
-		return;
-	
-	if(existingServer != nil){
-		[[self managedObjectContext] deleteObject:existingServer];
-	}
+//	MServer *existingServer = [self serverWithAddress:[value address]];
+//	//test to see if they are the same
+//	if([[existingServer objectID] isEqual:[value objectID]])
+//		return;
+//	
+//	if(existingServer != nil){
+//		[[self managedObjectContext] deleteObject:existingServer];
+//	}
 	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
 	[[self primitiveValueForKey: @"servers"] addObject: value];
 	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];

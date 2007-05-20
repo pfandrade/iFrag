@@ -20,9 +20,6 @@
 + (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context;
 + (void)initExistingAddresses;
 
-- (void)refreshPlayersFromStore:(NSArray *)objectIDs;
-- (void)refreshRulesFromStore:(NSArray *)objectIDs;
-
 // Derived properties
 
 - (NSAttributedString *)attributedName;
@@ -61,20 +58,22 @@
 - (void)setServerType:(NSString *)value;
 - (BOOL)validateServerType: (id *)valueRef error:(NSError **)outError;
 
-- (MServerList *)inServerList;
-- (void)setInServerList:(MServerList *)value;
-
+- (NSDate *)lastRefreshDate;
+- (void)setLastRefreshDate:(NSDate *)value;
 
 	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
 - (void)addPlayersObject:(MPlayer *)value;
 - (void)removePlayersObject:(MPlayer *)value;
 
-- (NSSet *)players;
 
 	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
 - (void)addRulesObject:(MRule *)value;
 - (void)removeRulesObject:(MRule *)value;
 
-//- (NSSet *)rules;
+	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
+- (void)addInServerListsObject:(MServerList *)value;
+- (void)removeInServerListsObject:(MServerList *)value;
+
+
 
 @end

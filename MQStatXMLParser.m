@@ -212,6 +212,7 @@ didStartElement:(NSString *)elementName
 		if(currentServer == nil){ //isto esta aqui para o caso especial do header
 			return;
 		}
+		[currentServer setLastRefreshDate:[NSDate date]];
 		[currentServers addObject:currentServer];
 		[currentServer release]; currentServer = nil;
 		[progressDelegate incrementByOne];

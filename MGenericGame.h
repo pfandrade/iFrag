@@ -49,6 +49,7 @@
 - (NSString *)masterServerAddress;
 - (NSString *)defaultGameType;
 
+- (NSComparisonResult)compare:(MGenericGame *)game;
 @end
 
 @interface MGenericGame (Abstract)

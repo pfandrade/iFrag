@@ -20,8 +20,6 @@
 
 - (void)syncObjectsFromStore:(NSSet *)objectIDs;
 
-- (void)refreshServersFromStore:(NSArray *)objectIDs;
-
 #pragma mark Accessors
 - (NSString *)gameServerType;
 - (void)setGameServerType:(NSString *)value;
@@ -49,8 +47,6 @@
 
 - (NSImage *)icon;
 - (void)setIcon:(NSImage *)value;
-
-- (MServer *)serverWithAddress:(NSString *)address;
 
 #pragma mark Modifiers
 

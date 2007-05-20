@@ -71,10 +71,10 @@
             SUPERCLASS = NSArrayController; 
         }, 
         {
-            ACTIONS = {serverInfo = id; togglePlayersDrawer = id; }; 
+            ACTIONS = {serverInfo = id; }; 
             CLASS = MServersController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {infoWindow = id; playersDrawer = id; serversTableView = id; }; 
+            OUTLETS = {infoWindow = id; serversTableView = id; }; 
             SUPERCLASS = NSArrayController; 
         }, 
         {
@@ -92,7 +92,7 @@
         {
             CLASS = MToolbarController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {mainController = id; serversController = id; }; 
+            OUTLETS = {mainController = id; playersDrawer = id; serversController = id; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 

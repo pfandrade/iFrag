@@ -186,6 +186,15 @@ static NSDictionary *_gwsts;
 	return [[self class] defaultGameType];
 }
 
+- (NSComparisonResult)compare:(MGenericGame *)game
+{
+	if([[self name] isEqual:@"Favorites"])
+		return NSOrderedAscending;
+	if([[game name] isEqual:@"Favorites"])
+		return NSOrderedDescending;
+	return [[self name] compare:[game name]];
+}
+
 #pragma mark Copy methods
 
 - (id)copyWithZone:(NSZone *)zone

@@ -12,7 +12,6 @@
 #import "AMButtonBarItem.h"
 #import "CTGradient_AMButtonBar.h"
 #import "MNotifications.h"
-#import "MFavorites.h"
 #import "MServerList.h"
 #import "MServersController.h"
 
@@ -22,6 +21,7 @@
 
 - (void)awakeFromNib
 {
+	
 	// Setup the Button Bar
 //	[rightSplitView showFilterBar];
 //	[filterBar setShowsBaselineSeparator:NO];
@@ -48,6 +48,11 @@
     [tableColumn setDataCell:outlineCell];
 	[tableColumn setWidth:[[[splitView subviews] objectAtIndex:0] frame].size.width];
 	[splitView setNeedsDisplay:YES];
+	
+	//order the outline view
+	NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"game" ascending:YES];
+	[serverTreeController setSortDescriptors:[NSArray arrayWithObject:desc]];
+	[desc release];
 	
 	// Reset the ThinSplitView splitter position to the saved state
 	[splitView loadLayoutWithName:THINSPLITVIEW_SAVE_NAME];
@@ -99,14 +104,21 @@
 
 - (IBAction)addToFavorites:(id)sender
 {
-//	if([[currentServerList name] isEqualToString:@"Favorites"]) 
-//		return;
-//	
-//	NSArray *servers = [serversDataSource selectedObjects];
-//	id fav = [[MFavorites alloc] init];
-//	MServerList *favoritesList = [serverListManager getServerListForGame:fav];
-//	[favoritesList addServers:[NSSet setWithArray:servers]];
-//	[fav release];
+	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	if([[currentServerList name] isEqualToString:@"Favorites"]) 
+		return;
+	
+	//servers to add
+	NSArray *servers = [serversController selectedObjects];
+	
+	//lets get the Favorites list
+	NSArray *serverLists = [serverListsController arrangedObjects];
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"name like \"Favorites\""];
+	
+	MServerList *favoritesList = [[serverLists filteredArrayUsingPredicate:pred] objectAtIndex:0];
+	//and add the servers
+	[favoritesList addServers:[NSSet setWithArray:servers]];
+	[[[NSApp delegate] managedObjectContext] save:nil];
 }
 
 - (IBAction)addServer:(id)sender
@@ -201,6 +213,20 @@
 //	[mainWindow displayIfNeeded];
 	
 	//TODO por aqui um refreshObjects:mergeChanges:NO !
+}
+
+#pragma mark Ouline View Delegate Methods
+
+- (void)drawerDidClose:(NSNotification *)notification
+{
+	NSMenuItem *drawerMenuItem = [[[[NSApp mainMenu] itemWithTitle:@"View"] submenu] itemWithTag:1];
+	[drawerMenuItem setTitle:@"Show Players"];
+}
+
+- (void)drawerDidOpen:(NSNotification *)notification
+{
+	NSMenuItem *drawerMenuItem = [[[[NSApp mainMenu] itemWithTitle:@"View"] submenu] itemWithTag:1];
+	[drawerMenuItem setTitle:@"Hide Players"];
 }
 
 @end

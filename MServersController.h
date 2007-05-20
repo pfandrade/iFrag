@@ -10,7 +10,6 @@
 
 
 @interface MServersController : NSArrayController {
-	IBOutlet id playersDrawer;
 	IBOutlet id infoWindow;
 	IBOutlet id serversTableView;
 }
@@ -18,6 +17,5 @@
 #pragma mark Actions
 
 - (IBAction)serverInfo:(id)sender;
-- (IBAction)togglePlayersDrawer:(id)sender;
 
 @end

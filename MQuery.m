@@ -57,24 +57,24 @@
 	[progressDelegate started];
 	
 	/*** qstat  ***/
-//	id qstat = [[MQStatTask alloc] init];
-//	NSURL *qstatQueryResultingXMLFile;
-//	
-//	qstatQueryResultingXMLFile = [qstat queryGameServer:[[sl game] masterServerAddress]
-//										 withServerType:[[sl game] masterServerFlag]];
-//	
-//	[qstat waitUntilExit];
-//	
-//	if ([qstat terminationStatus] != 0){ //ups something went wrong
-//		[progressDelegate finished];
-//		//@throw [[NSException alloc] initWithName:@"QStat query failed" reason:@"No Internet connection?" userInfo:nil];
-//		//TODO: NSAlert instead? E AQUI N PODE SER RETURN! E PRECISO IR ENVIAR A MSG
-//		return;
-//	}
-//	[qstat release];
+	id qstat = [[MQStatTask alloc] init];
+	NSURL *qstatQueryResultingXMLFile;
+	
+	qstatQueryResultingXMLFile = [qstat queryGameServer:[[sl game] masterServerAddress]
+										 withServerType:[[sl game] masterServerFlag]];
+	
+	[qstat waitUntilExit];
+	
+	if ([qstat terminationStatus] != 0){ //ups something went wrong
+		[progressDelegate finished];
+		//@throw [[NSException alloc] initWithName:@"QStat query failed" reason:@"No Internet connection?" userInfo:nil];
+		//TODO: NSAlert instead? E AQUI N PODE SER RETURN! E PRECISO IR ENVIAR A MSG
+		return;
+	}
+	[qstat release];
 	/*************/
 	
-	NSURL *qstatQueryResultingXMLFile = [NSURL fileURLWithPath:@"/Users/cereal/Desktop/stuff/iFrag_stuff/qstat_out.xml"];
+//	NSURL *qstatQueryResultingXMLFile = [NSURL fileURLWithPath:@"/Users/cereal/Desktop/stuff/iFrag_stuff/qstat_out.xml"];
 	
 	/*** xmlParser ***/
 	MQStatXMLParser *qParser = [MQStatXMLParser new];
@@ -86,7 +86,7 @@
 					   context:context];
 	[qParser release];
 
-//	[[NSFileManager defaultManager] removeFileAtPath:[qstatQueryResultingXMLFile path] handler:nil];
+	[[NSFileManager defaultManager] removeFileAtPath:[qstatQueryResultingXMLFile path] handler:nil];
 	/****************/
 	[progressDelegate finished];
 	

@@ -21,6 +21,7 @@ NSString *const MDeleteServer			  = @"DeleteServerItem";
 {
 	IBOutlet id mainController;
 	IBOutlet id serversController;
+	IBOutlet id playersDrawer;
 }
 
 @end

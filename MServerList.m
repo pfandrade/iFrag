@@ -16,7 +16,8 @@
 
 + (void)initialize
 {
-	[self setKeys:[NSArray arrayWithObjects:@"name", @"icon", @"progressDelegate", nil] triggerChangeNotificationsForDependentKey:@"infoDict"];
+	[self setKeys:[NSArray arrayWithObjects:@"name", @"icon", @"progressDelegate", nil] 
+triggerChangeNotificationsForDependentKey:@"infoDict"];
 }
 
 + (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context
@@ -39,40 +40,30 @@
 	NSManagedObjectID *objID;
 	id obj;
 	
-	while(objID = [enumerator nextObject]){
-		obj = [context objectWithID:objID];
-		[context refreshObject:obj mergeChanges:NO];
-		
-	}
-	[context processPendingChanges];
-	[[context undoManager] enableUndoRegistration];
-}
-
-- (void)refreshServersFromStore:(NSArray *)objectIDs
-{
-	//to be executed in the main thread!
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-	[context processPendingChanges];
-	[[context undoManager] disableUndoRegistration];
+	// this is for trying to speed up this loop
+	SEL nextObj_sel = @selector(nextObject);
+	SEL objWithID_sel = @selector(objectWithID:);
+	SEL refreshObj_sel = @selector(refreshObject:mergeChanges:);
+	IMP nextObj_imp = [enumerator methodForSelector:nextObj_sel];
+	IMP objWithID_imp = [context methodForSelector:objWithID_sel];
+	IMP refreshObj_imp =[context methodForSelector:refreshObj_sel];
 	
-	MServerList *mainThreadServerList = (MServerList *)[context objectWithID:[self objectID]];
-	NSEnumerator *enumerator = [objectIDs objectEnumerator];
-	NSManagedObjectID *objID;
-	MServer *server;
-
-	while(objID = [enumerator nextObject]){
-		server = (MServer *)[context objectWithID:objID];
-		[context refreshObject:server mergeChanges:YES];
-		
+	while(objID = nextObj_imp(enumerator, nextObj_sel)){
+//		obj = [context objectWithID:objID];
+//		[context refreshObject:obj mergeChanges:NO];
+		obj = objWithID_imp(context, objWithID_sel, objID);
+		refreshObj_imp(context, refreshObj_sel, obj, NO);
 	}
-	
-	[context refreshObject:mainThreadServerList mergeChanges:NO];
 	[context processPendingChanges];
 	[[context undoManager] enableUndoRegistration];
 }
 
 - (void)awakeFromFetch {
 	[self setPrimitiveValue:[NSNumber numberWithBool:NO] forKey:@"busyFlag"];
+	NSProgressIndicator *pi = [[self progressDelegate] progressIndicator];
+	if(pi != nil){
+		[pi setHidden:YES];
+	}
 }
 
 - (void)willSave
@@ -257,28 +248,10 @@
 	
 }
 
-- (MServer *)serverWithAddress:(NSString *)address
-{
-	NSManagedObjectContext *context = [self managedObjectContext];
-	
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:[NSEntityDescription entityForName:@"Server"
-								   inManagedObjectContext:context]];
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inServerList = %@ AND address LIKE %@", self, address];
-	[request setPredicate:predicate];
-	
-	NSError *error = nil;
-	NSArray *results = [context executeFetchRequest:request error:&error];
-	if ([results count] == 0){
-		return nil;
-	}
-	
-	return [results objectAtIndex:0];
-}
-
 - (NSDictionary *)infoDict
 {
-	return [self dictionaryWithValuesForKeys:[NSArray arrayWithObjects:@"name", @"icon", @"progressDelegate", nil]];
+	return [self dictionaryWithValuesForKeys:
+		[NSArray arrayWithObjects:@"name", @"icon", @"progressDelegate", nil]];
 }
 
 - (void)setInfoDict:(NSDictionary *)infoDict
@@ -293,17 +266,11 @@
 	
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
 	
-//	MServer *existingServer = [self serverWithAddress:[value address]];
-//	//test to see if they are the same
-//	if([[existingServer objectID] isEqual:[value objectID]])
-//		return;
-//	
-//	if(existingServer != nil){
-//		[[self managedObjectContext] deleteObject:existingServer];
-//	}
-	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation 
+				   usingObjects:changedObjects];
 	[[self primitiveValueForKey: @"servers"] addObject: value];
-	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation 
+				  usingObjects:changedObjects];
 	[changedObjects release];
 	
 }
@@ -313,9 +280,11 @@
 	
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
 	
-	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation 
+				   usingObjects:changedObjects];
 	[[self primitiveValueForKey: @"servers"] removeObject: value];
-	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation 
+				  usingObjects:changedObjects];
 	[changedObjects release];
 	
 }
@@ -325,19 +294,15 @@
 {	
 	
 	NSEnumerator *server_enum = [inServers objectEnumerator];
-	MServer *server, *existingServer;
+	MServer *server;
 	
-	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:inServers];
+	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation 
+				   usingObjects:inServers];
 	while((server = [server_enum nextObject])){
-		existingServer = [self serverWithAddress:[server address]];
-		if([[existingServer objectID] isEqual:[server objectID]])
-			continue;
-		if(existingServer != nil){
-			[[self managedObjectContext] deleteObject:existingServer];
-		}		
 		[[self primitiveValueForKey: @"servers"] addObject: server];		
 	}
-	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:inServers];
+	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation 
+				  usingObjects:inServers];
 	
 }
 
@@ -346,11 +311,13 @@
 	
 	NSEnumerator *server_enum = [[inServers allObjects] objectEnumerator];
 	MServer *server;
-	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:inServers];
+	[self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation 
+				   usingObjects:inServers];
 	while((server = [server_enum nextObject])){
 		[[self primitiveValueForKey: @"servers"] removeObject: server];
 	}
-	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:inServers];
+	[self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation 
+				  usingObjects:inServers];
 	
 }
 

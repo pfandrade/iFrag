@@ -37,11 +37,6 @@
 		[infoWindow orderFront:self];
 }
 
-- (IBAction)togglePlayersDrawer:(id)sender
-{
-	[playersDrawer toggle:self];
-}
-
 #pragma mark Table View Delegate Methods
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex

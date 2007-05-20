@@ -25,7 +25,7 @@
 		[progressIndicator setDisplayedWhenStopped:NO];
 		[progressIndicator setHidden:YES];
 		[progressIndicator setUsesThreadedAnimation:YES];
-		[(CToxicProgressIndicator *)progressIndicator setStepCount:0];
+		[(CToxicProgressIndicator *)progressIndicator setStepCount:16]; //4 for each 90 degrees
 	}
 	return self;
 }

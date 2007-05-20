@@ -17,7 +17,7 @@
 		D213510B0BE794AE0035C46A /* MServerListsController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D21351090BE794AE0035C46A /* MServerListsController.h */; };
 		D213510C0BE794AE0035C46A /* MServerListsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D213510A0BE794AE0035C46A /* MServerListsController.m */; };
 		D215247A0BD16FF20046CB9E /* AddServerDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = D21524790BD16FF20046CB9E /* AddServerDialog.nib */; };
-		D2192A750B99FFD2001E2708 /* Reload.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2192A740B99FFD2001E2708 /* Reload.tiff */; };
+		D2192A750B99FFD2001E2708 /* Refresh.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2192A740B99FFD2001E2708 /* Refresh.tiff */; };
 		D2192A910B9A0196001E2708 /* Play.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2192A900B9A0196001E2708 /* Play.tiff */; };
 		D21BECC90B3EDA4800FCDC80 /* MThinSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = D21BECC70B3EDA4800FCDC80 /* MThinSplitView.m */; };
 		D222764A0B9F4F9E0097E93D /* MPlayersController.m in Sources */ = {isa = PBXBuildFile; fileRef = D22276480B9F4F9E0097E93D /* MPlayersController.m */; };
@@ -58,6 +58,7 @@
 		D289AFEB0BBFC94A0000BA5E /* MProgressDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */; };
 		D294F87E0BC5A5B3004C48B7 /* MServersController.m in Sources */ = {isa = PBXBuildFile; fileRef = D294F87C0BC5A5B3004C48B7 /* MServersController.m */; };
 		D29C6DC30BD952F900F816AD /* domain.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D29C6DC20BD952F900F816AD /* domain.xcdatamodel */; };
+		D2A1AE9B0C00749D003C81E9 /* Update.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2A1AE9A0C00749D003C81E9 /* Update.tiff */; };
 		D2AD5F3E0BD41A6600C0F614 /* MActionButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */; };
 		D2AD5F850BD421A900C0F614 /* MActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AD5F830BD421A900C0F614 /* MActionButton.m */; };
 		D2B9ABA80BEFCAA90091B4A1 /* MNotifications.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2B9ABA70BEFCAA90091B4A1 /* MNotifications.h */; };
@@ -104,7 +105,7 @@
 		D211CAC50BD1741C004633F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PreferencesWindow.nib; sourceTree = "<group>"; };
 		D21351090BE794AE0035C46A /* MServerListsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServerListsController.h; sourceTree = "<group>"; };
 		D213510A0BE794AE0035C46A /* MServerListsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServerListsController.m; sourceTree = "<group>"; };
-		D2192A740B99FFD2001E2708 /* Reload.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Reload.tiff; sourceTree = "<group>"; };
+		D2192A740B99FFD2001E2708 /* Refresh.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Refresh.tiff; sourceTree = "<group>"; };
 		D2192A900B9A0196001E2708 /* Play.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play.tiff; sourceTree = "<group>"; };
 		D21BECC60B3EDA4800FCDC80 /* MThinSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MThinSplitView.h; sourceTree = "<group>"; };
 		D21BECC70B3EDA4800FCDC80 /* MThinSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MThinSplitView.m; sourceTree = "<group>"; };
@@ -172,6 +173,8 @@
 		D294F87B0BC5A5B3004C48B7 /* MServersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServersController.h; sourceTree = "<group>"; };
 		D294F87C0BC5A5B3004C48B7 /* MServersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServersController.m; sourceTree = "<group>"; };
 		D29C6DC20BD952F900F816AD /* domain.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = domain.xcdatamodel; sourceTree = "<group>"; };
+		D2A1AE9A0C00749D003C81E9 /* Update.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Update.tiff; sourceTree = "<group>"; };
+		D2A1AEA10C0074CD003C81E9 /* Reload.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Reload.tiff; sourceTree = "<group>"; };
 		D2AD5F3B0BD41A6600C0F614 /* MActionButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MActionButtonCell.h; sourceTree = "<group>"; };
 		D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MActionButtonCell.m; sourceTree = "<group>"; };
 		D2AD5F820BD421A900C0F614 /* MActionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MActionButton.h; sourceTree = "<group>"; };
@@ -369,7 +372,9 @@
 				D20DE6C50BCD8528000E8B31 /* Add.tiff */,
 				D278DCFE0BCBCC720099B869 /* Refresh.tiff */,
 				D2192A900B9A0196001E2708 /* Play.tiff */,
-				D2192A740B99FFD2001E2708 /* Reload.tiff */,
+				D2A1AE9A0C00749D003C81E9 /* Update.tiff */,
+				D2A1AEA10C0074CD003C81E9 /* Reload.tiff */,
+				D2192A740B99FFD2001E2708 /* Refresh.tiff */,
 				D27D7C2E0B4C75C90052AD60 /* Drawer-Right.tiff */,
 				D27D7C2F0B4C75C90052AD60 /* Get Info.tiff */,
 			);
@@ -509,7 +514,7 @@
 				D2714F8A0B53F4C2001504D9 /* SplitterHandle.tiff in Resources */,
 				D26E57DC0B568AE80020EC68 /* Credits.rtf in Resources */,
 				D2E052360B8CA07C00297692 /* Folder.tiff in Resources */,
-				D2192A750B99FFD2001E2708 /* Reload.tiff in Resources */,
+				D2192A750B99FFD2001E2708 /* Refresh.tiff in Resources */,
 				D2192A910B9A0196001E2708 /* Play.tiff in Resources */,
 				D278DCFF0BCBCC730099B869 /* Refresh.tiff in Resources */,
 				D278DD030BCBCCF60099B869 /* flagged_header.tiff in Resources */,
@@ -520,6 +525,7 @@
 				D2F60E310BCF0E8D0097AF76 /* Remove.tiff in Resources */,
 				D211CADA0BD174D6004633F3 /* PreferencesWindow.nib in Resources */,
 				D2F310720BD431D5007128B7 /* Action.tiff in Resources */,
+				D2A1AE9B0C00749D003C81E9 /* Update.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

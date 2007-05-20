@@ -83,46 +83,16 @@ static NSMutableDictionary *existingAddresses = nil;
 	if(existingAddresses == nil)
 		[MServer initExistingAddresses];
 	
+	if([self isDeleted]){
+		[existingAddresses removeObjectForKey:[self primitiveValueForKey:@"addres"]];
+		[existingAddressesLock unlock];
+		return;
+	}
+	
 	if([existingAddresses objectForKey:[self primitiveValueForKey:@"address"]] == nil)
 		[existingAddresses setObject:[self objectID] forKey:[self primitiveValueForKey:@"address"]];
 	
 	[existingAddressesLock unlock];
-}
-
-- (void)refreshPlayersFromStore:(NSArray *)objectIDs
-{
-	//to be executed in the main thread!
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-	MServer *mainThreadServer = (MServer *)[context objectWithID:[self objectID]];
-	NSEnumerator *enumerator = [objectIDs objectEnumerator];
-	NSManagedObjectID *objID;
-	MPlayer *player;
-	
-	while(objID = [enumerator nextObject]){
-		player = (MPlayer *)[context objectWithID:objID];
-		[context refreshObject:player mergeChanges:YES];
-		
-	}
-	
-	[context refreshObject:mainThreadServer mergeChanges:NO];
-}
-
-- (void)refreshRulesFromStore:(NSArray *)objectIDs
-{
-	//to be executed in the main thread!
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-	MServer *mainThreadServer = (MServer *)[context objectWithID:[self objectID]];
-	NSEnumerator *enumerator = [objectIDs objectEnumerator];
-	NSManagedObjectID *objID;
-	MRule *rule;
-	
-	while(objID = [enumerator nextObject]){
-		rule = (MRule *)[context objectWithID:objID];
-		[context refreshObject:rule mergeChanges:YES];
-		
-	}
-	
-	[context refreshObject:mainThreadServer mergeChanges:NO];
 }
 
 // Derived attributes
@@ -365,24 +335,23 @@ static NSMutableDictionary *existingAddresses = nil;
     return YES;
 }
 
-- (MServerList *)inServerList 
+- (NSDate *)lastRefreshDate 
 {
-    id tmpObject;
+    NSDate * tmpValue;
     
-    [self willAccessValueForKey: @"inServerList"];
-    tmpObject = [self primitiveValueForKey: @"inServerList"];
-    [self didAccessValueForKey: @"inServerList"];
+    [self willAccessValueForKey: @"lastRefreshDate"];
+    tmpValue = [self primitiveValueForKey: @"lastRefreshDate"];
+    [self didAccessValueForKey: @"lastRefreshDate"];
     
-    return tmpObject;
+    return tmpValue;
 }
 
-- (void)setInServerList:(MServerList *)value 
+- (void)setLastRefreshDate:(NSDate *)value 
 {
-    [self willChangeValueForKey: @"inServerList"];
-    [self setPrimitiveValue: value forKey: @"inServerList"];
-    [self didChangeValueForKey: @"inServerList"];
+    [self willChangeValueForKey: @"lastRefreshDate"];
+    [self setPrimitiveValue: value forKey: @"lastRefreshDate"];
+    [self didChangeValueForKey: @"lastRefreshDate"];
 }
-
 
 - (void)addPlayersObject:(MPlayer *)value 
 {    
@@ -410,17 +379,6 @@ static NSMutableDictionary *existingAddresses = nil;
 	[[self managedObjectContext] deleteObject:value];
 	
     [changedObjects release];
-}
-
-- (NSSet *)players
-{
-	id tmpObject;
-    
-    [self willAccessValueForKey: @"players"];
-    tmpObject = [self primitiveValueForKey: @"players"];
-    [self didAccessValueForKey: @"players"];
-    
-    return tmpObject;
 }
 
 - (void)addRulesObject:(MRule *)value 
@@ -451,16 +409,32 @@ static NSMutableDictionary *existingAddresses = nil;
     [changedObjects release];
 }
 
-//- (NSSet *)rules
-//{
-//	id tmpObject;
-//    
-//    [self willAccessValueForKey: @"rules"];
-//    tmpObject = [self primitiveValueForKey: @"rules"];
-//    [self didAccessValueForKey: @"rules"];
-//    
-//    return tmpObject;
-//}
+
+- (void)addInServerListsObject:(MServerList *)value 
+{    
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    
+    [self willChangeValueForKey:@"inServerLists" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    
+    [[self primitiveValueForKey: @"inServerLists"] addObject: value];
+    
+    [self didChangeValueForKey:@"inServerLists" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    
+    [changedObjects release];
+}
+
+- (void)removeInServerListsObject:(MServerList *)value 
+{
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    
+    [self willChangeValueForKey:@"inServerLists" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+    
+    [[self primitiveValueForKey: @"inServerLists"] removeObject: value];
+    
+    [self didChangeValueForKey:@"inServerLists" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+    
+    [changedObjects release];
+}
 
 
 @end

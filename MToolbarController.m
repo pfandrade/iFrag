@@ -40,12 +40,12 @@
 		[item setLabel:@"Players"];
 		[item setPaletteLabel:[item label]];
 		[item setImage:[NSImage imageNamed:@"Drawer-Right.tiff"]];
-		[item setTarget:serversController];
-		[item setAction:@selector(togglePlayersDrawer:)];
+		[item setTarget:playersDrawer];
+		[item setAction:@selector(toggle:)];
 	} else if ( [itemIdentifier isEqualToString:MReloadServerList] ) {
-		[item setLabel:@"Reload"];
+		[item setLabel:@"Update"];
 		[item setPaletteLabel:[item label]];
-		[item setImage:[NSImage imageNamed:@"Reload.tiff"]];
+		[item setImage:[NSImage imageNamed:@"Update.tiff"]];
 		[item setTarget:mainController];
 		[item setAction:@selector(reloadServerList:)];
 	} else if ( [itemIdentifier isEqualToString:MRefreshServerList] ) {

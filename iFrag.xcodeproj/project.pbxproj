@@ -174,7 +174,6 @@
 		D294F87C0BC5A5B3004C48B7 /* MServersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServersController.m; sourceTree = "<group>"; };
 		D29C6DC20BD952F900F816AD /* domain.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = domain.xcdatamodel; sourceTree = "<group>"; };
 		D2A1AE9A0C00749D003C81E9 /* Update.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Update.tiff; sourceTree = "<group>"; };
-		D2A1AEA10C0074CD003C81E9 /* Reload.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Reload.tiff; sourceTree = "<group>"; };
 		D2AD5F3B0BD41A6600C0F614 /* MActionButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MActionButtonCell.h; sourceTree = "<group>"; };
 		D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MActionButtonCell.m; sourceTree = "<group>"; };
 		D2AD5F820BD421A900C0F614 /* MActionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MActionButton.h; sourceTree = "<group>"; };
@@ -373,7 +372,6 @@
 				D278DCFE0BCBCC720099B869 /* Refresh.tiff */,
 				D2192A900B9A0196001E2708 /* Play.tiff */,
 				D2A1AE9A0C00749D003C81E9 /* Update.tiff */,
-				D2A1AEA10C0074CD003C81E9 /* Reload.tiff */,
 				D2192A740B99FFD2001E2708 /* Refresh.tiff */,
 				D27D7C2E0B4C75C90052AD60 /* Drawer-Right.tiff */,
 				D27D7C2F0B4C75C90052AD60 /* Get Info.tiff */,

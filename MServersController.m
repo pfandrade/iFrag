@@ -31,10 +31,15 @@
 
 - (IBAction)serverInfo:(id)sender
 {
-	if([infoWindow isVisible])
+	NSMenuItem *inspectorMenuItem = [[[[NSApp mainMenu] itemWithTitle:@"View"] submenu] itemWithTag:2];
+	
+	if([infoWindow isVisible]){
 		[infoWindow orderOut:self];
-	else
+		[inspectorMenuItem setTitle:@"Show Inspector"];
+	}else{
 		[infoWindow orderFront:self];
+		[inspectorMenuItem setTitle:@"Hide Inspector"];
+	}
 }
 
 #pragma mark Table View Delegate Methods

@@ -208,8 +208,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 201359889;
-			PBXWorkspaceStateSaveDate = 201359889;
+			PBXPerProjectTemplateStateSaveDate = 201363170;
+			PBXWorkspaceStateSaveDate = 201363170;
 		};
 		sourceControlManager = D24CA2350AFE38AB003C3289 /* Source Control */;
 		userBuildSettings = {
@@ -256,7 +256,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1160, 966}}";
 			sepNavSelRange = "{2445, 0}";
-			sepNavVisRect = "{{0, 536}, {936, 416}}";
+			sepNavVisRect = "{{0, 275}, {732, 691}}";
 			sepNavWindowFrame = "{{351, 12}, {771, 820}}";
 		};
 	};
@@ -782,10 +782,10 @@
 	};
 	D294F87C0BC5A5B3004C48B7 /* MServersController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {944, 742}}";
-			sepNavSelRange = "{1324, 5}";
-			sepNavVisRect = "{{0, 16}, {944, 578}}";
-			sepNavWindowFrame = "{{40, 53}, {983, 707}}";
+			sepNavIntBoundsRect = "{{0, 0}, {944, 812}}";
+			sepNavSelRange = "{991, 0}";
+			sepNavVisRect = "{{0, 98}, {944, 578}}";
+			sepNavWindowFrame = "{{93, 58}, {983, 707}}";
 		};
 	};
 	D29C6DC20BD952F900F816AD /* domain.xcdatamodel */ = {
@@ -1097,7 +1097,7 @@
 	D2FBCCC00B3B48460055AFFA /* MMainController.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {826, 3262}}";
-			sepNavSelRange = "{7450, 0}";
+			sepNavSelRange = "{7319, 96}";
 			sepNavVisRect = "{{0, 2586}, {826, 666}}";
 			sepNavWindowFrame = "{{184, 37}, {865, 795}}";
 		};

@@ -14,10 +14,10 @@
 		D20DE6C60BCD8528000E8B31 /* Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D20DE6C50BCD8528000E8B31 /* Add.tiff */; };
 		D21198890BE3A2E400416779 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E42FB307B3F0F600E4EEF1 /* CoreData.framework */; };
 		D211CADA0BD174D6004633F3 /* PreferencesWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = D211CAD90BD174D6004633F3 /* PreferencesWindow.nib */; };
+		D21314BE0C0091B50020297A /* Refresh.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D278DCFE0BCBCC720099B869 /* Refresh.tiff */; };
 		D213510B0BE794AE0035C46A /* MServerListsController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D21351090BE794AE0035C46A /* MServerListsController.h */; };
 		D213510C0BE794AE0035C46A /* MServerListsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D213510A0BE794AE0035C46A /* MServerListsController.m */; };
 		D215247A0BD16FF20046CB9E /* AddServerDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = D21524790BD16FF20046CB9E /* AddServerDialog.nib */; };
-		D2192A750B99FFD2001E2708 /* Refresh.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2192A740B99FFD2001E2708 /* Refresh.tiff */; };
 		D2192A910B9A0196001E2708 /* Play.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2192A900B9A0196001E2708 /* Play.tiff */; };
 		D21BECC90B3EDA4800FCDC80 /* MThinSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = D21BECC70B3EDA4800FCDC80 /* MThinSplitView.m */; };
 		D222764A0B9F4F9E0097E93D /* MPlayersController.m in Sources */ = {isa = PBXBuildFile; fileRef = D22276480B9F4F9E0097E93D /* MPlayersController.m */; };
@@ -44,7 +44,6 @@
 		D2714F8A0B53F4C2001504D9 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2714F890B53F4C2001504D9 /* SplitterHandle.tiff */; };
 		D27349CD0B05F9AB00C219F1 /* MQStatXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D27349CB0B05F9AB00C219F1 /* MQStatXMLParser.m */; };
 		D2780DFC0BDD401B008CF458 /* MQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D2780DFA0BDD401B008CF458 /* MQuery.m */; };
-		D278DCFF0BCBCC730099B869 /* Refresh.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D278DCFE0BCBCC720099B869 /* Refresh.tiff */; };
 		D278DD030BCBCCF60099B869 /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D278DD000BCBCCF60099B869 /* flagged_header.tiff */; };
 		D278DD040BCBCCF60099B869 /* lock.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D278DD010BCBCCF60099B869 /* lock.tiff */; };
 		D278DD050BCBCCF60099B869 /* punkbuster.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D278DD020BCBCCF60099B869 /* punkbuster.tiff */; };
@@ -512,9 +511,7 @@
 				D2714F8A0B53F4C2001504D9 /* SplitterHandle.tiff in Resources */,
 				D26E57DC0B568AE80020EC68 /* Credits.rtf in Resources */,
 				D2E052360B8CA07C00297692 /* Folder.tiff in Resources */,
-				D2192A750B99FFD2001E2708 /* Refresh.tiff in Resources */,
 				D2192A910B9A0196001E2708 /* Play.tiff in Resources */,
-				D278DCFF0BCBCC730099B869 /* Refresh.tiff in Resources */,
 				D278DD030BCBCCF60099B869 /* flagged_header.tiff in Resources */,
 				D278DD040BCBCCF60099B869 /* lock.tiff in Resources */,
 				D278DD050BCBCCF60099B869 /* punkbuster.tiff in Resources */,
@@ -524,6 +521,7 @@
 				D211CADA0BD174D6004633F3 /* PreferencesWindow.nib in Resources */,
 				D2F310720BD431D5007128B7 /* Action.tiff in Resources */,
 				D2A1AE9B0C00749D003C81E9 /* Update.tiff in Resources */,
+				D21314BE0C0091B50020297A /* Refresh.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,10 +10,9 @@
 #import "MServer.h"
 #import <unistd.h>
 
-#define DEFAULT_ARGS @"-nocfg", @"-u",@"-P",@"-R",@"-xml",@"-utf8"
-#define NDEFAULT_ARGS 6
+#define RELOAD_ARGS @"-nocfg", @"-u",@"-P",@"-R",@"-xml",@"-utf8"
+#define REFRESH_ARGS @"-nocfg",@"-P",@"-R",@"-xml",@"-utf8"
 
-#define MAXSIM 20
 
 @interface MQStatTask (Private)
 
@@ -82,8 +81,9 @@
 
 - (NSURL *)queryGameServer:(NSString *)serverAddress withServerType:(NSString *)serverType
 {
+	//use to reload a list from a master server
 	NSString *maxsim = [[NSUserDefaults standardUserDefaults] stringForKey:@"maxSimConn"];
-	NSArray *args	= [NSArray arrayWithObjects:DEFAULT_ARGS, @"-maxsim", maxsim, [NSString stringWithFormat:@"-%@",serverType], serverAddress, nil];
+	NSArray *args	= [NSArray arrayWithObjects:RELOAD_ARGS, @"-maxsim", maxsim, [NSString stringWithFormat:@"-%@",serverType], serverAddress, nil];
 	
 	NSURL *filePathURL = [self lauchWithArgs:args];
 	return filePathURL;
@@ -91,8 +91,9 @@
 
 - (NSURL *)queryGameServers:(NSArray *)serverArray
 {
+	//used to refresh an array of servers
 	NSString *maxsim = [[NSUserDefaults standardUserDefaults] stringForKey:@"maxSimConn"];
-	NSArray *args = [NSArray arrayWithObjects:DEFAULT_ARGS, @"-maxsim", maxsim, @"-f", @"-", nil];
+	NSArray *args = [NSArray arrayWithObjects:REFRESH_ARGS, @"-maxsim", maxsim, @"-f", @"-", nil];
 	
 	NSPipe *pipe = [NSPipe pipe];
 	[qstat setStandardInput:pipe];

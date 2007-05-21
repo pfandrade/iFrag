@@ -49,13 +49,12 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	IMP refreshObj_imp =[context methodForSelector:refreshObj_sel];
 	
 	while(objID = nextObj_imp(enumerator, nextObj_sel)){
-//		obj = [context objectWithID:objID];
-//		[context refreshObject:obj mergeChanges:NO];
 		obj = objWithID_imp(context, objWithID_sel, objID);
 		refreshObj_imp(context, refreshObj_sel, obj, NO);
 	}
 	[context processPendingChanges];
 	[[context undoManager] enableUndoRegistration];
+	
 }
 
 - (void)awakeFromFetch {
@@ -113,16 +112,13 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	tmpValue = [self primitiveValueForKey: @"game"];
 	[self didAccessValueForKey: @"game"];
 	if(tmpValue == nil) {
-		NSString *gameType = [self gameServerType];
-		NSString *gameClassName = [MGenericGame gameClassNameWithServerTypeString:gameType];
-		@try {
-			Class gameClass = objc_getClass([gameClassName UTF8String]);
-			tmpValue = [gameClass new];
-		}
-		@catch (NSException * e) {
-			tmpValue = [MGenericGame new];
-		}
 		[self setPrimitiveValue:tmpValue forKey:@"game"];
+		NSString *gameClassName = [MGenericGame gameClassNameWithServerTypeString:[self gameServerType]];
+		if(gameClassName != nil){
+			Class gameClass = objc_getClass([gameClassName UTF8String]);
+			tmpValue = (gameClass != nil) ? [gameClass new] : [MGenericGame new];
+		}
+		[self setPrimitiveValue:tmpValue forKey:@"game"];		
 	}
 	
     return tmpValue;
@@ -373,7 +369,7 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	unsigned int messageID = [portMessage msgid];
 	if(messageID == kQueryTerminated){
 		[self setBusyFlag:[NSNumber numberWithBool:NO]];
-		[[self managedObjectContext] refreshObject:self mergeChanges:NO];
+	//	[[self managedObjectContext] refreshObject:self mergeChanges:NO];
 		//remove port from the runLoop
 		[[NSRunLoop currentRunLoop] removePort:[portMessage receivePort] forMode:NSDefaultRunLoopMode];
 		//TODO: Por aqui um save?

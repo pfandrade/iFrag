@@ -117,7 +117,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					332,
+					315,
 					20,
 					48,
 					43,
@@ -208,8 +208,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 201363170;
-			PBXWorkspaceStateSaveDate = 201363170;
+			PBXPerProjectTemplateStateSaveDate = 201473664;
+			PBXWorkspaceStateSaveDate = 201473664;
 		};
 		sourceControlManager = D24CA2350AFE38AB003C3289 /* Source Control */;
 		userBuildSettings = {
@@ -286,9 +286,9 @@
 	};
 	D22276480B9F4F9E0097E93D /* MPlayersController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {936, 630}}";
-			sepNavSelRange = "{249, 10}";
-			sepNavVisRect = "{{0, 0}, {936, 416}}";
+			sepNavIntBoundsRect = "{{0, 0}, {946, 826}}";
+			sepNavSelRange = "{1843, 0}";
+			sepNavVisRect = "{{0, 148}, {946, 678}}";
 			sepNavWindowFrame = "{{187, 25}, {985, 807}}";
 		};
 	};
@@ -354,9 +354,9 @@
 	};
 	D248AFB40BBE72C30040B90B /* MOutlineCell.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1041, 2212}}";
-			sepNavSelRange = "{1157, 0}";
-			sepNavVisRect = "{{0, 1309}, {1041, 383}}";
+			sepNavIntBoundsRect = "{{0, 0}, {944, 2212}}";
+			sepNavSelRange = "{1303, 0}";
+			sepNavVisRect = "{{0, 147}, {944, 578}}";
 			sepNavWindowFrame = "{{164, 72}, {983, 707}}";
 		};
 	};
@@ -486,8 +486,8 @@
 	};
 	D24CA2400AFE39AA003C3289 /* MQStatTask.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {942, 1820}}";
-			sepNavSelRange = "{298, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {942, 1834}}";
+			sepNavSelRange = "{334, 0}";
 			sepNavVisRect = "{{0, 0}, {942, 656}}";
 			sepNavWindowFrame = "{{226, 22}, {981, 785}}";
 		};
@@ -645,10 +645,10 @@
 	};
 	D27349CB0B05F9AB00C219F1 /* MQStatXMLParser.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {942, 5838}}";
-			sepNavSelRange = "{2928, 0}";
-			sepNavVisRect = "{{0, 1354}, {942, 656}}";
-			sepNavWindowFrame = "{{230, 9}, {981, 785}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1041, 5838}}";
+			sepNavSelRange = "{11689, 0}";
+			sepNavVisRect = "{{0, 5538}, {1041, 250}}";
+			sepNavWindowFrame = "{{194, 35}, {981, 785}}";
 		};
 	};
 	D2780DF90BDD401B008CF458 /* MQuery.h */ = {
@@ -661,9 +661,9 @@
 	};
 	D2780DFA0BDD401B008CF458 /* MQuery.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1057, 1988}}";
-			sepNavSelRange = "{1716, 0}";
-			sepNavVisRect = "{{0, 755}, {1057, 596}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1041, 1988}}";
+			sepNavSelRange = "{3737, 17}";
+			sepNavVisRect = "{{0, 1647}, {1041, 250}}";
 			sepNavWindowFrame = "{{132, 33}, {1096, 725}}";
 		};
 	};
@@ -766,9 +766,9 @@
 	};
 	D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1057, 1372}}";
-			sepNavSelRange = "{768, 0}";
-			sepNavVisRect = "{{0, 159}, {1057, 527}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1041, 1372}}";
+			sepNavSelRange = "{1621, 0}";
+			sepNavVisRect = "{{0, 820}, {1041, 250}}";
 			sepNavWindowFrame = "{{144, 66}, {1096, 656}}";
 		};
 	};
@@ -782,10 +782,10 @@
 	};
 	D294F87C0BC5A5B3004C48B7 /* MServersController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {944, 812}}";
-			sepNavSelRange = "{991, 0}";
-			sepNavVisRect = "{{0, 98}, {944, 578}}";
-			sepNavWindowFrame = "{{93, 58}, {983, 707}}";
+			sepNavIntBoundsRect = "{{0, 0}, {944, 1008}}";
+			sepNavSelRange = "{1265, 925}";
+			sepNavVisRect = "{{0, 430}, {944, 578}}";
+			sepNavWindowFrame = "{{311, 49}, {983, 707}}";
 		};
 	};
 	D29C6DC20BD952F900F816AD /* domain.xcdatamodel */ = {
@@ -1001,9 +1001,9 @@
 	D2BF91250B03A383004BCD69 /* MServer.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {982, 6174}}";
-			sepNavSelRange = "{9509, 0}";
-			sepNavVisRect = "{{0, 4615}, {982, 500}}";
-			sepNavWindowFrame = "{{145, 139}, {1021, 629}}";
+			sepNavSelRange = "{2983, 40}";
+			sepNavVisRect = "{{0, 1178}, {982, 500}}";
+			sepNavWindowFrame = "{{153, 143}, {1021, 629}}";
 		};
 	};
 	D2BF915F0B03B78A004BCD69 /* MPlayer.h */ = {
@@ -1040,10 +1040,10 @@
 	};
 	D2F0ADAE0B06698A00037C58 /* MServerList.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {699, 5390}}";
-			sepNavSelRange = "{1938, 0}";
-			sepNavVisRect = "{{0, 507}, {699, 681}}";
-			sepNavWindowFrame = "{{360, 22}, {738, 810}}";
+			sepNavIntBoundsRect = "{{0, 0}, {699, 5334}}";
+			sepNavSelRange = "{10383, 0}";
+			sepNavVisRect = "{{0, 4653}, {699, 681}}";
+			sepNavWindowFrame = "{{369, 22}, {738, 810}}";
 		};
 	};
 	D2F2894C0BDA632900FF3AD4 /* MRule.h */ = {

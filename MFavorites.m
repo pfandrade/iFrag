@@ -37,7 +37,8 @@ NSString *const _defaultGameType	= @"basefav";
 	self = [super initWithGameName:[NSString stringWithString:_gameName]
 												andBundlePath:@"!Favorites doesn't have a bundlePath!" ];
 	if (self != nil) {
-		icon = [[NSImage imageNamed:@"Folder"] retain];
+		icon = [[NSImage imageNamed:@"Favorites"] retain];
+		[icon setSize:NSMakeSize(32,32)];
 		bundleIdentifier = _bundleIdentifier;
 	}
 	return self;

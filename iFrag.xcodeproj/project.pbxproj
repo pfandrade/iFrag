@@ -28,6 +28,7 @@
 		D240CFA90B19059B00651B0B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		D248AFB60BBE72C30040B90B /* MOutlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D248AFB40BBE72C30040B90B /* MOutlineCell.m */; };
 		D24CA2410AFE39AA003C3289 /* MQStatTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D24CA2400AFE39AA003C3289 /* MQStatTask.m */; };
+		D25754E70C023EBA0075A130 /* Favorites.icns in Resources */ = {isa = PBXBuildFile; fileRef = D25754E60C023EBA0075A130 /* Favorites.icns */; };
 		D2594C5C0BB99C7C00968D46 /* AMButtonBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D2594C4A0BB99C7C00968D46 /* AMButtonBar.m */; };
 		D2594C5E0BB99C7C00968D46 /* AMButtonBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2594C4C0BB99C7C00968D46 /* AMButtonBarCell.m */; };
 		D2594C600BB99C7C00968D46 /* AMButtonBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D2594C4E0BB99C7C00968D46 /* AMButtonBarItem.m */; };
@@ -121,6 +122,7 @@
 		D248AFB40BBE72C30040B90B /* MOutlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutlineCell.m; sourceTree = "<group>"; };
 		D24CA23F0AFE39A9003C3289 /* MQStatTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQStatTask.h; sourceTree = "<group>"; };
 		D24CA2400AFE39AA003C3289 /* MQStatTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MQStatTask.m; sourceTree = "<group>"; };
+		D25754E60C023EBA0075A130 /* Favorites.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Favorites.icns; sourceTree = "<group>"; };
 		D2594C490BB99C7C00968D46 /* AMButtonBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMButtonBar.h; sourceTree = "<group>"; };
 		D2594C4A0BB99C7C00968D46 /* AMButtonBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMButtonBar.m; sourceTree = "<group>"; };
 		D2594C4B0BB99C7C00968D46 /* AMButtonBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMButtonBarCell.h; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				D2192A740B99FFD2001E2708 /* Refresh.tiff */,
 				D27D7C2E0B4C75C90052AD60 /* Drawer-Right.tiff */,
 				D27D7C2F0B4C75C90052AD60 /* Get Info.tiff */,
+				D25754E60C023EBA0075A130 /* Favorites.icns */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				D2F310720BD431D5007128B7 /* Action.tiff in Resources */,
 				D2A1AE9B0C00749D003C81E9 /* Update.tiff in Resources */,
 				D21314BE0C0091B50020297A /* Refresh.tiff in Resources */,
+				D25754E70C023EBA0075A130 /* Favorites.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

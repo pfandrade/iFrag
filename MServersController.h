@@ -10,12 +10,7 @@
 
 
 @interface MServersController : NSArrayController {
-	IBOutlet id infoWindow;
 	IBOutlet id serversTableView;
 }
-
-#pragma mark Actions
-
-- (IBAction)serverInfo:(id)sender;
 
 @end

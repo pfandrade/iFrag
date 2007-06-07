@@ -6,7 +6,12 @@
             OUTLETS = {delegate = id; }; 
             SUPERCLASS = NSView; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {toggleInspector = id; togglePlayers = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = KBGradientOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {
             CLASS = LRFilterBar; 
@@ -24,7 +29,7 @@
                 address = NSTextField; 
                 image = NSImageView; 
                 kind = NSPopUpButton; 
-                mainController = id; 
+                serverListsTreeController = id; 
                 subTitle = NSTextField; 
                 title = NSTextField; 
             }; 
@@ -42,15 +47,15 @@
                 reloadServerList = id; 
                 removeServers = id; 
                 showPreferences = id; 
+                toggleInspector = id; 
+                togglePlayers = id; 
             }; 
             CLASS = MMainController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                addServerWindowController = NSWindowController; 
                 filterBar = AMButtonBar; 
                 gamesOutlineView = id; 
                 mainWindow = NSWindow; 
-                preferencesWindow = NSWindow; 
                 rightSplitView = MInnerSplitView; 
                 serverListsController = id; 
                 serverTreeController = id; 
@@ -71,10 +76,9 @@
             SUPERCLASS = NSArrayController; 
         }, 
         {
-            ACTIONS = {serverInfo = id; }; 
             CLASS = MServersController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {infoWindow = id; serversTableView = id; }; 
+            OUTLETS = {serversTableView = id; }; 
             SUPERCLASS = NSArrayController; 
         }, 
         {
@@ -92,7 +96,7 @@
         {
             CLASS = MToolbarController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {mainController = id; playersDrawer = id; serversController = id; }; 
+            OUTLETS = {mainController = id; serversController = id; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 

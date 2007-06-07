@@ -10,13 +10,21 @@
 #import "MThinSplitView.h"
 #import "MInnerSplitView.h"
 #import "AMButtonBar.h"
+#import "MInspectorWindowController.h"
+#import "MDrawerController.h"
+#import "MAddServerController.h"
+
 
 @interface MMainController : NSObject
 {
 	// Windows
     IBOutlet NSWindow *mainWindow;
-	IBOutlet NSWindow *preferencesWindow;
-	IBOutlet NSWindowController *addServerWindowController;
+	
+	// Window Controllers
+	NSWindowController *preferencesWindowController;
+	MInspectorWindowController *inspectorWindowController;
+	MDrawerController *playersDrawerController;
+	MAddServerController *addServerWindowController;
 	
 	// Views
 	IBOutlet id gamesOutlineView;
@@ -39,6 +47,8 @@
 
 #pragma mark Actions
 - (IBAction)showPreferences:(id)sender;
+- (IBAction)toggleInspector:(id)sender;
+- (IBAction)togglePlayers:(id)sender;
 
 - (IBAction)reloadServerList:(id)sender;
 - (IBAction)playGame:(id)sender;

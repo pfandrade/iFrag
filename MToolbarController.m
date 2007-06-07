@@ -34,14 +34,14 @@
 		[item setLabel:@"Inspector"];
 		[item setPaletteLabel:[item label]];
 		[item setImage:[NSImage imageNamed:@"Get Info.tiff"]];
-		[item setTarget:serversController];
-		[item setAction:@selector(serverInfo:)];
+		[item setTarget:mainController];
+		[item setAction:@selector(toggleInspector:)];
     } else if ( [itemIdentifier isEqualToString:MPlayersDrawerIdentifier] ) {
 		[item setLabel:@"Players"];
 		[item setPaletteLabel:[item label]];
 		[item setImage:[NSImage imageNamed:@"Drawer-Right.tiff"]];
-		[item setTarget:playersDrawer];
-		[item setAction:@selector(toggle:)];
+		[item setTarget:mainController];
+		[item setAction:@selector(togglePlayers:)];
 	} else if ( [itemIdentifier isEqualToString:MReloadServerList] ) {
 		[item setLabel:@"Update"];
 		[item setPaletteLabel:[item label]];

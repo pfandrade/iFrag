@@ -71,8 +71,26 @@
 	}
 }
 
-#pragma mark Accessor Methods
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	if ([menuItem action] == @selector(toggleInspector:)){
+		if(![[inspectorWindowController window] isVisible])
+			[menuItem setTitle:@"Show Inspector"];
+		else
+			[menuItem setTitle:@"Hide Inspector"];
+	}
+	
+	if ([menuItem action] == @selector(togglePlayers:)){
+		if(!([[playersDrawerController drawer] state] == NSDrawerOpenState))
+			[menuItem setTitle:@"Show Players"];
+		else
+			[menuItem setTitle:@"Hide Players"];
+	}
+	
+	return YES;
+}
 
+#pragma mark Accessor Methods
 - (id)mainSplitView
 {
 	return [[splitView retain] autorelease];
@@ -88,18 +106,42 @@
 
 - (IBAction)showPreferences:(id)sender
 {
-	if (preferencesWindow == nil) { 
-		if (![NSBundle loadNibNamed:@"PreferencesWindow.nib" owner:self] ) { 
-			NSLog(@"Load of PreferencesWindow.nib failed"); 
-			return;
-		}
+	if (preferencesWindowController == nil) { 
+		preferencesWindowController = [[NSWindowController alloc] initWithWindowNibName:@"PreferencesWindow"];
 	}
-	[preferencesWindow makeKeyAndOrderFront:nil];
+	[[preferencesWindowController window] makeKeyAndOrderFront:nil];
+}
+
+- (IBAction)toggleInspector:(id)sender
+{
+	if (inspectorWindowController == nil) { 
+		inspectorWindowController = [[MInspectorWindowController alloc] initWithWindowNibName:@"InspectorWindow"];
+		[inspectorWindowController setServersArrayController:serversController];
+	}
+	
+	NSWindow *inspectorWindow = [inspectorWindowController window];
+	
+	if([inspectorWindow isVisible]){
+		[inspectorWindow orderOut:self];
+	}else{
+		[inspectorWindow orderFront:self];
+	}	
+}
+
+- (IBAction)togglePlayers:(id)sender
+{
+	if (playersDrawerController == nil) { 
+		playersDrawerController = [[MDrawerController alloc] initWithDrawerNibName:@"PlayersDrawer"];
+		[[playersDrawerController drawer] setParentWindow:mainWindow];
+		[playersDrawerController setServersArrayController:serversController];
+	}
+	
+	[[playersDrawerController drawer] toggle:sender];
 }
 
 - (IBAction)playGame:(id)sender
 {
-	//TODO: isto aqui em cima é para tirar e substituir por uma notification
+	//TODO:
 }
 
 - (IBAction)addToFavorites:(id)sender
@@ -123,11 +165,16 @@
 
 - (IBAction)addServer:(id)sender
 {
-//	[NSApp beginSheet:[addServerWindowController window]
-//	   modalForWindow:mainWindow
-//		modalDelegate:nil 
-//	   didEndSelector:nil 
-//		  contextInfo:nil];
+	if (addServerWindowController == nil) { 
+		addServerWindowController = [[MAddServerController alloc] initWithWindowNibName:@"AddServerDialog"];
+		[addServerWindowController setServerListsTreeController:serverTreeController];
+	}
+	
+	[NSApp beginSheet:[addServerWindowController window]
+	   modalForWindow:mainWindow
+		modalDelegate:nil 
+	   didEndSelector:nil 
+		  contextInfo:nil];
 	
 }
 
@@ -213,20 +260,6 @@
 //	[mainWindow displayIfNeeded];
 	
 	//TODO por aqui um refreshObjects:mergeChanges:NO !
-}
-
-#pragma mark Ouline View Delegate Methods
-
-- (void)drawerDidClose:(NSNotification *)notification
-{
-	NSMenuItem *drawerMenuItem = [[[[NSApp mainMenu] itemWithTitle:@"View"] submenu] itemWithTag:1];
-	[drawerMenuItem setTitle:@"Show Players"];
-}
-
-- (void)drawerDidOpen:(NSNotification *)notification
-{
-	NSMenuItem *drawerMenuItem = [[[[NSApp mainMenu] itemWithTitle:@"View"] submenu] itemWithTag:1];
-	[drawerMenuItem setTitle:@"Hide Players"];
 }
 
 @end

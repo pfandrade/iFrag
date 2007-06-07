@@ -9,12 +9,16 @@
     IBOutlet NSTextField *address;
     IBOutlet NSImageView *image;
     IBOutlet NSPopUpButton *kind;
-    IBOutlet id mainController;
     IBOutlet NSTextField *subTitle;
     IBOutlet NSTextField *title;
-	
+
+	NSTreeController *serverListsTreeController;
 	MServerList *serverList;
 }
+
+- (id)serverListsTreeController;
+- (void)setServerListsTreeController:(id)value;
+
 - (IBAction)add:(id)sender;
 - (IBAction)cancel:(id)sender;
 

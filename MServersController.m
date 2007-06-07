@@ -27,21 +27,6 @@
 											   object:nil];
 }
 
-#pragma mark Actions
-
-- (IBAction)serverInfo:(id)sender
-{
-	NSMenuItem *inspectorMenuItem = [[[[NSApp mainMenu] itemWithTitle:@"View"] submenu] itemWithTag:2];
-	
-	if([infoWindow isVisible]){
-		[infoWindow orderOut:self];
-		[inspectorMenuItem setTitle:@"Show Inspector"];
-	}else{
-		[infoWindow orderFront:self];
-		[inspectorMenuItem setTitle:@"Hide Inspector"];
-	}
-}
-
 #pragma mark Table View Delegate Methods
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex

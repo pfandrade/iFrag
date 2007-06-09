@@ -48,6 +48,7 @@
 - (NSString *)masterServerFlag;
 - (NSString *)masterServerAddress;
 - (NSString *)defaultGameType;
+- (NSString *)defaultServerPort;
 
 - (NSComparisonResult)compare:(MGenericGame *)game;
 @end
@@ -62,5 +63,5 @@
 + (NSString *)masterServerFlag;
 + (NSString *)masterServerAddress;
 + (NSString *)defaultGameType;
-
++ (NSString *)defaultServerPort;
 @end

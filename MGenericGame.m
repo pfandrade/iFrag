@@ -186,6 +186,11 @@ static NSDictionary *_gwsts;
 	return [[self class] defaultGameType];
 }
 
+- (NSString *)defaultServerPort
+{
+	return [[self class] defaultServerPort];
+}
+
 - (NSComparisonResult)compare:(MGenericGame *)game
 {
 	if([[self name] isEqual:@"Favorites"])

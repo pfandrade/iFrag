@@ -13,9 +13,9 @@ static NSString *const _bundleIdentifier	= @"com.idsoftware.Quake3";
 static NSString *const _serverTypeString	= @"q3s";
 static NSString *const _masterServerFlag	= @"q3m";
 static NSString *const _masterServerAddress = @"master3.idsoftware.com";
-static NSString *const _defaultGameType = @"baseq3";
+static NSString *const _defaultGameType		= @"baseq3";
+static NSString *const _defaultServerPort	= @"27960";
 
-static NSArray *colors;
 
 @implementation MQuake3
 
@@ -28,7 +28,8 @@ static NSArray *colors;
 }
 
 + (NSAttributedString *)processName:(NSString *)name {
-
+	static NSArray *colors;
+	
 	if(colors == nil){
 		colors = [[NSArray arrayWithObjects:[NSColor blackColor],[NSColor redColor],[NSColor greenColor],[NSColor yellowColor],
 											[NSColor blueColor],[NSColor colorWithCalibratedRed:0.18 green:1.0 blue:1.0 alpha:1.0],
@@ -113,6 +114,11 @@ static NSArray *colors;
 + (NSString *)defaultGameType
 {
 	return _defaultGameType;
+}
+
++ (NSString *)defaultServerPort
+{
+	return _defaultServerPort;
 }
 
 @end

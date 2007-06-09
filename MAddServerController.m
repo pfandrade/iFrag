@@ -3,7 +3,68 @@
 #import "MServer.h"
 #import "MGenericGame.h"
 
+#include <netdb.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+@interface MAddServerController (Private)
+
+- (NSString *)validateIPAddress:(NSString *)address;
+- (NSString *)validatePort:(NSString *)port;
+
+@end
+
 @implementation MAddServerController
+
+- (NSString *)validateIPAddress:(NSString *)inAddress
+{
+	
+	//verificar que a string nao sao apenas inteiros
+	// a funcao getHostByName funciona bem quando a string 
+	//de entrada sao apenas inteiros, mas o que que quero 
+	//e' q de um erro!
+	int i, dots;
+	for(i=0, dots=0; i<[inAddress length]; i++){
+		if([inAddress characterAtIndex:i] == '.'){
+			dots++;
+			continue;
+		}
+		if(!isdigit([inAddress characterAtIndex:i])){
+			break;
+		}
+	}
+	//ser era tudo inteiro e não tinha 3 pontos, dar erro
+	if(i == [inAddress length] && dots != 3){
+		return nil;
+	}
+	
+	struct hostent *h;
+	char hostname[100];
+	[inAddress getCString:hostname maxLength:100 encoding:NSASCIIStringEncoding];
+	
+	if ((h=gethostbyname(hostname)) == NULL) {
+		return nil;
+	}
+	char *convertedAddress = inet_ntoa(*((struct in_addr *)h->h_addr));
+	NSString *ret = [NSString stringWithUTF8String:convertedAddress];
+	
+	return ret;
+}
+
+- (NSString *)validatePort:(NSString *)port;
+{
+	int i;
+	for(i=0; i<[port length]; i++){
+		if(!isdigit([port characterAtIndex:i])){
+			break;
+		}
+	}
+	//ser era tudo inteiro, dar erro
+	if(i == [port length]){
+		return nil;
+	}
+	return port;
+}
 
 - (id)serverListsTreeController {
     return [[serverListsTreeController retain] autorelease];
@@ -16,20 +77,37 @@
     }
 }
 
+- (NSArrayController *)serversController {
+    return [[serversController retain] autorelease];
+}
+
+- (void)setServersController:(NSArrayController *)value {
+    if (serversController != value) {
+        [serversController release];
+        serversController = [value retain];
+    }
+}
+
 
 #pragma mark Actions
 
 - (IBAction)add:(id)sender
 {
-	NSString *serverAddress = [address stringValue];
-	//TODO: VALIDAR O ENDEREÇO
-	//Usar um NSFormatter?
-	
-	NSString *serverKind = [[kind selectedItem] title];
-	if([serverKind isEqualToString:@"-"]){
-		//TODO:Alert com erro?
-		return;
+	static NSAlert *alert = nil;
+	if(alert == nil){
+		alert = [NSAlert alertWithMessageText:@"The address you entered is not valid."
+								defaultButton:@"OK" 
+							  alternateButton:nil
+								  otherButton:nil 
+					informativeTextWithFormat:@"The address must be an ip address or a resolvable hostname, with an optional port number."];
+		[alert retain];
+		//TODO: por o showsHelp activo!!
 	}
+	
+	NSArray *addressComponents = [[address stringValue] componentsSeparatedByString:@":"];
+
+		
+	NSString *serverKind = [[kind selectedItem] title];
 	NSEnumerator *listEnum = [[serverListsTreeController content] objectEnumerator];
 	
 	//vamos procurar o jogo escolhido
@@ -41,11 +119,50 @@
 	//para retirarmos o server Type
 	NSString *st = [[list game] serverTypeString];
 	
+	//vamos verificar o porto
+	NSString *ipAddress;
+	NSString *port;
+	switch([addressComponents count]){
+		//No port specified
+		case 1:
+			if((ipAddress = [self validateIPAddress:[addressComponents objectAtIndex:0]]) == nil){
+				[alert beginSheetModalForWindow:[self window] 
+								  modalDelegate:nil
+								 didEndSelector:nil
+									contextInfo:nil];
+				return;
+			}			
+			port = [[list game] defaultServerPort];
+			break;
+		case 2:
+			if((ipAddress = [self validateIPAddress:[addressComponents objectAtIndex:0]]) == nil){
+				[alert beginSheetModalForWindow:[self window] 
+								  modalDelegate:nil
+								 didEndSelector:nil
+									contextInfo:nil];
+				return;
+			}
+			if((port = [self validatePort:[addressComponents objectAtIndex:1]]) == nil){
+				[alert beginSheetModalForWindow:[self window] 
+								  modalDelegate:nil
+								 didEndSelector:nil
+									contextInfo:nil];
+				return;
+			}
+			break;
+		default:
+			[alert runModal];
+			return;
+	}
+	
+	//juntar o ip e o porto!
+	NSString *serverAddress = [NSString stringWithFormat:@"%@:%@",ipAddress,port];
+	
 	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
 	MServer *server = [MServer createServerWithAddress:serverAddress
 											 inContext:context];
 	
-	// se o servidor já existir e nao tiver for do mesmo jogo, dar erro
+	// se o servidor já existir e nao for do mesmo jogo, dar erro
 	if([server serverType] != nil && ![[server serverType] isEqualToString:st]){
 		//TODO: That server already exists and is of a different kind (dizer qual é o tipo)
 		//choose another server or delete the existing one before continuing
@@ -53,17 +170,10 @@
 	}
 	[server setServerType:st];
 	
-	//TODO: Mudar isto!
-	/* Por uma vi para o serversController
-	 * usar esse para fazer um add do servidor
-	 * PENSAR EM COMO CHEGAR A SERVERLIST REAL
-	 * tirar a vi para treeController e usar a outra para 
-	 * serverListsController
-	*/
-	[serverList performSelector:@selector(addServersObject:) withObject:server];
-	[context save:nil];
-	
+	[serversController addObject:server];
 	[serverList performSelector:@selector(refreshServers:) withObject:[NSArray arrayWithObject:server]];
+	
+	[context save:nil];
 	[self close];
 	
 }
@@ -73,19 +183,26 @@
 	[self  close];
 }
 
-- (NSWindow *)window
+- (void)runModalSheetForWindow:(NSWindow *)window
 {
-	NSWindow *w = [super window];
+	//force window to load
+	[self window];
 	[self setupWindow];
-	return w;
+	[NSApp beginSheet:[self window]
+	   modalForWindow:window
+		modalDelegate:nil 
+	   didEndSelector:nil 
+		  contextInfo:nil];
 }
 
 - (void)setupWindow
 {
-	serverList = [serverListsTreeController selection];
+	serverList = [[serverListsTreeController selectedObjects] objectAtIndex:0];
 	
 	//title, subtitle and popup
 	[kind removeAllItems];
+	[address setStringValue:@""];
+	
 	NSString *listName = [serverList valueForKey:@"name"];
 	if([listName isEqualToString:@"Favorites"]){
 		[title setStringValue:@"Please enter the address and kind of the server to add."];
@@ -100,11 +217,13 @@
 		[kind addItemWithTitle:@"-"];
 		[kind selectItemWithTitle:@"-"];
 		[kind setEnabled:YES];
+		[addButton setEnabled:NO];
 	}else{
 		[title setStringValue:@"Please enter the address of the server to add."];
 		[kind addItemWithTitle:[serverList valueForKey:@"name"]];
 		[kind selectItemWithTitle:[serverList valueForKey:@"name"]];
 		[kind setEnabled:NO];
+		[addButton setEnabled:YES];
 	}
 	
 	[subTitle setStringValue:[NSString stringWithFormat:@"This will add the server to your %@ list.", listName]];
@@ -131,4 +250,14 @@
 	[image unlockFocus];
 	[slIcon autorelease];
 }
+
+#pragma mark Actions
+-(IBAction)popUpMenuSelectionDidChange:(id)sender
+{
+	if([[[kind selectedItem] title] isEqualToString:@"-"])
+		[addButton setEnabled:NO];
+	else
+		[addButton setEnabled:YES];
+}
+
 @end

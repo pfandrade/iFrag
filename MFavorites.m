@@ -9,12 +9,13 @@
 #import "MFavorites.h"
 #import "MServer.h"
 
-NSString *const _gameName			= @"Favorites";
-NSString *const _bundleIdentifier	= @"com.maracujasoftware.Favorites";
-NSString *const _serverTypeString	= @"fav";
-NSString *const _masterServerFlag	= @"fav";
-NSString *const _masterServerAddress = @"Favorites.ifrag.com";
-NSString *const _defaultGameType	= @"basefav";
+static NSString *const _gameName			= @"Favorites";
+static NSString *const _bundleIdentifier	= @"com.maracujasoftware.Favorites";
+static NSString *const _serverTypeString	= @"fav";
+static NSString *const _masterServerFlag	= @"fav";
+static NSString *const _masterServerAddress = @"Favorites.ifrag.com";
+static NSString *const _defaultGameType		= @"basefav";
+static NSString *const _defaultServerPort	= @"55555";
 
 @implementation MFavorites
 
@@ -60,4 +61,10 @@ NSString *const _defaultGameType	= @"basefav";
 + (NSString *)defaultGameType{
 	return _defaultGameType;
 }
+
++ (NSString *)defaultServerPort
+{
+	return _defaultServerPort;
+}
+
 @end

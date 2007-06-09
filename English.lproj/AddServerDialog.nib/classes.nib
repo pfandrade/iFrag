@@ -7,7 +7,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {add = id; cancel = id; }; 
+            ACTIONS = {add = id; cancel = id; popUpMenuSelectionDidChange = id; }; 
             CLASS = MAddServerController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

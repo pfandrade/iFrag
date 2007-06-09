@@ -168,14 +168,10 @@
 	if (addServerWindowController == nil) { 
 		addServerWindowController = [[MAddServerController alloc] initWithWindowNibName:@"AddServerDialog"];
 		[addServerWindowController setServerListsTreeController:serverTreeController];
+		[addServerWindowController setServersController:serversController];
 	}
 	
-	[NSApp beginSheet:[addServerWindowController window]
-	   modalForWindow:mainWindow
-		modalDelegate:nil 
-	   didEndSelector:nil 
-		  contextInfo:nil];
-	
+	[addServerWindowController runModalSheetForWindow:mainWindow];	
 }
 
 - (IBAction)removeServers:(id)sender

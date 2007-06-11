@@ -175,12 +175,12 @@
 }
 
 - (IBAction)removeServers:(id)sender
-{
-//	NSArray *selServers = [serversDataSource selectedObjects];
-//	if([selServers count] <= 0)
-//		return;
-//	
-//	[currentServerList removeServers:[NSSet setWithArray:selServers]];
+{	
+	[serversController removeObjects:[serversController selectedObjects]];
+	NSError *error = nil;
+	[[[NSApp delegate] managedObjectContext] save:&error];
+	if(error != nil)
+		NSLog(@"Error deleting selected servers: %@", error);
 }
 
 - (IBAction)refreshSelectedServers:(id)sender

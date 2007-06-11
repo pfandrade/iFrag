@@ -123,7 +123,7 @@ didStartElement:(NSString *)elementName
 			[currentServer setMaxplayers:[NSNumber numberWithInt:-1]];
 		}
 		[currentServer setServerType:[attributeDict objectForKey:@"type"]];
-		[currentServer setAddress:[attributeDict objectForKey:@"address"]];
+		//[currentServer setAddress:[attributeDict objectForKey:@"address"]]; /*createServerWithAddress:inContext: already does this*/
         return;
     }
 	

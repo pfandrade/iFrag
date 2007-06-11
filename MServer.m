@@ -69,6 +69,7 @@ static NSMutableDictionary *existingAddresses = nil;
 	if(serverID == nil){
 		server = [NSEntityDescription insertNewObjectForEntityForName:@"Server"
 											   inManagedObjectContext:context];
+		[server setAddress:address];
 	}else{
 		server = (MServer *)[context objectWithID:serverID];
 	}
@@ -84,7 +85,7 @@ static NSMutableDictionary *existingAddresses = nil;
 		[MServer initExistingAddresses];
 	
 	if([self isDeleted]){
-		[existingAddresses removeObjectForKey:[self primitiveValueForKey:@"addres"]];
+		[existingAddresses removeObjectForKey:[self primitiveValueForKey:@"address"]];
 		[existingAddressesLock unlock];
 		return;
 	}

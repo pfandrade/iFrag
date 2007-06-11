@@ -60,7 +60,7 @@
 		}
 	}
 	//ser era tudo inteiro, dar erro
-	if(i == [port length]){
+	if(i != [port length]){
 		return nil;
 	}
 	return port;
@@ -119,7 +119,6 @@
 	//para retirarmos o server Type
 	NSString *st = [[list game] serverTypeString];
 	
-	//vamos verificar o porto
 	NSString *ipAddress;
 	NSString *port;
 	switch([addressComponents count]){
@@ -164,16 +163,29 @@
 	
 	// se o servidor já existir e nao for do mesmo jogo, dar erro
 	if([server serverType] != nil && ![[server serverType] isEqualToString:st]){
-		//TODO: That server already exists and is of a different kind (dizer qual é o tipo)
-		//choose another server or delete the existing one before continuing
-		return;
+		NSAlert *warning = [NSAlert alertWithMessageText:@"Warning" 
+										   defaultButton:@"Overwrite"
+										 alternateButton:@"Cancel"
+											 otherButton:nil
+							   informativeTextWithFormat:@"The server you are trying to add already exists and is of a different kind.\n\
+	Do you wish to overwrite the existing server?"];
+		switch([warning runModal]){
+			case NSAlertDefaultReturn: 
+				break;
+			case NSAlertAlternateReturn:
+				return;
+			default:
+				return;
+		}
 	}
 	[server setServerType:st];
 	
 	[serversController addObject:server];
 	[serverList performSelector:@selector(refreshServers:) withObject:[NSArray arrayWithObject:server]];
-	
-	[context save:nil];
+	NSError *error = nil;
+	[context save:&error];
+	if(error != nil)
+		NSLog(@"Error saving new server: %@", error);
 	[self close];
 	
 }

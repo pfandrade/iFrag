@@ -7,7 +7,17 @@
             SUPERCLASS = NSView; 
         }, 
         {
-            ACTIONS = {toggleInspector = id; togglePlayers = id; }; 
+            ACTIONS = {
+                addServer = id; 
+                addToFavorites = id; 
+                playGame = id; 
+                refreshSelectedServers = id; 
+                refreshServerList = id; 
+                reloadServerList = id; 
+                removeServers = id; 
+                toggleInspector = id; 
+                togglePlayers = id; 
+            }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 

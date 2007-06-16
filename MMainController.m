@@ -176,9 +176,18 @@
 
 - (IBAction)removeServers:(id)sender
 {	
-	[serversController removeObjects:[serversController selectedObjects]];
+	NSArray *selectedServers = [serversController selectedObjects];
+	[serversController removeObjects:selectedServers];
+	NSEnumerator *serverEnum = [selectedServers objectEnumerator];
+	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+	MServer *server;
+	while(server = [serverEnum nextObject]){
+		//server no longer is contained in any serverlist
+		if([[server valueForKey:@"inServerLists"] count] == 0)
+			[context deleteObject:(NSManagedObject *)server];
+	}
 	NSError *error = nil;
-	[[[NSApp delegate] managedObjectContext] save:&error];
+	[context save:&error];
 	if(error != nil)
 		NSLog(@"Error deleting selected servers: %@", error);
 }
@@ -211,6 +220,10 @@
 - (void)windowWillClose:(NSNotification *)aNotification
 {
 	[splitView storeLayoutWithName:THINSPLITVIEW_SAVE_NAME];
+}
+
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
+    return [[NSApp delegate] windowWillReturnUndoManager:window];
 }
 
 #pragma mark NSApp notification handlers

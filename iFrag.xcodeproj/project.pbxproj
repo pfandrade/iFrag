@@ -24,7 +24,6 @@
 		D23289F50BBB12710095E5E2 /* NSBezierPath_AMShading.m in Sources */ = {isa = PBXBuildFile; fileRef = D23289F30BBB12710095E5E2 /* NSBezierPath_AMShading.m */; };
 		D23289FD0BBB14080095E5E2 /* CToxicProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = D23289FB0BBB14080095E5E2 /* CToxicProgressIndicator.m */; };
 		D23884680B9327EC003DA6C7 /* KBGradientOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = D23884660B9327EC003DA6C7 /* KBGradientOutlineView.m */; };
-		D23FBFDB0C172FBD008F9266 /* PlayersDrawer.nib in Resources */ = {isa = PBXBuildFile; fileRef = D23FBFDA0C172FBD008F9266 /* PlayersDrawer.nib */; };
 		D23FBFE80C173452008F9266 /* MDrawerController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D23FBFE60C173452008F9266 /* MDrawerController.h */; };
 		D23FBFE90C173452008F9266 /* MDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = D23FBFE70C173452008F9266 /* MDrawerController.m */; };
 		D240CFA50B1903CE00651B0B /* qstat in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2FF2C440AFFAA870014B41D /* qstat */; };
@@ -63,6 +62,7 @@
 		D28923880B6CD4F500AD2D6D /* MQuake3.m in Sources */ = {isa = PBXBuildFile; fileRef = D28923860B6CD4F500AD2D6D /* MQuake3.m */; };
 		D289238C0B6CD50900AD2D6D /* MFavorites.m in Sources */ = {isa = PBXBuildFile; fileRef = D289238A0B6CD50900AD2D6D /* MFavorites.m */; };
 		D289AFEB0BBFC94A0000BA5E /* MProgressDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */; };
+		D28BE9160C2431680030B303 /* PlayersDrawer.nib in Resources */ = {isa = PBXBuildFile; fileRef = D28BE9150C2431680030B303 /* PlayersDrawer.nib */; };
 		D294F87E0BC5A5B3004C48B7 /* MServersController.m in Sources */ = {isa = PBXBuildFile; fileRef = D294F87C0BC5A5B3004C48B7 /* MServersController.m */; };
 		D29C6DC30BD952F900F816AD /* domain.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D29C6DC20BD952F900F816AD /* domain.xcdatamodel */; };
 		D2A1AE9B0C00749D003C81E9 /* Update.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2A1AE9A0C00749D003C81E9 /* Update.tiff */; };
@@ -126,7 +126,7 @@
 		D23289FC0BBB14080095E5E2 /* CToxicProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CToxicProgressIndicator.h; sourceTree = "<group>"; };
 		D23884650B9327EC003DA6C7 /* KBGradientOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBGradientOutlineView.h; sourceTree = "<group>"; };
 		D23884660B9327EC003DA6C7 /* KBGradientOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBGradientOutlineView.m; sourceTree = "<group>"; };
-		D23FBFDA0C172FBD008F9266 /* PlayersDrawer.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PlayersDrawer.nib; sourceTree = "<group>"; };
+		D23FBFDA0C172FBD008F9266 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlayersDrawer.nib; sourceTree = "<group>"; };
 		D23FBFE60C173452008F9266 /* MDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDrawerController.h; sourceTree = "<group>"; };
 		D23FBFE70C173452008F9266 /* MDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDrawerController.m; sourceTree = "<group>"; };
 		D2455DFA0C14C2A300F27444 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/InspectorWindow.nib; sourceTree = "<group>"; };
@@ -298,7 +298,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				D21524790BD16FF20046CB9E /* AddServerDialog.nib */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
-				D23FBFDA0C172FBD008F9266 /* PlayersDrawer.nib */,
+				D28BE9150C2431680030B303 /* PlayersDrawer.nib */,
 				D211CAD90BD174D6004633F3 /* PreferencesWindow.nib */,
 				D2455DF90C14C2A300F27444 /* InspectorWindow.nib */,
 			);
@@ -551,7 +551,7 @@
 				D25754E70C023EBA0075A130 /* Favorites.icns in Resources */,
 				D2654D400C036C24006C6029 /* iFrag.icns in Resources */,
 				D2455DFB0C14C2A300F27444 /* InspectorWindow.nib in Resources */,
-				D23FBFDB0C172FBD008F9266 /* PlayersDrawer.nib in Resources */,
+				D28BE9160C2431680030B303 /* PlayersDrawer.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,6 +648,14 @@
 				D2455DFA0C14C2A300F27444 /* English */,
 			);
 			name = InspectorWindow.nib;
+			sourceTree = "<group>";
+		};
+		D28BE9150C2431680030B303 /* PlayersDrawer.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D23FBFDA0C172FBD008F9266 /* English */,
+			);
+			name = PlayersDrawer.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

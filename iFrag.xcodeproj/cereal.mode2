@@ -251,24 +251,18 @@
 									<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 									<array>
 										<string>29B97314FDCFA39411CA2CEA</string>
-										<string>080E96DDFE201D6D7F000001</string>
-										<string>D2FBCCA10B3B39150055AFFA</string>
-										<string>D2FBCC9F0B3B38FB0055AFFA</string>
-										<string>D232EE340B6C011300F45D31</string>
 										<string>29B97317FDCFA39411CA2CEA</string>
 									</array>
 									<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 									<array>
 										<array>
-											<integer>31</integer>
-											<integer>27</integer>
-											<integer>25</integer>
-											<integer>2</integer>
+											<integer>13</integer>
+											<integer>4</integer>
 											<integer>0</integer>
 										</array>
 									</array>
 									<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-									<string>{{0, 250}, {392, 549}}</string>
+									<string>{{0, 0}, {392, 549}}</string>
 								</dict>
 								<key>PBXTopSmartGroupGIDs</key>
 								<array/>
@@ -431,8 +425,8 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>D28BE8BD0C2423E90030B303</string>
-				<string>D28BE8BE0C2423E90030B303</string>
+				<string>D298C9EC0C243A97001BF784</string>
+				<string>D298C9ED0C243A97001BF784</string>
 				<string>1C9437FD063B20B00039CFAC</string>
 				<string>1C9437FE063B20B00039CFAC</string>
 				<string>1C9437FF063B20B00039CFAC</string>
@@ -465,15 +459,9 @@
 	<integer>0</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>D28BE8D10C2424CC0030B303</string>
-		<string>D28BE8D20C2424CC0030B303</string>
-		<string>D28BE8CF0C2424CC0030B303</string>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
-		<string>1C530D52069F1CE1000CFCEE</string>
-		<string>1C530D5B069F1CE1000CFCEE</string>
-		<string>/Users/cereal/Documents/iFrag/trunk/iFrag.xcodeproj</string>
-		<string>D28BE8E60C2429690030B303</string>
 		<string>1C530D54069F1CE1000CFCEE</string>
+		<string>D298C9EA0C243A8C001BF784</string>
+		<string>/Users/cereal/Documents/Maracuja Software/iFrag/iFrag.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>34 140 409 635 0 0 1280 832 </string>
@@ -736,8 +724,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {510, 307}}</string>
-											<string>{{510, 0}, {572, 307}}</string>
+											<string>{{0, 0}, {508, 311}}</string>
+											<string>{{508, 0}, {574, 311}}</string>
 										</array>
 									</dict>
 									<key>VerticalSplitView</key>
@@ -752,8 +740,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {1082, 307}}</string>
-											<string>{{0, 307}, {1082, 288}}</string>
+											<string>{{0, 0}, {1082, 311}}</string>
+											<string>{{0, 311}, {1082, 284}}</string>
 										</array>
 									</dict>
 								</dict>
@@ -800,14 +788,14 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D54069F1CE1000CFCEE</string>
-				<string>D28BE8C90C2424CC0030B303</string>
+				<string>D298C9E40C243A8C001BF784</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>D28BE8CA0C2424CC0030B303</string>
-				<string>D28BE8CB0C2424CC0030B303</string>
-				<string>D28BE8CC0C2424CC0030B303</string>
-				<string>D28BE8CD0C2424CC0030B303</string>
-				<string>D28BE8CE0C2424CC0030B303</string>
-				<string>D28BE8CF0C2424CC0030B303</string>
+				<string>D298C9E50C243A8C001BF784</string>
+				<string>D298C9E60C243A8C001BF784</string>
+				<string>D298C9E70C243A8C001BF784</string>
+				<string>D298C9E80C243A8C001BF784</string>
+				<string>D298C9E90C243A8C001BF784</string>
+				<string>D298C9EA0C243A8C001BF784</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debug</string>
@@ -816,7 +804,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C530D54069F1CE1000CFCEE</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

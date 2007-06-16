@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = MDrawerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {drawer = NSDrawer; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MPlayersController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {playersTableView = id; }; 
+            SUPERCLASS = NSArrayController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

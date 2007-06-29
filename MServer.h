@@ -20,8 +20,7 @@
 + (MServer *)createServerWithAddress:(NSString *)address inContext:(NSManagedObjectContext *)context;
 + (void)initExistingAddresses;
 
-// Derived properties
-
+#pragma mark Derived properties
 - (NSAttributedString *)attributedName;
 - (void)setAttributedName:(NSAttributedString *)value;
 
@@ -31,7 +30,10 @@
 - (MGenericGame *)game;
 - (void)setGame:(MGenericGame *)value;
 
-// Property accessors
+- (NSString *)stringRepresentation;
+- (NSAttributedString *)attributedRepresentation;
+
+#pragma mark Property accessors
 - (NSString *)address;
 - (void)setAddress:(NSString *)value;
 - (BOOL)validateAddress: (id *)valueRef error:(NSError **)outError;

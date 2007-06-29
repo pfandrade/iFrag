@@ -13,4 +13,8 @@
 	IBOutlet id serversTableView;
 }
 
+- (BOOL)canCut;
+- (BOOL)canCopy;
+- (BOOL)canPaste;
+
 @end

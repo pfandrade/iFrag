@@ -10,7 +10,7 @@
 
 
 @interface MServerListsController : NSArrayController {
-
+	IBOutlet id serverListsOutlineView;
 }
 
 - (void)refreshInstalledGames;

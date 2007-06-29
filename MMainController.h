@@ -14,6 +14,7 @@
 #import "MDrawerController.h"
 #import "MAddServerController.h"
 
+NSString *iFragPBoardType = @"iFragPBoardType";
 
 @interface MMainController : NSObject
 {
@@ -28,6 +29,7 @@
 	
 	// Views
 	IBOutlet id gamesOutlineView;
+	IBOutlet id serversTableView;
 	IBOutlet MThinSplitView *splitView;
 	IBOutlet MInnerSplitView *rightSplitView;
 	IBOutlet AMButtonBar *filterBar;

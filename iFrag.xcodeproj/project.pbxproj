@@ -71,7 +71,11 @@
 		D2B9ABA80BEFCAA90091B4A1 /* MNotifications.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2B9ABA70BEFCAA90091B4A1 /* MNotifications.h */; };
 		D2BF91270B03A383004BCD69 /* MServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BF91250B03A383004BCD69 /* MServer.m */; };
 		D2BF91620B03B78A004BCD69 /* MPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BF91600B03B78A004BCD69 /* MPlayer.m */; };
+		D2D92ED50C2C46EC00C164D6 /* MTableView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2D92ED30C2C46EC00C164D6 /* MTableView.h */; };
+		D2D92ED60C2C46EC00C164D6 /* MTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D92ED40C2C46EC00C164D6 /* MTableView.m */; };
 		D2E052360B8CA07C00297692 /* Folder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2E052350B8CA07C00297692 /* Folder.tiff */; };
+		D2E0DDE70C346CB400330F4E /* MOutlineView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2E0DDE50C346CB400330F4E /* MOutlineView.h */; };
+		D2E0DDE80C346CB400330F4E /* MOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E0DDE60C346CB400330F4E /* MOutlineView.m */; };
 		D2F0ADB00B06698A00037C58 /* MServerList.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F0ADAE0B06698A00037C58 /* MServerList.m */; };
 		D2F2894F0BDA632900FF3AD4 /* MRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F2894D0BDA632900FF3AD4 /* MRule.m */; };
 		D2F28CA80BDABF3E00FF3AD4 /* iFrag_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F28CA60BDABF3E00FF3AD4 /* iFrag_AppDelegate.m */; };
@@ -93,6 +97,8 @@
 				D2B9ABA80BEFCAA90091B4A1 /* MNotifications.h in CopyFiles */,
 				D249B0AB0C15792100ED8743 /* MInspectorWindowController.h in CopyFiles */,
 				D23FBFE80C173452008F9266 /* MDrawerController.h in CopyFiles */,
+				D2D92ED50C2C46EC00C164D6 /* MTableView.h in CopyFiles */,
+				D2E0DDE70C346CB400330F4E /* MOutlineView.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +114,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* iFrag_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iFrag_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* iFrag.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iFrag.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* iFrag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iFrag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20DE6BB0BCD84F1000E8B31 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AddServerDialog.nib; sourceTree = "<group>"; };
 		D20DE6C50BCD8528000E8B31 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add.tiff; sourceTree = "<group>"; };
 		D211CAC50BD1741C004633F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PreferencesWindow.nib; sourceTree = "<group>"; };
@@ -200,7 +206,11 @@
 		D2BF91250B03A383004BCD69 /* MServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServer.m; sourceTree = "<group>"; };
 		D2BF915F0B03B78A004BCD69 /* MPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayer.h; sourceTree = "<group>"; };
 		D2BF91600B03B78A004BCD69 /* MPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPlayer.m; sourceTree = "<group>"; };
+		D2D92ED30C2C46EC00C164D6 /* MTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableView.h; sourceTree = "<group>"; };
+		D2D92ED40C2C46EC00C164D6 /* MTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableView.m; sourceTree = "<group>"; };
 		D2E052350B8CA07C00297692 /* Folder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Folder.tiff; sourceTree = "<group>"; };
+		D2E0DDE50C346CB400330F4E /* MOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOutlineView.h; sourceTree = "<group>"; };
+		D2E0DDE60C346CB400330F4E /* MOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutlineView.m; sourceTree = "<group>"; };
 		D2E286170B98C3DE0078CC28 /* MErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MErrorCodes.h; sourceTree = "<group>"; };
 		D2F0ADAD0B06698A00037C58 /* MServerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServerList.h; sourceTree = "<group>"; };
 		D2F0ADAE0B06698A00037C58 /* MServerList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServerList.m; sourceTree = "<group>"; };
@@ -456,6 +466,10 @@
 				D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */,
 				D2AD5F820BD421A900C0F614 /* MActionButton.h */,
 				D2AD5F830BD421A900C0F614 /* MActionButton.m */,
+				D2D92ED30C2C46EC00C164D6 /* MTableView.h */,
+				D2D92ED40C2C46EC00C164D6 /* MTableView.m */,
+				D2E0DDE50C346CB400330F4E /* MOutlineView.h */,
+				D2E0DDE60C346CB400330F4E /* MOutlineView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -604,6 +618,8 @@
 				D213510C0BE794AE0035C46A /* MServerListsController.m in Sources */,
 				D249B0AC0C15792100ED8743 /* MInspectorWindowController.m in Sources */,
 				D23FBFE90C173452008F9266 /* MDrawerController.m in Sources */,
+				D2D92ED60C2C46EC00C164D6 /* MTableView.m in Sources */,
+				D2E0DDE80C346CB400330F4E /* MOutlineView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

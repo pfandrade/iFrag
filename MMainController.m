@@ -38,9 +38,11 @@
 	[rightSplitView hideFilterBar];
 	
 	// Set appearance options (like gradient) in the custom outlineView
-	[(KBGradientOutlineView *)gamesOutlineView setUsesGradientSelection:YES];
-	[(KBGradientOutlineView *)gamesOutlineView setSelectionGradientIsContiguous:YES];
+//	[(KBGradientOutlineView *)gamesOutlineView setUsesGradientSelection:YES];
+//	[(KBGradientOutlineView *)gamesOutlineView setSelectionGradientIsContiguous:YES];
 	
+	//Set the tableview as the nextResponder
+	[gamesOutlineView setNextResponder:serversTableView];
 	// Insert custom cell types into the outline view
     NSTableColumn *tableColumn = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
     MOutlineCell *outlineCell = [[[MOutlineCell alloc] init] autorelease];
@@ -138,6 +140,7 @@
 	
 	[[playersDrawerController drawer] toggle:sender];
 }
+
 
 - (IBAction)playGame:(id)sender
 {
@@ -249,12 +252,12 @@
 {
 	// If the row is selected and the current drawing isn't being used to create a drag image,
 	// colour the text white; otherwise, colour it black
-	int rowIndex = [outlineView rowForItem:item];
-	NSColor *fontColor = ( [[outlineView selectedRowIndexes] containsIndex:rowIndex] && 
-						   ([outlineView editedRow] != rowIndex) && 
-						   (![[(KBGradientOutlineView *)outlineView draggedRows] containsIndex:rowIndex]) ) ?
-		[NSColor whiteColor] : [NSColor blackColor];
-	[cell setTextColor:fontColor];
+//	int rowIndex = [outlineView rowForItem:item];
+//	NSColor *fontColor = ( [[outlineView selectedRowIndexes] containsIndex:rowIndex] && 
+//						   ([outlineView editedRow] != rowIndex) && 
+//						   (![[(KBGradientOutlineView *)outlineView draggedRows] containsIndex:rowIndex]) ) ?
+//		[NSColor whiteColor] : [NSColor blackColor];
+//	[cell setTextColor:fontColor];
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification

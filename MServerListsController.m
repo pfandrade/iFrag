@@ -10,11 +10,20 @@
 #import "MGenericGame.h"
 #import "MServerList.h"
 
+
+extern NSString *iFragPBoardType;
+
+@interface NSObject (private)
+- (id)observedObject;
+@end
+
+
 @implementation MServerListsController
 
 - (void)awakeFromNib
 {
 	[self refreshInstalledGames];
+	[serverListsOutlineView registerForDraggedTypes:[NSArray arrayWithObject:iFragPBoardType]];
 }
 
 - (void)refreshInstalledGames
@@ -64,5 +73,41 @@
 	if(error != nil)
 		NSLog(@"Save Error :%@", error);
 }
+
+#pragma mark -
+#pragma mark NSOutlineView Hacks for Drag and Drop
+
+- (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item {
+    return nil;
+}
+- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item {
+    return NO;
+}
+- (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item {
+    return 0;
+}
+- (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+	return nil;
+}
+
+- (BOOL)outlineView:(NSOutlineView*)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)targetItem childIndex:(int)childIndex {
+    	
+    return YES;
+}
+
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView 
+				  validateDrop:(id <NSDraggingInfo>)info 
+				  proposedItem:(id)item 
+			proposedChildIndex:(int)index
+{
+	
+	return NSDragOperationGeneric;
+}
+
+
+//- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
+//{
+//	return NO;
+//}
 
 @end

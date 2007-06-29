@@ -96,7 +96,7 @@ static NSMutableDictionary *existingAddresses = nil;
 	[existingAddressesLock unlock];
 }
 
-// Derived attributes
+#pragma mark Derived attributes
 - (NSAttributedString *)attributedName 
 {
     NSAttributedString * tmpValue;
@@ -174,7 +174,28 @@ static NSMutableDictionary *existingAddresses = nil;
     [self didChangeValueForKey: @"game"];
 }
 
-// Property accessors
+- (NSString *)stringRepresentation
+{
+	return [NSString stringWithFormat:@"%@\t%@\t%@\t%@\t%@\t%@\t%@",[self address], [self serverType],
+		[[self attributedName] string], [self map], [self gameType], [self ping], [self fullness]];
+}
+
+
+- (NSAttributedString *)attributedRepresentation
+{
+	NSMutableAttributedString *mutAttS = [[NSMutableAttributedString alloc] initWithString:
+		[NSString stringWithFormat:@"%@\t%@\t",[self address], [self serverType]]];
+	
+	[mutAttS appendAttributedString:[self attributedName]];
+	[mutAttS appendAttributedString:[[[NSAttributedString alloc] initWithString:
+		[NSString stringWithFormat:@"\t%@\t%@\t%@\t%@",[self map], [self gameType], [self ping], [self fullness]]] autorelease]];
+	
+	
+	[mutAttS autorelease];
+	return [[mutAttS copy] autorelease];
+}
+
+#pragma mark Property accessors
 - (NSString *)address 
 {
     NSString * tmpValue;

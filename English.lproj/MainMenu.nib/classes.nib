@@ -70,10 +70,12 @@
                 serverListsController = id; 
                 serverTreeController = id; 
                 serversController = id; 
+                serversTableView = id; 
                 splitView = MThinSplitView; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = MOutlineView; LANGUAGE = ObjC; SUPERCLASS = KBGradientOutlineView; }, 
         {
             CLASS = MPlayersController; 
             LANGUAGE = ObjC; 
@@ -83,6 +85,7 @@
         {
             CLASS = MServerListsController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {serverListsOutlineView = id; }; 
             SUPERCLASS = NSArrayController; 
         }, 
         {
@@ -96,6 +99,12 @@
             LANGUAGE = ObjC; 
             OUTLETS = {mainController = id; }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {copy = id; cut = id; paste = id; }; 
+            CLASS = MTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
         }, 
         {
             CLASS = MThinSplitView; 

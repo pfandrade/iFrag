@@ -56,7 +56,6 @@ NSString *iFragPBoardType = @"iFragPBoardType";
 - (IBAction)playGame:(id)sender;
 - (IBAction)addToFavorites:(id)sender;
 - (IBAction)addServer:(id)sender;
-- (IBAction)removeServers:(id)sender;
 - (IBAction)refreshSelectedServers:(id)sender;
 - (IBAction)refreshServerList:(id)sender;
 

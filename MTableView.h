@@ -10,7 +10,6 @@
 
 
 @interface MTableView : NSTableView {
-	NSMutableArray *copiedItemsCache;
 }
 
 - (IBAction)cut:(id)sender;

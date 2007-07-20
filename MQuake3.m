@@ -7,7 +7,8 @@
 //
 
 #import "MQuake3.h"
-
+#include <stdlib.h> //para o abs
+// this game name is not used anymore, we now use the bundleName
 static NSString *const _gameName			= @"Quake III Arena";
 static NSString *const _bundleIdentifier	= @"com.idsoftware.Quake3";
 static NSString *const _serverTypeString	= @"q3s";
@@ -41,7 +42,7 @@ static NSString *const _defaultServerPort	= @"27960";
 	NSEnumerator *str_enum = [slices objectEnumerator];
 
 	NSString *currentString, *subString;
-	NSColor *color;
+	NSColor *color = [NSColor blackColor]; //default color
 	NSScanner *scanner1, *scanner2, *scanner3;
 	int colorCode, len;
 	unsigned red, green, blue;
@@ -50,8 +51,13 @@ static NSString *const _defaultServerPort	= @"27960";
 	if([currentString length] > 0) [attribString appendAttributedString:[[[NSAttributedString alloc] initWithString:currentString] autorelease]];
 
 	while((currentString = [str_enum nextObject])){
-		if ((len = [currentString length]) < 2)
+		if ((len = [currentString length]) < 2){
+			[attribString appendAttributedString:
+				[[[NSAttributedString alloc] initWithString:@"^"
+												 attributes:[NSDictionary dictionaryWithObject:color
+																						forKey:NSForegroundColorAttributeName]] autorelease]];
 			continue;
+		}
 		colorCode = [currentString characterAtIndex:0] - '0';
 		if((colorCode == ('x' - '0'))){
 			if(len > 7){
@@ -69,8 +75,8 @@ static NSString *const _defaultServerPort	= @"27960";
 				subString = [currentString substringFromIndex:1];
 			}
 		} else {
-			colorCode = (colorCode > 9 || colorCode < 0) ? 7 : colorCode; //Reset to white
-			color = [colors objectAtIndex:(colorCode % 8)];
+//			colorCode = (colorCode > 9 || colorCode < 0) ? 7 : colorCode; //Reset to white
+			color = [colors objectAtIndex:abs((colorCode % 8))];
 			subString = [currentString substringFromIndex:1];
 		}
 		[attribString appendAttributedString:
@@ -90,7 +96,11 @@ static NSString *const _defaultServerPort	= @"27960";
 #pragma mark Overriden Instance Methods
 
 - (id) init {
-	self = [super initWithGameName:[NSString stringWithString:_gameName]
+	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	
+	NSString *bundleName = [[[ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier] lastPathComponent] stringByDeletingPathExtension];
+	
+	self = [super initWithGameName:[NSString stringWithString:bundleName]
 												andBundlePath:[[NSWorkspace sharedWorkspace] 
 																	absolutePathForAppBundleWithIdentifier:_bundleIdentifier]];
 	if (self != nil) {

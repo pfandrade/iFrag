@@ -38,8 +38,8 @@
 	[rightSplitView hideFilterBar];
 	
 	// Set appearance options (like gradient) in the custom outlineView
-//	[(KBGradientOutlineView *)gamesOutlineView setUsesGradientSelection:YES];
-//	[(KBGradientOutlineView *)gamesOutlineView setSelectionGradientIsContiguous:YES];
+	[(KBGradientOutlineView *)gamesOutlineView setUsesGradientSelection:YES];
+	[(KBGradientOutlineView *)gamesOutlineView setSelectionGradientIsContiguous:YES];
 	
 	//Set the tableview as the nextResponder
 	[gamesOutlineView setNextResponder:serversTableView];
@@ -63,6 +63,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(applicationWillTerminate:) 
 												 name:NSApplicationWillTerminateNotification object:NSApp];
+	
 }
 
 - (void)resizedSplitView:(id)theSplitview toSize:(float)newSize
@@ -175,24 +176,6 @@
 	}
 	
 	[addServerWindowController runModalSheetForWindow:mainWindow];	
-}
-
-- (IBAction)removeServers:(id)sender
-{	
-	NSArray *selectedServers = [serversController selectedObjects];
-	[serversController removeObjects:selectedServers];
-	NSEnumerator *serverEnum = [selectedServers objectEnumerator];
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-	MServer *server;
-	while(server = [serverEnum nextObject]){
-		//server no longer is contained in any serverlist
-		if([[server valueForKey:@"inServerLists"] count] == 0)
-			[context deleteObject:(NSManagedObject *)server];
-	}
-	NSError *error = nil;
-	[context save:&error];
-	if(error != nil)
-		NSLog(@"Error deleting selected servers: %@", error);
 }
 
 - (IBAction)refreshSelectedServers:(id)sender

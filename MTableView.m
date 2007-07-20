@@ -11,9 +11,11 @@
 @interface NSObject (MTableViewDelegateMethods)
 
 - (BOOL)canCut;
+- (BOOL)canCopy;
 - (BOOL)canPaste;
 
-- (void)paste;
+- (void)copyItems;
+- (void)pasteItems;
 @end
 
 @implementation MTableView
@@ -22,9 +24,9 @@
 
 - (IBAction)delete:(id)sender
 {
-	[[self nextResponder] tryToPerform:@selector(removeServers:) with:sender]; 
+//	[[self nextResponder] tryToPerform:@selector(removeServers:) with:sender]; 
 	//lets get a reference to the controller
-	//	[[[self infoForBinding:@"content"] objectForKey:NSObservedObjectKey] remove:sender];
+	[[[self infoForBinding:@"content"] objectForKey:NSObservedObjectKey] remove:sender];
 	
 }
 
@@ -87,150 +89,34 @@
 
 - (IBAction)copy:(id)sender
 {
-	//lets get a reference to the controller
-	NSArrayController *arrayController = [[self infoForBinding:@"content"] objectForKey:NSObservedObjectKey];
-	
-	//iterate over the selected objects and cache information
-	NSIndexSet *selectedRowIndexes = [self selectedRowIndexes];
-	NSArray *tableColumns = [self tableColumns];
-	
-	[copiedItemsCache release];
-	copiedItemsCache = [[NSMutableArray alloc] initWithCapacity:[selectedRowIndexes count]];
-	
-	unsigned row, i;
-	
-	id value;
-	NSMutableArray *rowObjectKeyValues;
-	row = [selectedRowIndexes firstIndex];
-	do {
-		rowObjectKeyValues = [[NSMutableArray alloc] initWithCapacity:[tableColumns count]];
-		for (i = 0; i < [tableColumns count]; i++){
-			NSString *keyPath = [[[tableColumns objectAtIndex:i] infoForBinding:@"value"] objectForKey:NSObservedKeyPathKey];
-			value = [[arrayController valueForKeyPath:keyPath] objectAtIndex:row];
-			[rowObjectKeyValues insertObject:[[value copy] autorelease] atIndex:i];
-		}
-		[copiedItemsCache addObject:rowObjectKeyValues];
-		[rowObjectKeyValues release];
-	} while((row = [selectedRowIndexes indexGreaterThanIndex:row]) != NSNotFound);
-	
-	// declare supported types
-	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	NSArray *types;
-	types = [NSArray arrayWithObjects:NSRTFPboardType, NSTabularTextPboardType, NSStringPboardType, nil];
-	[pb declareTypes:types owner:self];
-	
-	// give the controller a chance to copy some data
-	[arrayController tableView:self writeRowsWithIndexes:selectedRowIndexes toPasteboard:pb];
+	[[self dataSource] copyItems];
 }
 
 - (IBAction)paste:(id)sender
 {
-	[[[self infoForBinding:@"content"] objectForKey:NSObservedObjectKey] paste];
+	[[self dataSource] pasteItems];
 }
 
 - (BOOL)validateUserInterfaceItem:(id)item
 {
-	NSArrayController *arrayController = [[self infoForBinding:@"content"] objectForKey:NSObservedObjectKey];
+	id ds = [self dataSource];
     if ([item action] == @selector(cut:)) {
-        return [arrayController canCut];
+        return [ds canCut];
     }
 	
 	if ([item action] == @selector(copy:)) {
-        return [[self selectedRowIndexes] count] > 0;
+        return [ds canCopy];
     }
 	
 	if ([item action] == @selector(paste:)) {
-        return [arrayController canPaste];
+        return [ds canPaste];
     }
 
 	if ([item action] == @selector(delete:)) {
-        return [arrayController canCut];
+        return [ds canCut];
     }
 	
 	return YES; 
 }
-
-
-- (void)pasteboard:(NSPasteboard *)sender provideDataForType:(NSString *)type
-{
-	NSEnumerator *copyEnumerator = [copiedItemsCache objectEnumerator];
-	NSMutableString *tsv = nil;
-	NSMutableAttributedString *rtf = nil;
-	static NSAttributedString *tabChar = nil;
-	static NSAttributedString *newlineChar = nil;
-	
-	if(!tabChar){
-		tabChar = [[NSAttributedString alloc] initWithString:@"\t"];
-	}
-	if(!newlineChar){
-		newlineChar = [[NSAttributedString alloc] initWithString:@"\n"];
-	}
-	
-	
-    if ([type isEqualToString:NSStringPboardType] || [type isEqualToString:NSTabularTextPboardType]) {
-		tsv = [[NSMutableString alloc] init];
-    }
-    else if ([type isEqualToString:NSRTFPboardType]) {
-		rtf = [[NSMutableAttributedString alloc] init];
-	}
-		
-	unsigned i;
-	id objectKeyValues, keyValue;
-	if(objectKeyValues = [copyEnumerator nextObject]){
-		
-		for(i=0;i<[objectKeyValues count]; i++){
-			keyValue = [objectKeyValues objectAtIndex:i];
-			if([keyValue isKindOfClass:[NSAttributedString class]]){
-				[tsv appendFormat:((i==0) ? @"%@" : @"\t%@"), [keyValue string]];
-				if(i!=0)
-					[rtf appendAttributedString:tabChar];
-				[rtf appendAttributedString:keyValue];
-			}else{
-				if(keyValue){
-					[tsv appendFormat:(i==0) ? @"%@" : @"\t%@", keyValue];
-					if(i!=0)
-						[rtf appendAttributedString:tabChar];
-					[rtf appendAttributedString:[[[NSAttributedString alloc] initWithString:[keyValue description]] autorelease]];
-				}
-			}
-		}
-		
-	}
-	while(objectKeyValues = [copyEnumerator nextObject]){
-		[tsv appendString:@"\n"];
-		[rtf appendAttributedString:newlineChar];
-		
-		for(i=0;i<[objectKeyValues count]; i++){
-			keyValue = [objectKeyValues objectAtIndex:i];
-			if([keyValue isKindOfClass:[NSAttributedString class]]){
-				[tsv appendFormat:(i==0) ? @"%@" : @"\t%@", [keyValue string]];
-				if(i!=0)
-					[rtf appendAttributedString:tabChar];
-				[rtf appendAttributedString:keyValue];
-			}else{
-				if(keyValue){
-					[tsv appendFormat:(i==0) ? @"%@" : @"\t%@", keyValue];
-					if(i!=0)
-						[rtf appendAttributedString:tabChar];
-					[rtf appendAttributedString:[[[NSAttributedString alloc] initWithString:[keyValue description]] autorelease]];
-				}
-			}
-		}
-	}
-	
-	if(tsv){
-		[sender setString:[[tsv copy] autorelease] forType:type];
-		[tsv release];
-		return;
-	}
-	if(rtf){
-		NSRange wholeStringRange = NSMakeRange(0, [rtf length]);
-		NSData *rtfdData = [rtf RTFFromRange:wholeStringRange documentAttributes:nil];
-		[sender setData:rtfdData forType:NSRTFPboardType];
-		[rtf release];
-		return;
-	}
-}
-
 
 @end

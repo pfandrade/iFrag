@@ -11,10 +11,14 @@
 
 @interface MServersController : NSArrayController {
 	IBOutlet id serversTableView;
+	NSMutableArray *copiedItemsCache;
 }
 
 - (BOOL)canCut;
 - (BOOL)canCopy;
 - (BOOL)canPaste;
+
+- (void)pasteIntoServerList:(id)sl fromPasteboard:(NSPasteboard *)pb;
+- (BOOL)canPasteIntoServerList:(id)sl fromPasteboard:(NSPasteboard *)pb;
 
 @end

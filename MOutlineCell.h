@@ -19,6 +19,5 @@
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
-- (NSSize)cellSize;
 
 @end

@@ -10,8 +10,8 @@
 #import "MServer.h"
 #import <unistd.h>
 
-#define RELOAD_ARGS @"-nocfg", @"-u",@"-P",@"-R",@"-xml",@"-utf8"
-#define REFRESH_ARGS @"-nocfg",@"-P",@"-R",@"-xml",@"-utf8"
+#define RELOAD_ARGS @"-u",@"-P",@"-R",@"-xml",@"-utf8"
+#define REFRESH_ARGS @"-P",@"-R",@"-xml",@"-utf8"
 
 
 @interface MQStatTask (Private)
@@ -39,6 +39,7 @@
 			raise];
 	}
 	temporaryFilePath = [NSString stringWithCString:template];
+	NSLog(@"%@",temporaryFilePath);
 	free(template);
 	//launch qstat
 	[qstat setArguments:args];
@@ -83,8 +84,10 @@
 {
 	//use to reload a list from a master server
 	NSString *maxsim = [[NSUserDefaults standardUserDefaults] stringForKey:@"maxSimConn"];
-	NSArray *args	= [NSArray arrayWithObjects:RELOAD_ARGS, @"-maxsim", maxsim, [NSString stringWithFormat:@"-%@",serverType], serverAddress, nil];
-	
+	NSArray *args	= [NSArray arrayWithObjects:
+		RELOAD_ARGS,@"-cfg", [[NSBundle mainBundle] pathForResource:@"qstat" ofType:@"cfg"],
+		@"-maxsim", maxsim, [NSString stringWithFormat:@"-%@",serverType], serverAddress, nil];
+	NSLog(@"%@",[[NSBundle mainBundle] pathForResource:@"qstat" ofType:@"cfg"]);
 	NSURL *filePathURL = [self lauchWithArgs:args];
 	return filePathURL;
 }
@@ -93,7 +96,8 @@
 {
 	//used to refresh an array of servers
 	NSString *maxsim = [[NSUserDefaults standardUserDefaults] stringForKey:@"maxSimConn"];
-	NSArray *args = [NSArray arrayWithObjects:REFRESH_ARGS, @"-maxsim", maxsim, @"-f", @"-", nil];
+	NSArray *args = [NSArray arrayWithObjects:REFRESH_ARGS,@"-cfg", [[NSBundle mainBundle] pathForResource:@"qstat" ofType:@"cfg"],
+		@"-maxsim", maxsim, @"-f", @"-", nil];
 	
 	NSPipe *pipe = [NSPipe pipe];
 	[qstat setStandardInput:pipe];

@@ -9,11 +9,9 @@
 #import "MGenericGame.h"
 #import "MServer.h"
 
-#import "MFavorites.h"
-#import "MQuake3.h"
 
-#define SERVERTYPESTRINGS	[[NSArray arrayWithObjects:@"FAV",			@"Q3S", nil] retain]
-#define GAMECLASSNAMES		[[NSArray arrayWithObjects:@"MFavorites",	@"MQuake3", nil] retain]
+#define SERVERTYPESTRINGS	[[NSArray arrayWithObjects:@"FAV",			@"Q3S",		@"WOETS", nil] retain]
+#define GAMECLASSNAMES		[[NSArray arrayWithObjects:@"MFavorites",	@"MQuake3",	@"MEnemyTerritory", nil] retain]
 
 static NSArray *_serverTypeStrings; 
 static NSArray *_gameClassNames;

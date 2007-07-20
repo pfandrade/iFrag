@@ -185,7 +185,7 @@
 	NSError *error = nil;
 	[context save:&error];
 	if(error != nil)
-		NSLog(@"Error saving new server: %@", error);
+		NSLog(@"%@", error);
 	[self close];
 	
 }
@@ -239,28 +239,30 @@
 	}
 	
 	[subTitle setStringValue:[NSString stringWithFormat:@"This will add the server to your %@ list.", listName]];
-}
-#pragma mark NSWindow Delegate methods 
-
-- (void)windowWillClose:(NSNotification *)aNotification
-{
-	[NSApp endSheet:[self window]];
-}
-
-- (void)windowDidBecomeKey:(NSNotification *)aNotification
-{
+	
 	//let's create the image
 	NSImage *slIcon = [[serverList valueForKey:@"icon"] copy];
 	[slIcon setScalesWhenResized:YES];
 	[slIcon setSize:NSMakeSize(64,64)];
 	NSString* imageName = [[NSBundle mainBundle] pathForResource:@"Add" ofType:@"tiff"]; 
 	NSImage *addImg = [[NSImage alloc] initWithContentsOfFile:imageName];
+	NSImage *composedImage = [[NSImage alloc] initWithSize:[slIcon size]];
 	
-	[image lockFocus];
+	[composedImage lockFocus];
 	[slIcon compositeToPoint:NSMakePoint(0,0) operation:NSCompositeSourceOver];
 	[addImg compositeToPoint:NSMakePoint(32,0) operation:NSCompositeSourceOver];
-	[image unlockFocus];
-	[slIcon autorelease];
+	[composedImage unlockFocus];
+	
+	[image setImage:composedImage];
+	[composedImage release];
+	[slIcon release];
+}
+
+#pragma mark NSWindow Delegate methods 
+
+- (void)windowWillClose:(NSNotification *)aNotification
+{
+	[NSApp endSheet:[self window]];
 }
 
 #pragma mark Actions

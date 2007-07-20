@@ -127,7 +127,7 @@ const static float heightPercentage = 0.55;
 	// Vertically center the string
 	float stringHeight = [drawString size].height;
 	cellFrame.origin.y += (cellFrame.size.height - stringHeight) / 2.0;
-	cellFrame.size.height = stringHeight;
+	//cellFrame.size.height = stringHeight;
 	
 	// Add some padding
 	cellFrame.origin.x += 5;
@@ -145,13 +145,13 @@ const static float heightPercentage = 0.55;
 	[drawString autorelease];
 }
 
-- (NSSize)cellSize {
-    NSSize cellSize = [super cellSize];
-	NSImage *image = [self image];
-	NSProgressIndicator *progressInd = [self progressIndicator];
-    cellSize.width += (image ? [image size].width + 3 : 0);
-	cellSize.width += (![progressInd isHidden] ? ceil(cellSize.height * heightPercentage)  + 3 : 0);
-    return cellSize;
-}
+//- (NSSize)cellSize {
+//    NSSize cellSize = [super cellSize];
+//	NSImage *image = [self image];
+//	NSProgressIndicator *progressInd = [self progressIndicator];
+//    cellSize.width += (image ? [image size].width + 3 : 0);
+//	cellSize.width += (![progressInd isHidden] ? ceil(cellSize.height * heightPercentage)  + 3 : 0);
+//    return cellSize;
+//}
 
 @end

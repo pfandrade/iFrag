@@ -11,6 +11,10 @@
 
 @interface MServerListsController : NSArrayController {
 	IBOutlet id serverListsOutlineView;
+	// for drag&drop we need a reference to the servers controller
+	// to verify that we can paste something
+	IBOutlet id serversController;
+	IBOutlet id treeController;
 }
 
 - (void)refreshInstalledGames;

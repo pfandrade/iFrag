@@ -9,7 +9,7 @@
 #import "MServerListsController.h"
 #import "MGenericGame.h"
 #import "MServerList.h"
-
+#import "MServersController.h"
 
 extern NSString *iFragPBoardType;
 
@@ -23,6 +23,14 @@ extern NSString *iFragPBoardType;
 - (void)awakeFromNib
 {
 	[self refreshInstalledGames];
+	NSEnumerator *iter = [[self arrangedObjects] objectEnumerator];
+	id sl;
+	while(sl = [iter nextObject]){
+		[sl addObserver:self
+			 forKeyPath:@"servers" 
+				options:NSKeyValueObservingOptionOld
+				context:NULL];
+	}
 	[serverListsOutlineView registerForDraggedTypes:[NSArray arrayWithObject:iFragPBoardType]];
 }
 
@@ -74,35 +82,83 @@ extern NSString *iFragPBoardType;
 		NSLog(@"Save Error :%@", error);
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	// test to see if a server was removed, and if so see if it should be deleted
+	if([keyPath isEqualToString:@"servers"]){
+		if([[change objectForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeRemoval){
+			//if the servers isn't in any serverList, remove it
+			NSArray *removedServers = [change objectForKey:NSKeyValueChangeOldKey];
+			NSEnumerator *serverEnum = [removedServers objectEnumerator];
+			id server;
+			NSManagedObjectContext *moc = [[NSApp delegate] managedObjectContext];
+			while(server = [serverEnum nextObject]){
+				//server no longer is contained in any serverlist
+				if([[server valueForKey:@"inServerLists"] count] == 0){
+					[moc deleteObject:server];
+				}
+			}
+			
+			NSError *error = nil;
+			[moc save:&error];
+			if(error != nil){
+				NSLog(@"%@", error);
+			}
+		}
+	}
+}
+
 #pragma mark -
 #pragma mark NSOutlineView Hacks for Drag and Drop
 
-- (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item {
+- (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item 
+{
     return nil;
 }
-- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item {
+- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item 
+{
     return NO;
 }
-- (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item {
+- (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item 
+{
     return 0;
 }
-- (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+- (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item 
+{
 	return nil;
-}
-
-- (BOOL)outlineView:(NSOutlineView*)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)targetItem childIndex:(int)childIndex {
-    	
-    return YES;
 }
 
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView 
 				  validateDrop:(id <NSDraggingInfo>)info 
 				  proposedItem:(id)item 
-			proposedChildIndex:(int)index
+			proposedChildIndex:(int)childIndex
 {
+	id targetNode = [item observedObject];
+	BOOL isOnDropTypeProposal = childIndex==NSOutlineViewDropOnItemIndex;
+	BOOL targetNodeIsValid = NO;
 	
-	return NSDragOperationGeneric;
+	if(targetNode == nil) {
+		// we dont accept drop on the root
+		return NSDragOperationNone;
+	}
+	
+	if(isOnDropTypeProposal) {
+		targetNodeIsValid = [serversController canPasteIntoServerList:targetNode fromPasteboard:[info draggingPasteboard]];
+	}
+		
+	return targetNodeIsValid ? (NSDragOperationCopy | NSDragOperationMove) : NSDragOperationNone;
 }
+
+- (BOOL)outlineView:(NSOutlineView*)olv 
+		 acceptDrop:(id <NSDraggingInfo>)info 
+			   item:(id)targetItem 
+		 childIndex:(int)childIndex 
+{
+    id targetNode = [targetItem observedObject];
+	[serversController pasteIntoServerList:targetNode fromPasteboard:[info draggingPasteboard]];
+    return YES;
+}
+
 
 
 //- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard

@@ -55,7 +55,6 @@
                 refreshSelectedServers = id; 
                 refreshServerList = id; 
                 reloadServerList = id; 
-                removeServers = id; 
                 showPreferences = id; 
                 toggleInspector = id; 
                 togglePlayers = id; 
@@ -85,7 +84,7 @@
         {
             CLASS = MServerListsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {serverListsOutlineView = id; }; 
+            OUTLETS = {serverListsOutlineView = id; serversController = id; treeController = id; }; 
             SUPERCLASS = NSArrayController; 
         }, 
         {

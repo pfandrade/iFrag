@@ -39,7 +39,7 @@
 			raise];
 	}
 	temporaryFilePath = [NSString stringWithCString:template];
-	NSLog(@"%@",temporaryFilePath);
+//	NSLog(@"%@",temporaryFilePath);
 	free(template);
 	//launch qstat
 	[qstat setArguments:args];
@@ -87,7 +87,7 @@
 	NSArray *args	= [NSArray arrayWithObjects:
 		RELOAD_ARGS,@"-cfg", [[NSBundle mainBundle] pathForResource:@"qstat" ofType:@"cfg"],
 		@"-maxsim", maxsim, [NSString stringWithFormat:@"-%@",serverType], serverAddress, nil];
-	NSLog(@"%@",[[NSBundle mainBundle] pathForResource:@"qstat" ofType:@"cfg"]);
+//	NSLog(@"%@",[[NSBundle mainBundle] pathForResource:@"qstat" ofType:@"cfg"]);
 	NSURL *filePathURL = [self lauchWithArgs:args];
 	return filePathURL;
 }

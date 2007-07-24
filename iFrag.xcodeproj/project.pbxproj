@@ -79,6 +79,8 @@
 		D2F60E310BCF0E8D0097AF76 /* Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2F60E300BCF0E8D0097AF76 /* Remove.tiff */; };
 		D2FBCCA50B3B39390055AFFA /* MToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FBCCA30B3B39390055AFFA /* MToolbarController.m */; };
 		D2FBCCC20B3B48460055AFFA /* MMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FBCCC00B3B48460055AFFA /* MMainController.m */; };
+		D2FCDB4C0C53944000BC889F /* MTableColumnsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FCDB4A0C53944000BC889F /* MTableColumnsController.m */; };
+		D2FCDC080C54A05E00BC889F /* MTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FCDC060C54A05E00BC889F /* MTableHeaderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -194,7 +196,6 @@
 		D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MActionButtonCell.m; sourceTree = "<group>"; };
 		D2AD5F820BD421A900C0F614 /* MActionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MActionButton.h; sourceTree = "<group>"; };
 		D2AD5F830BD421A900C0F614 /* MActionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MActionButton.m; sourceTree = "<group>"; };
-		D2B9ABA70BEFCAA90091B4A1 /* MNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNotifications.h; sourceTree = "<group>"; };
 		D2BF91240B03A383004BCD69 /* MServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServer.h; sourceTree = "<group>"; };
 		D2BF91250B03A383004BCD69 /* MServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServer.m; sourceTree = "<group>"; };
 		D2BF915F0B03B78A004BCD69 /* MPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayer.h; sourceTree = "<group>"; };
@@ -216,6 +217,10 @@
 		D2FBCCA20B3B39390055AFFA /* MToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MToolbarController.h; sourceTree = "<group>"; };
 		D2FBCCA30B3B39390055AFFA /* MToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MToolbarController.m; sourceTree = "<group>"; };
 		D2FBCCC00B3B48460055AFFA /* MMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMainController.m; sourceTree = "<group>"; };
+		D2FCDB490C53944000BC889F /* MTableColumnsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableColumnsController.h; sourceTree = "<group>"; };
+		D2FCDB4A0C53944000BC889F /* MTableColumnsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableColumnsController.m; sourceTree = "<group>"; };
+		D2FCDC050C54A05E00BC889F /* MTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableHeaderView.h; sourceTree = "<group>"; };
+		D2FCDC060C54A05E00BC889F /* MTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableHeaderView.m; sourceTree = "<group>"; };
 		D2FF2C440AFFAA870014B41D /* qstat */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = qstat; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -435,7 +440,6 @@
 				D2E286170B98C3DE0078CC28 /* MErrorCodes.h */,
 				D28127AF0BA2E270007FC6FA /* MComparableAttributedString.h */,
 				D28127B00BA2E270007FC6FA /* MComparableAttributedString.m */,
-				D2B9ABA70BEFCAA90091B4A1 /* MNotifications.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -466,6 +470,8 @@
 				D2D92ED40C2C46EC00C164D6 /* MTableView.m */,
 				D2E0DDE50C346CB400330F4E /* MOutlineView.h */,
 				D2E0DDE60C346CB400330F4E /* MOutlineView.m */,
+				D2FCDC050C54A05E00BC889F /* MTableHeaderView.h */,
+				D2FCDC060C54A05E00BC889F /* MTableHeaderView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -493,6 +499,8 @@
 				D213510A0BE794AE0035C46A /* MServerListsController.m */,
 				D249B0A90C15792100ED8743 /* MInspectorWindowController.h */,
 				D249B0AA0C15792100ED8743 /* MInspectorWindowController.m */,
+				D2FCDB490C53944000BC889F /* MTableColumnsController.h */,
+				D2FCDB4A0C53944000BC889F /* MTableColumnsController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -618,6 +626,8 @@
 				D2D92ED60C2C46EC00C164D6 /* MTableView.m in Sources */,
 				D2E0DDE80C346CB400330F4E /* MOutlineView.m in Sources */,
 				D2A059320C4D15CE007BF4F5 /* MEnemyTerritory.m in Sources */,
+				D2FCDB4C0C53944000BC889F /* MTableColumnsController.m in Sources */,
+				D2FCDC080C54A05E00BC889F /* MTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

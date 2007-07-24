@@ -73,7 +73,7 @@
         [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
     }
     
-    url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"iFrag.db"]];
+    url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"iFrag.data"]];
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
     if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]){
         [[NSApplication sharedApplication] presentError:error];

@@ -3,27 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>IBDocumentLocation</key>
-	<string>102 29 616 383 0 0 1280 832 </string>
+	<string>71 38 616 383 0 0 1280 832 </string>
 	<key>IBEditorPositions</key>
 	<dict>
 		<key>29</key>
-		<string>143 730 309 44 0 0 1280 832 </string>
+		<string>140 771 309 44 0 0 1280 832 </string>
 		<key>367</key>
-		<string>525 376 167 218 0 0 1280 832 </string>
+		<string>1048 343 167 218 0 0 1280 832 </string>
+		<key>846</key>
+		<string>415 414 121 144 0 0 1280 832 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>446.1</string>
 	<key>IBLockedObjects</key>
 	<array>
 		<integer>285</integer>
+		<integer>305</integer>
+		<integer>302</integer>
 	</array>
 	<key>IBOldestOS</key>
 	<integer>4</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>367</integer>
-		<integer>21</integer>
 		<integer>29</integer>
+		<integer>367</integer>
+		<integer>846</integer>
+		<integer>21</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8R218</string>
@@ -33,7 +38,7 @@
 		<dict>
 			<key>guideLocations</key>
 			<array>
-				<string>Horizontal:169.000000</string>
+				<string>Horizontal:242.000000</string>
 				<string>Vertical:58.000000</string>
 			</array>
 			<key>guidesLocked</key>

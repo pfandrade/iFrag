@@ -100,6 +100,19 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {toggleColumn = id; }; 
+            CLASS = MTableColumnsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                columnsMenu = NSMenu; 
+                serverListsController = NSTreeController; 
+                serverListsOutlineView = NSOutlineView; 
+                serversController = NSArrayController; 
+                serversTableView = NSTableView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
             ACTIONS = {copy = id; cut = id; paste = id; }; 
             CLASS = MTableView; 
             LANGUAGE = ObjC; 

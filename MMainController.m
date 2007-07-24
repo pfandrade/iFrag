@@ -8,12 +8,13 @@
 #import "MMainController.h"
 #import "KBGradientOutlineView.h"
 #import "MOutlineCell.h"
-#import "MComparableAttributedString.h"
-#import "AMButtonBarItem.h"
-#import "CTGradient_AMButtonBar.h"
-#import "MNotifications.h"
+//#import "MComparableAttributedString.h"
+//#import "AMButtonBarItem.h"
+//#import "CTGradient_AMButtonBar.h"
 #import "MServerList.h"
 #import "MServersController.h"
+#import "MQStatTask.h"
+#import "MQStatXMLParser.h"
 
 #define THINSPLITVIEW_SAVE_NAME @"thinsplitview"
 
@@ -21,7 +22,8 @@
 
 - (void)awakeFromNib
 {
-	
+	// hack to load some classes that set up preference values
+	[MQStatTask class]; [MQStatXMLParser class];
 	// Setup the Button Bar
 //	[rightSplitView showFilterBar];
 //	[filterBar setShowsBaselineSeparator:NO];
@@ -48,7 +50,6 @@
     MOutlineCell *outlineCell = [[[MOutlineCell alloc] init] autorelease];
     [outlineCell setEditable: NO];
     [tableColumn setDataCell:outlineCell];
-	[tableColumn setWidth:[[[splitView subviews] objectAtIndex:0] frame].size.width];
 	[splitView setNeedsDisplay:YES];
 	
 	//order the outline view
@@ -120,6 +121,7 @@
 	if (inspectorWindowController == nil) { 
 		inspectorWindowController = [[MInspectorWindowController alloc] initWithWindowNibName:@"InspectorWindow"];
 		[inspectorWindowController setServersArrayController:serversController];
+		[[inspectorWindowController window] setFrameAutosaveName:@"inspectorWindow"];
 	}
 	
 	NSWindow *inspectorWindow = [inspectorWindowController window];
@@ -145,7 +147,7 @@
 
 - (IBAction)playGame:(id)sender
 {
-	//TODO:
+	// TODO
 }
 
 - (IBAction)addToFavorites:(id)sender
@@ -229,22 +231,22 @@
 	[splitView storeLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 }
 
-#pragma mark Ouline View Delegate Methods
-
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
-{
-	// If the row is selected and the current drawing isn't being used to create a drag image,
-	// colour the text white; otherwise, colour it black
-//	int rowIndex = [outlineView rowForItem:item];
-//	NSColor *fontColor = ( [[outlineView selectedRowIndexes] containsIndex:rowIndex] && 
-//						   ([outlineView editedRow] != rowIndex) && 
-//						   (![[(KBGradientOutlineView *)outlineView draggedRows] containsIndex:rowIndex]) ) ?
-//		[NSColor whiteColor] : [NSColor blackColor];
-//	[cell setTextColor:fontColor];
-}
-
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification
-{
+//#pragma mark Ouline View Delegate Methods
+//
+//- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+//{
+//	// If the row is selected and the current drawing isn't being used to create a drag image,
+//	// colour the text white; otherwise, colour it black
+////	int rowIndex = [outlineView rowForItem:item];
+////	NSColor *fontColor = ( [[outlineView selectedRowIndexes] containsIndex:rowIndex] && 
+////						   ([outlineView editedRow] != rowIndex) && 
+////						   (![[(KBGradientOutlineView *)outlineView draggedRows] containsIndex:rowIndex]) ) ?
+////		[NSColor whiteColor] : [NSColor blackColor];
+////	[cell setTextColor:fontColor];
+//}
+//
+//- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+//{
 //	[self setCurrentServerList:[serverLists objectAtIndex:[gamesOutlineView selectedRow]]];
 //	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
 //	[context refreshObject:currentServerList mergeChanges:YES];
@@ -253,8 +255,8 @@
 //		[currentServerList name], 
 //		[[currentServerList valueForKey:@"servers"] count]]];
 //	[mainWindow displayIfNeeded];
-	
-	//TODO por aqui um refreshObjects:mergeChanges:NO !
-}
+//	
+//	//TODO por aqui um refreshObjects:mergeChanges:NO !
+//}
 
 @end

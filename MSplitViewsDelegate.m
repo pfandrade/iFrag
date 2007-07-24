@@ -63,17 +63,4 @@
 	}
 }
 
-- (void)splitViewDidResizeSubviews:(NSNotification *)aNotification
-{
-	NSSplitView *sv = [aNotification object];
-	float newSize;
-	if(sv == [mainController mainSplitView]){
-		if ([sv isVertical])
-			newSize = [[[sv subviews] objectAtIndex:0] frame].size.width;
-		else
-			newSize = [[[sv subviews] objectAtIndex:0] frame].size.height;
-		[mainController resizedSplitView:sv toSize:newSize];
-	}
-}
-
 @end

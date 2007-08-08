@@ -29,6 +29,7 @@
 {
 	if ((self = [super init])) {
 		inElement = NO;
+		shouldStop = NO;
     }
     return self;
 }
@@ -37,7 +38,6 @@
 {
 	[sl release];
 	[count release];
-	[qstatParser release];
 	[progressDelegate release];
 	[currentServers release];
 	[currentServer release];
@@ -46,8 +46,9 @@
 	[currentPlayers release];
 	[currentPlayer release];
 	[currentString release];
+	[objectsToSync release];
 	[context release];
-	[pool release];
+	[port release];
 	[super dealloc];
 }
 
@@ -62,35 +63,67 @@
     }
 }
 
+- (BOOL)shouldStop {
+    return shouldStop;
+}
 
-- (void)parseServersInURL:(NSURL *)file toServerList:(MServerList *)slist count:(NSNumber *)n context:(NSManagedObjectContext *)moc
+- (void)setShouldStop:(BOOL)value {
+        shouldStop = value;
+}
+
+- (void)sendTerminateMessage
 {
-	count = [n retain];
-	context = [moc retain];
-	sl = [slist retain];
+	NSPortMessage *message = [[NSPortMessage alloc] initWithSendPort:port receivePort:nil components:nil];
+	[message setMsgid:kParserTerminated];
+	[message sendBeforeDate:[NSDate date]];
+	
+	[message release];	
+}
+
+//- (void)parseServersInURL:(NSURL *)file toServerList:(MServerList *)slist count:(NSNumber *)n context:(NSManagedObjectContext *)moc
+- (void)parseServers:(NSArray *)args
+{
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	
+	// create new context for this thread
+	context = [[NSManagedObjectContext alloc] init];
+	[context setPersistentStoreCoordinator:[[NSApp delegate] persistentStoreCoordinator]];
+	[context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+	[context setUndoManager:nil];
+	
+	NSURL *file = [args objectAtIndex:0];
+	sl = [[context objectWithID:[args objectAtIndex:1]] retain];
+	count = [[args objectAtIndex:2] retain];
+	port = [[args objectAtIndex:3] retain];
+	
 	currentServers = [[sl mutableSetValueForKey:@"servers"] retain];
 	serverSyncStep = [[NSUserDefaults standardUserDefaults] integerForKey:@"serverSyncStep"];
 	serverCount = 0;
 	
-	qstatParser = [[NSXMLParser alloc] initWithContentsOfURL:file];
+	NSXMLParser *qstatParser = [[NSXMLParser alloc] initWithContentsOfURL:file];
 	[qstatParser setDelegate:self];
 	[qstatParser setShouldProcessNamespaces:YES];
 	[qstatParser setShouldResolveExternalEntities:NO];
 	[qstatParser parse];
-	
+	[qstatParser release];
+	// this is complicated but this release should be here
+	[innerPool release];
+	[pool release];
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
-	if(count != nil){
+	if((id)count != (id)[NSNull null]){
 		[progressDelegate startedProcessing:[count intValue]];
 	}
+	objectsToSync = [NSMutableArray new];
 	
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
 	[self syncObjectsWithMainThread];
+	[self sendTerminateMessage];
 }
 
 - (void)parser:(NSXMLParser *)parser 
@@ -101,7 +134,7 @@ didStartElement:(NSString *)elementName
 {
 	// --------- Element server ---------
 	if ([elementName isEqualToString:@"server"]) {
-		pool = [[NSAutoreleasePool alloc] init];
+		innerPool = [[NSAutoreleasePool alloc] init];
 		NSString *nServers;
 		if((nServers = [attributeDict objectForKey:@"servers"]) != nil){
 			[progressDelegate startedProcessing:[nServers intValue]];
@@ -214,12 +247,18 @@ didStartElement:(NSString *)elementName
 		}
 		[currentServer setLastRefreshDate:[NSDate date]];
 		[currentServers addObject:currentServer];
+		[objectsToSync addObject:currentServer];
 		[currentServer release]; currentServer = nil;
 		[progressDelegate incrementByOne];
 
 		if(++serverCount == serverSyncStep){
 			[self syncObjectsWithMainThread];
 			serverCount = 0;
+		}
+		
+		//test to see if we should stop
+		if(shouldStop){
+			[parser abortParsing];
 		}
 		return;
     }
@@ -328,12 +367,8 @@ didStartElement:(NSString *)elementName
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
-	[currentServer release];
-	[currentRules release];
-	[currentRuleName release];
-	[currentPlayers release];
-	[currentPlayer release];
-	[currentString release];
+	[self syncObjectsWithMainThread];
+	[self sendTerminateMessage];
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
@@ -388,29 +423,31 @@ didStartElement:(NSString *)elementName
 
 - (void)syncObjectsWithMainThread
 {	
-	NSMutableSet *objectIDsToSync = [[NSMutableSet alloc] initWithSet:[[context insertedObjects] valueForKey:@"objectID"]];
-	[objectIDsToSync unionSet:[[context updatedObjects] valueForKey:@"objectID"]];
+//	NSMutableSet *objectIDsToSync = [[NSMutableSet alloc] initWithSet:[[context insertedObjects] valueForKey:@"objectID"]];
+//	[objectIDsToSync unionSet:[[context updatedObjects] valueForKey:@"objectID"]];
 	
 	//flush changes to disk
 	NSError *error = nil;
 	[context save:&error];
 	if(error != nil)
 		NSLog(@"Save Error: %@", error);
+	NSArray *objectIDsToSync = [objectsToSync valueForKey:@"objectID"];
 	// update mainthread
 	[sl performSelectorOnMainThread:@selector(syncObjectsFromStore:)
 						 withObject:objectIDsToSync
 					  waitUntilDone:NO];
 
-	[objectIDsToSync release];
+	[objectsToSync release];
 	NSManagedObjectID *tempOID = [sl objectID];
 	[sl release];
 	[currentServers release];
 	[context reset];
 	//setup new autorelease pool
-	[pool release];
-	pool = [[NSAutoreleasePool alloc] init];
+	[innerPool release];
+	innerPool = [[NSAutoreleasePool alloc] init];
 	sl = [[context objectWithID:tempOID] retain];
 	currentServers = [[sl mutableSetValueForKey:@"servers"] retain];
+	objectsToSync = [NSMutableArray new];
 }
 
 @end

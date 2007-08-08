@@ -11,33 +11,33 @@
 @class MGenericGame;
 @class MProgressDelegate;
 @class MServer;
+@class MQuery;
 
 @interface MServerList : NSManagedObject {
-	
+	BOOL busyFlag;
+	MProgressDelegate *progressDelegate;
+	MQuery *currentQuery;
 }
 
 + (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context;
 
-- (void)syncObjectsFromStore:(NSSet *)objectIDs;
+- (void)syncObjectsFromStore:(NSArray *)objectIDs;
 
 #pragma mark Accessors
 - (NSString *)gameServerType;
 - (void)setGameServerType:(NSString *)value;
-- (BOOL)validateGameServerType: (id *)valueRef error:(NSError **)outError;
 
 - (MGenericGame *)game;
 - (void)setGame:(MGenericGame *)value;
 
-- (NSNumber *)busyFlag;
-- (void)setBusyFlag:(NSNumber *)value;
-
-- (NSData *)serializedProgressDelegate;
-- (void)setSerializedProgressDelegate:(NSData *)value;
+#pragma mark Temporary attributes
+- (BOOL)busyFlag;
+- (void)setBusyFlag:(BOOL)value;
 
 - (MProgressDelegate *)progressDelegate;
 - (void)setProgressDelegate:(MProgressDelegate *)value;
 
-//derived attributes
+#pragma mark Derived attributes
 
 - (NSDictionary *)infoDict;
 - (void)setInfoDict:(NSDictionary *)infoDict;
@@ -59,5 +59,9 @@
 
 - (void)reload;
 - (void)refreshServers:(NSArray *)inServers;
+
+#pragma mark Actions
+- (void)terminateQuery;
+- (void)queryTerminated;
 
 @end

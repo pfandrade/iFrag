@@ -29,7 +29,13 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	return sl;
 }
 
-- (void)syncObjectsFromStore:(NSSet *)objectIDs
+- (void) dealloc {
+	[progressDelegate release];
+	[currentQuery release];
+	[super dealloc];
+}
+
+- (void)syncObjectsFromStore:(NSArray *)objectIDs
 {
 	//to be executed in the main thread!
 	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
@@ -40,42 +46,28 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	NSManagedObjectID *objID;
 	id obj;
 	
-	// this is for trying to speed up this loop
-	SEL nextObj_sel = @selector(nextObject);
-	SEL objWithID_sel = @selector(objectWithID:);
-	SEL refreshObj_sel = @selector(refreshObject:mergeChanges:);
-	IMP nextObj_imp = [enumerator methodForSelector:nextObj_sel];
-	IMP objWithID_imp = [context methodForSelector:objWithID_sel];
-	IMP refreshObj_imp =[context methodForSelector:refreshObj_sel];
+//	// this is for trying to speed up this loop
+//	SEL nextObj_sel = @selector(nextObject);
+//	SEL objWithID_sel = @selector(objectWithID:);
+//	SEL refreshObj_sel = @selector(refreshObject:mergeChanges:);
+//	IMP nextObj_imp = [enumerator methodForSelector:nextObj_sel];
+//	IMP objWithID_imp = [context methodForSelector:objWithID_sel];
+//	IMP refreshObj_imp =[context methodForSelector:refreshObj_sel];
+//	
+//	while(objID = nextObj_imp(enumerator, nextObj_sel)){
+//		obj = objWithID_imp(context, objWithID_sel, objID);
+//		refreshObj_imp(context, refreshObj_sel, obj, NO);
+//	}
 	
-	while(objID = nextObj_imp(enumerator, nextObj_sel)){
-		obj = objWithID_imp(context, objWithID_sel, objID);
-		refreshObj_imp(context, refreshObj_sel, obj, NO);
-	}
+//	NSFetchRequest *fr = [[NSFetchRequest alloc] init];
+//	[fr setEntity:[NSEntityDescription entityForName:@"Server" inManagedObjectContext:context]];
+//	[fr setPredicate:[NSPredicate predicateWithFormat:@"" argumentArray:
+//	[context setStalenessInterval:10.0];
+//	[context refreshObject:self mergeChanges:YES];
+//	NSLog(@"%d", [[[self valueForKey:@"servers"] valueForKey:@"name"] count]);
 	[context processPendingChanges];
 	[[context undoManager] enableUndoRegistration];
 	
-}
-
-- (void)awakeFromFetch {
-	[self setPrimitiveValue:[NSNumber numberWithBool:NO] forKey:@"busyFlag"];
-	NSProgressIndicator *pi = [[self progressDelegate] progressIndicator];
-	if(pi != nil){
-		[pi setHidden:YES];
-	}
-}
-
-- (void)willSave
-{
-    MProgressDelegate *progressDelegate = [self primitiveValueForKey:@"progressDelegate"];
-    if (progressDelegate != nil) {
-        [self setPrimitiveValue:[NSKeyedArchiver archivedDataWithRootObject: progressDelegate]
-						 forKey:@"serializedProgressDelegate"];
-    }
-    else {
-        [self setPrimitiveValue:nil forKey:@"serializedProgressDelegate"];
-    }
-    [super willSave];
 }
 
 #pragma mark Accessors
@@ -99,11 +91,6 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	
 }
 
-- (BOOL)validateGameServerType: (id *)valueRef error:(NSError **)outError 
-{
-    // Insert custom validation logic here.
-    return YES;
-}
 
 - (MGenericGame *)game 
 {
@@ -133,75 +120,45 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	
 }
 
-//should use trySetBusyFlag
-- (NSNumber *)busyFlag 
-{
-	NSNumber * tmpValue;
-	
+
+#pragma mark Temporary attributes
+
+- (BOOL)busyFlag 
+{	
+	BOOL tmp;
 	[self willAccessValueForKey: @"busyFlag"];
-	tmpValue = [self primitiveValueForKey: @"busyFlag"];
+	tmp = busyFlag;
 	[self didAccessValueForKey: @"busyFlag"];
-	
-    return tmpValue;
+	return tmp;
 }
 
-//should use trySetBusyFlag
-- (void)setBusyFlag:(NSNumber *)value 
+- (void)setBusyFlag:(BOOL)value 
 {
-	
 	[self willChangeValueForKey: @"busyFlag"];
-	[self setPrimitiveValue: value forKey: @"busyFlag"];
+	busyFlag = value;
 	[self didChangeValueForKey: @"busyFlag"];
-	
 }
-
-- (NSData *)serializedProgressDelegate 
-{
-	NSData * tmpValue;
 	
-	[self willAccessValueForKey: @"serializedProgressDelegate"];
-	tmpValue = [self primitiveValueForKey: @"serializedProgressDelegate"];
-	[self didAccessValueForKey: @"serializedProgressDelegate"];
-	
-	
-    return tmpValue;
-}
-
-- (void)setSerializedProgressDelegate:(NSData *)value 
-{
-	
-	[self willChangeValueForKey: @"serializedProgressDelegate"];
-	[self setPrimitiveValue: value forKey: @"serializedProgressDelegate"];
-	[self didChangeValueForKey: @"serializedProgressDelegate"];
-	
-}
-
 - (MProgressDelegate *)progressDelegate 
 {
-	MProgressDelegate *tmpValue;
-	
+	MProgressDelegate *pd;
 	[self willAccessValueForKey: @"progressDelegate"];
-	tmpValue = [self primitiveValueForKey: @"progressDelegate"];
+    pd = progressDelegate;
 	[self didAccessValueForKey: @"progressDelegate"];
-	if (tmpValue == nil) {
-		NSData *delegateData = [self valueForKey:@"serializedProgressDelegate"];
-		if (delegateData != nil) {
-			tmpValue = [NSKeyedUnarchiver unarchiveObjectWithData:delegateData];
-			[self setPrimitiveValue:tmpValue forKey:@"progressDelegate"];
-		}
-	}
-	
-    return tmpValue;
+	return pd;
 }
 
 - (void)setProgressDelegate:(MProgressDelegate *)value 
 {
-	
-	[self willChangeValueForKey: @"progressDelegate"];
-	[self setPrimitiveValue: value forKey: @"progressDelegate"];
-	[self didChangeValueForKey: @"progressDelegate"];
-	
+	if(value != progressDelegate){
+		[progressDelegate release];
+		[self willChangeValueForKey: @"progressDelegate"];
+		progressDelegate = [value retain];
+		[self didChangeValueForKey: @"progressDelegate"];
+	}
 }
+
+#pragma mark Derived attributes
 
 - (NSString *)name
 {
@@ -320,61 +277,46 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 -(void)reload
 {
 	//if we are busy return
-	if([[self busyFlag] boolValue])
+	if([self busyFlag])
 		return;
-	[self setBusyFlag:[NSNumber numberWithBool:YES]];
+	[self setBusyFlag:YES];
 	
 	MProgressDelegate *pd = [[MProgressDelegate new] autorelease];
 	[self setProgressDelegate:pd];
-	MQuery *q = [[MQuery new] autorelease];
-	[q setProgressDelegate:pd];
+	currentQuery = [MQuery new];
 	
-	NSPort *port = [NSPort port];
-	[port setDelegate:self];
-	[[NSRunLoop currentRunLoop] addPort:port forMode:NSDefaultRunLoopMode];
-	
-	NSArray *threadArgs = [NSArray arrayWithObjects:[self objectID], port, nil];
-	[NSThread detachNewThreadSelector:@selector(reloadServerList:) toTarget:q withObject:threadArgs];
+	[currentQuery reloadServerList:self];
 }
 
 -(void)refreshServers:(NSArray *)inServers
 {
-	if([[self busyFlag] boolValue])
-		return;
-	[self setBusyFlag:[NSNumber numberWithBool:YES]];
-	
 	if(inServers == nil){ // refresh the entire list
 		inServers = [self valueForKey:@"servers"];
 	}
 	
+	if([self busyFlag] || [inServers count] == 0)
+		return;
+	[self setBusyFlag:YES];
+		
 	MProgressDelegate *pd = [[MProgressDelegate new] autorelease];
 	[self setProgressDelegate:pd];
-	MQuery *q = [[MQuery new] autorelease];
-	[q setProgressDelegate:pd];
+	currentQuery = [MQuery new];
 	
-	
-	NSPort *port = [NSPort port];
-	[port setDelegate:self];
-	[[NSRunLoop currentRunLoop] addPort:port forMode:NSDefaultRunLoopMode];
-	
-	//NOTA: aqui vai o inServers como argumento, em vez de [inServers valueForKey:@"objectID"]
-	//ou um array com os address e outro com serverType para evitar iterar sobre o array duas vezes.
-	//O inServers so vai ser usado para leitura!
-	NSArray *threadArgs = [NSArray arrayWithObjects:[self objectID], inServers, port, nil];
-	[NSThread detachNewThreadSelector:@selector(refreshGameServers:) toTarget:q withObject:threadArgs];
+	[currentQuery refreshGameServers:inServers inServerList:self];
+
 }
 
-- (void)handlePortMessage:(NSPortMessage *)portMessage
-{	
-	unsigned int messageID = [portMessage msgid];
-	if(messageID == kQueryTerminated){
-		[self setBusyFlag:[NSNumber numberWithBool:NO]];
-	//	[[self managedObjectContext] refreshObject:self mergeChanges:NO];
-		//remove port from the runLoop
-		[[NSRunLoop currentRunLoop] removePort:[portMessage receivePort] forMode:NSDefaultRunLoopMode];
-		//TODO: Por aqui um save?
-		return;
-	}
+
+- (void)terminateQuery
+{
+	[currentQuery terminate];
+}
+
+- (void)queryTerminated
+{
+	[self setProgressDelegate:nil];
+	[self setBusyFlag:NO];
+	[currentQuery release]; currentQuery = nil;
 }
 
 @end

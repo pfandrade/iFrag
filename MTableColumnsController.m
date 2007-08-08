@@ -93,6 +93,9 @@ typedef enum _MColumnPosition {
 			}
 			
 			if([identifier isEqualToString:@"game.icon"]){
+				NSImage *gameHeader = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForImageResource:@"game_header"]];
+				[[tc headerCell] setImage:gameHeader];
+				[gameHeader release];
 				[tc setWidth:[serversTableView rowHeight]];
 				[tc setSortDescriptorPrototype:[[[NSSortDescriptor alloc] initWithKey:@"game.name" ascending:YES] autorelease]];
 				[tc setDataCell:[[[NSImageCell alloc] init] autorelease]];

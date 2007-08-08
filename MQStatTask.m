@@ -117,18 +117,15 @@
 	return filePathURL;
 }
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
-{
-	if ([qstat respondsToSelector:selector])
-	{
-		return [qstat methodSignatureForSelector:selector];
-	} else {
-		return [super methodSignatureForSelector: selector];
-	}
+- (NSTask *)qstat {
+    return [[qstat retain] autorelease];
 }
-- (void)forwardInvocation:(NSInvocation *)invocation
-{
-	[invocation invokeWithTarget:qstat];
+
+- (void)setQstat:(NSTask *)value {
+    if (qstat != value) {
+        [qstat release];
+        qstat = [value retain];
+    }
 }
 
 @end

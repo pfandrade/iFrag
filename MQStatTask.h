@@ -17,4 +17,7 @@
 - (NSURL *)queryGameServers:(NSArray *)serverArray;
 - (NSURL *)queryGameServer:(NSString *)serverAddress withServerType:(NSString *)serverType;
 
+- (NSTask *)qstat;
+- (void)setQstat:(NSTask *)value;
+
 @end

@@ -147,7 +147,8 @@
 
 - (IBAction)playGame:(id)sender
 {
-	// TODO
+	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	[currentServerList terminateQuery];
 }
 
 - (IBAction)addToFavorites:(id)sender

@@ -13,8 +13,8 @@
 @class MServerList;
 
 @interface MQStatXMLParser : NSObject {
+	BOOL shouldStop;
 	@private
-	NSXMLParser *qstatParser;
 	id progressDelegate;
 	NSManagedObjectContext *context;
 	MServerList *sl;
@@ -27,14 +27,21 @@
 	MPlayer *currentPlayer;
 	NSMutableString *currentString;
 	BOOL inElement, inPlayers;
-	NSAutoreleasePool *pool;
+	NSAutoreleasePool *innerPool;
 	int serverSyncStep, serverCount;
+	NSPort *port;
+	NSMutableArray *objectsToSync;
 }
 
 - (id)progressDelegate;
 - (void)setProgressDelegate:(id)value;
 
-- (void)parseServersInURL:(NSURL *)file toServerList:(MServerList *)slist count:(NSNumber *)n context:(NSManagedObjectContext *)moc;
+- (BOOL)shouldStop;
+- (void)setShouldStop:(BOOL)value;
+
+- (void)sendTerminateMessage;
+
+- (void)parseServers:(NSArray *)args;
 
 //private
 - (NSString *)replaceEscapedCharacters:(NSString *)string;

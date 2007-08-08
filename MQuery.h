@@ -8,23 +8,27 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define kQueryTerminated 100
+#define kCheckinMessage 100
+#define kQueryTerminated 101
+#define kParserTerminated 102
+#define kTerminateMessage 103
 
 @class MServer;
 @class MServerList;
+@class MQStatTask;
+@class MQStatXMLParser;
 
 @interface MQuery : NSObject {
 	@private
-	id progressDelegate;
-	NSPort *sendPort;
+	MQStatTask *qstatTask;
+	MQStatXMLParser *qParser;
+	MServerList *serverList;
+	NSNumber *serverCount;
+	NSURL *qstatQueryResultingXMLFile;
 }
 
-- (id)progressDelegate;
-- (void)setProgressDelegate:(id)value;
-
-- (void)sendTerminateMessage;
-
-- (void)reloadServerList:(NSArray *)args;
-- (void)refreshGameServers:(NSArray *)args;
+- (void)terminate;
+- (void)reloadServerList:(MServerList *)args;
+- (void)refreshGameServers:(NSArray *)servers inServerList:(MServerList *)sl;
 
 @end

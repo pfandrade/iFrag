@@ -17,125 +17,113 @@
 @implementation MQuery
 
 - (void) dealloc {
-	[progressDelegate finished];
-	[progressDelegate release];
+	[qstatTask release];
+	[serverList release];
+	[serverCount release];
+	[qParser release];
+	[qstatQueryResultingXMLFile release];
 	[super dealloc];
 }
 
-- (id)progressDelegate {
-    return [[progressDelegate retain] autorelease];
-}
 
-- (void)setProgressDelegate:(id)value {
-    if (progressDelegate != value) {
-        [progressDelegate release];
-        progressDelegate = [value retain];
-    }
-}
-
-- (void)sendTerminateMessage
+- (void)terminate
 {
-	NSPortMessage *message = [[NSPortMessage alloc] initWithSendPort:sendPort receivePort:nil components:nil];
-	[message setMsgid:kQueryTerminated];
-	[message sendBeforeDate:[NSDate date]];
-	
-	[message release];	
-}
-
-- (void)reloadServerList:(NSArray *)args
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	// create new context for this thread
-	NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
-	[context setPersistentStoreCoordinator:[[NSApp delegate] persistentStoreCoordinator]];
-	[context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-	[context setUndoManager:nil];
-	
-	MServerList *sl = (MServerList *)[context objectWithID:[args objectAtIndex:0]];
-	sendPort = [args objectAtIndex:1];
-	
-	[progressDelegate started];
-	
-	/*** qstat  ***/
-	id qstat = [[MQStatTask alloc] init];
-	NSURL *qstatQueryResultingXMLFile;
-	
-	qstatQueryResultingXMLFile = [qstat queryGameServer:[[sl game] masterServerAddress]
-										 withServerType:[[sl game] masterServerFlag]];
-	
-	[qstat waitUntilExit];
-	
-	if ([qstat terminationStatus] != 0){ //ups something went wrong
-		[progressDelegate finished];
-		//@throw [[NSException alloc] initWithName:@"QStat query failed" reason:@"No Internet connection?" userInfo:nil];
-		//TODO: NSAlert instead? E AQUI N PODE SER RETURN! E PRECISO IR ENVIAR A MSG
-		return;
+	if(qstatTask != nil) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self 
+														name:NSTaskDidTerminateNotification
+													  object:[qstatTask qstat]];
+		[[NSFileManager defaultManager] removeFileAtPath:[qstatQueryResultingXMLFile path] handler:nil];
+		[[qstatTask qstat] terminate];		
+		[[serverList progressDelegate] finished];
+		[serverList queryTerminated];
 	}
-	[qstat release];
-	/*************/
-	
-//	NSURL *qstatQueryResultingXMLFile = [NSURL fileURLWithPath:@"/Users/cereal/Desktop/stuff/iFrag_stuff/qstat_out.xml"];
-	
-	/*** xmlParser ***/
-	MQStatXMLParser *qParser = [MQStatXMLParser new];
-	[qParser setProgressDelegate:progressDelegate];
-	
-	[qParser parseServersInURL:qstatQueryResultingXMLFile
-				  toServerList:sl
-						 count:nil
-					   context:context];
-	[qParser release];
-
-	[[NSFileManager defaultManager] removeFileAtPath:[qstatQueryResultingXMLFile path] handler:nil];
-	/****************/
-	[progressDelegate finished];
-	
-	[context release];
-	[self sendTerminateMessage];
-	[pool release];
+	if(qParser != nil){
+		[qParser setShouldStop:YES]; // when this finishes it will signal this thread with kParserTerminated
+	}
 }
 
-- (void)refreshGameServers:(NSArray *)args
+- (void)handlePortMessage:(NSPortMessage *)portMessage
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	// create new context for this thread
-	NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
-	[context setPersistentStoreCoordinator:[[NSApp delegate] persistentStoreCoordinator]];
-	[context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-	[context setUndoManager:nil];
-	
-	MServerList *sl = (MServerList *)[context objectWithID:[args objectAtIndex:0]];
-	NSArray *servers = (NSArray *)[args objectAtIndex:1];
-	sendPort = [args objectAtIndex:2];
-	
-	[progressDelegate started];
-	
-	/*** qstat  ***/
-	MQStatTask *qstat = [[MQStatTask alloc] init];
-	NSURL *qstatQueryResultingXMLFile;
+	unsigned int messageID = [portMessage msgid];
 
-	qstatQueryResultingXMLFile = [qstat queryGameServers:servers];
-	
-	[(NSTask *)qstat waitUntilExit];
-	[qstat release];
-	/*************/
-	/*** xmlParser ***/
-	MQStatXMLParser *qParser = [MQStatXMLParser new];
-	[qParser setProgressDelegate:progressDelegate];
-	
-	//TODO: try catch aqui por causa do NoInternetConnection etc.
-	[qParser parseServersInURL:qstatQueryResultingXMLFile
-				  toServerList:sl
-						 count:[NSNumber numberWithInt:[servers count]]
-					   context:context];
-	[qParser release];
-	[[NSFileManager defaultManager] removeFileAtPath:[qstatQueryResultingXMLFile path] handler:nil]; 
-	/****************/
-	[progressDelegate finished];
+	if(messageID == kParserTerminated){
+		[[NSRunLoop currentRunLoop] removePort:[portMessage receivePort] forMode:NSDefaultRunLoopMode];
+		[[NSFileManager defaultManager] removeFileAtPath:[qstatQueryResultingXMLFile path] handler:nil];
+		[[serverList progressDelegate] finished];
+		[serverList queryTerminated];
+	}
+}
 
-	[context release];
-	[self sendTerminateMessage];	
-	[pool release];
+- (void)reloadServerList:(MServerList *)sl
+{
+	serverList = [sl retain];
+	
+	[[serverList progressDelegate] started];
+	
+	/*** Start Qstat  ***/
+	qstatTask = [[MQStatTask alloc] init];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(qstatTaskDidTerminate:) 
+												 name:NSTaskDidTerminateNotification
+											   object:[qstatTask qstat]];
+		
+	qstatQueryResultingXMLFile = [[qstatTask queryGameServer:[[sl game] masterServerAddress]
+											 withServerType:[[sl game] masterServerFlag]] retain];
+	
+}
+
+- (void)refreshGameServers:(NSArray *)servers inServerList:(MServerList *)sl
+{	
+	serverList = [sl retain];
+	serverCount = [[NSNumber numberWithInt:[servers count]] retain];
+	
+	[[serverList progressDelegate] started];
+	
+	/*** Start Qstat  ***/
+	qstatTask = [[MQStatTask alloc] init];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(qstatTaskDidTerminate:) 
+												 name:NSTaskDidTerminateNotification
+											   object:[qstatTask qstat]];
+		
+	qstatQueryResultingXMLFile = [[qstatTask queryGameServers:servers] retain];
+}
+
+
+- (void)qstatTaskDidTerminate:(NSNotification *)aNotification
+{
+
+	id qstat = [aNotification object];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self 
+													name:NSTaskDidTerminateNotification
+												  object:qstat];
+	[qstatTask release]; qstatTask = nil;
+
+	if ([qstat terminationStatus] != 0){ 
+		[[serverList progressDelegate] finished];
+		//o qstat nunca se queixa de nada... por isso isto nunca deve acontecer
+		//TODO mudar o codigo do qstat para retornar um teminationStatus??
+		return;
+	}else{
+		/** Start the XML parser thread **/	
+		NSPort *port = [NSMachPort port];
+		[port setDelegate:self];
+		[[NSRunLoop currentRunLoop] addPort:port forMode:NSDefaultRunLoopMode];
+	
+		qParser = [MQStatXMLParser new];
+		[qParser setProgressDelegate:[serverList progressDelegate]];
+		id w;
+		if(serverCount == nil){
+			w = [NSNull null];
+		}else {
+			w = serverCount;
+		}
+		NSArray *args = [NSArray arrayWithObjects:qstatQueryResultingXMLFile, [serverList objectID], w, port, nil];
+		[NSThread detachNewThreadSelector:@selector(parseServers:) toTarget:qParser withObject:args];
+	}
 }
 
 @end

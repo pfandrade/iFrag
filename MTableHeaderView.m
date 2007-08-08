@@ -13,9 +13,10 @@
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
-	if([theEvent type] == NSRightMouseDown)
+	//NSLog(@"%d",[theEvent buttonMask]);
+	//if([theEvent type] == NSRightMouseDown || [theEvent buttonMask] == NSLeftMouseDownMask&NSControlKeyMask)
 		return [self columnsMenu];
-	return nil;
+	//return nil;
 }
 
 - (NSMenu *)columnsMenu {

@@ -72,6 +72,7 @@
 		D2D92ED60C2C46EC00C164D6 /* MTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D92ED40C2C46EC00C164D6 /* MTableView.m */; };
 		D2E052360B8CA07C00297692 /* Folder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2E052350B8CA07C00297692 /* Folder.tiff */; };
 		D2E0DDE80C346CB400330F4E /* MOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E0DDE60C346CB400330F4E /* MOutlineView.m */; };
+		D2E7A5CF0C57A35000F3A06C /* game_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2E7A5CE0C57A35000F3A06C /* game_header.tiff */; };
 		D2F0ADB00B06698A00037C58 /* MServerList.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F0ADAE0B06698A00037C58 /* MServerList.m */; };
 		D2F2894F0BDA632900FF3AD4 /* MRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F2894D0BDA632900FF3AD4 /* MRule.m */; };
 		D2F28CA80BDABF3E00FF3AD4 /* iFrag_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F28CA60BDABF3E00FF3AD4 /* iFrag_AppDelegate.m */; };
@@ -206,6 +207,7 @@
 		D2E0DDE50C346CB400330F4E /* MOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOutlineView.h; sourceTree = "<group>"; };
 		D2E0DDE60C346CB400330F4E /* MOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutlineView.m; sourceTree = "<group>"; };
 		D2E286170B98C3DE0078CC28 /* MErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MErrorCodes.h; sourceTree = "<group>"; };
+		D2E7A5CE0C57A35000F3A06C /* game_header.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = game_header.tiff; sourceTree = "<group>"; };
 		D2F0ADAD0B06698A00037C58 /* MServerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServerList.h; sourceTree = "<group>"; };
 		D2F0ADAE0B06698A00037C58 /* MServerList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServerList.m; sourceTree = "<group>"; };
 		D2F2894C0BDA632900FF3AD4 /* MRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRule.h; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 		D29B20700BCD769900228D51 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D2E7A5CE0C57A35000F3A06C /* game_header.tiff */,
 				D278DD000BCBCCF60099B869 /* flagged_header.tiff */,
 				D278DD010BCBCCF60099B869 /* lock.tiff */,
 				D2F310710BD431D5007128B7 /* Action.tiff */,
@@ -571,6 +574,7 @@
 				D2455DFB0C14C2A300F27444 /* InspectorWindow.nib in Resources */,
 				D28BE9160C2431680030B303 /* PlayersDrawer.nib in Resources */,
 				D2A0595D0C4D1D7F007BF4F5 /* qstat.cfg in Resources */,
+				D2E7A5CF0C57A35000F3A06C /* game_header.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,12 @@
 #import "KBGradientOutlineView.h"
 
 @interface MOutlineView : KBGradientOutlineView {
-
+	NSTrackingRectTag trackingTag;
+	BOOL mouseOverView;
+	int mouseOverRow;
+	int lastOverRow;	
 }
+
+- (int)mouseOverRow;
 
 @end

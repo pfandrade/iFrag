@@ -11,6 +11,8 @@
 #import "MQuery.h"
 #import "MServer.h"
 #import "MProgressDelegate.h"
+#import "MPlayer.h"
+#import "MRules.h"
 
 @implementation MServerList
 
@@ -35,16 +37,17 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	[super dealloc];
 }
 
-- (void)syncObjectsFromStore:(NSArray *)objectIDs
+- (void)insertServers:(NSArray *)servers
 {
 	//to be executed in the main thread!
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-	[context processPendingChanges];
-	[[context undoManager] disableUndoRegistration];
+//	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+//	[context processPendingChanges];
+//	[[context undoManager] disableUndoRegistration];
 	
-	NSEnumerator *enumerator = [objectIDs objectEnumerator];
-	NSManagedObjectID *objID;
-	id obj;
+//	[context refreshObject:self mergeChanges:YES];
+	//NSEnumerator *enumerator = [objectIDs objectEnumerator];
+//	NSManagedObjectID *objID;
+//	id obj;
 	
 //	// this is for trying to speed up this loop
 //	SEL nextObj_sel = @selector(nextObject);
@@ -65,9 +68,69 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 //	[context setStalenessInterval:10.0];
 //	[context refreshObject:self mergeChanges:YES];
 //	NSLog(@"%d", [[[self valueForKey:@"servers"] valueForKey:@"name"] count]);
+//	[context processPendingChanges];
+//	[[context undoManager] enableUndoRegistration];
+//	MServerList *mainThreadSL = [context objectWithID:[self objectID]];
+//	[context refreshObject:mainThreadSL mergeChanges:YES];
+//	[mainThreadSL setNeedsReload:YES];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:MServerListNeedsReloadNotification object:mainThreadSL];
+	
+	NSManagedObjectContext *context = [self managedObjectContext];
+	[context processPendingChanges];
+	[[context undoManager] disableUndoRegistration];
+	MServer *currentServer;
+	NSMutableDictionary *currentServerDict;
+	NSEnumerator *serverEnum = [servers objectEnumerator];
+	NSMutableSet *serversToAdd = [NSMutableSet new];
+	
+	while(currentServerDict = [serverEnum nextObject]){
+		NSMutableArray *playersDicts = [currentServerDict valueForKey:@"players"];
+		NSEnumerator *playerEnum = [playersDicts objectEnumerator];
+		NSMutableSet *players = [NSMutableSet new];
+		MPlayer *currentPlayer;
+		MRules *currentRules;
+		NSMutableDictionary *currentPlayerDict;
+		// change the players key to NSManagedObjects
+		while(currentPlayerDict = [playerEnum nextObject]){
+			currentPlayer = [MPlayer createPlayerInContext:context];
+			[currentPlayer setValuesForKeysWithDictionary:currentPlayerDict];
+			[players addObject:currentPlayer];
+		}
+		[currentServerDict setObject:players forKey:@"players"];
+		[players release]; players = nil;
+		// change the rules key to NSManagedObject
+		currentRules = [MRules createRulesInContext:context];
+		
+		[currentRules setRules:[currentServerDict valueForKey:@"rules"]];
+		[currentServerDict setObject:currentRules forKey:@"rules"];
+		
+		// get the server
+		currentServer = [MServer createServerWithAddress:[currentServerDict valueForKey:@"address"] inContext:context];
+		if([[currentServer objectID] isTemporaryID]){
+			[currentServer setValuesForKeysWithDictionary:currentServerDict];
+		
+		}else{
+			// delete current players and rules
+			MRules *rulesToDelete = [currentServer valueForKey:@"rules"];
+			[currentServer setValue:nil forKey:@"rules"];
+			NSSet *playersToDelete = [currentServer mutableSetValueForKey:@"players"];
+			[currentServer setValue:nil forKey:@"players"];
+			[context deleteObject:rulesToDelete];
+			NSEnumerator *ptdEnum = [[playersToDelete allObjects] objectEnumerator];
+			MPlayer *p;
+			while(p = [ptdEnum nextObject]){
+				[context deleteObject:p];
+			}
+			
+			[currentServer setValuesForKeysWithDictionary:currentServerDict];
+		}
+		[serversToAdd addObject:currentServer];
+	}
+	
+	[self addServers:serversToAdd];
+	[serversToAdd release];
 	[context processPendingChanges];
 	[[context undoManager] enableUndoRegistration];
-	
 }
 
 #pragma mark Accessors
@@ -138,7 +201,17 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	busyFlag = value;
 	[self didChangeValueForKey: @"busyFlag"];
 }
-	
+
+- (BOOL)needsReload {
+    return needsReload;
+}
+
+- (void)setNeedsReload:(BOOL)value {
+    if (needsReload != value) {
+        needsReload = value;
+    }
+}
+
 - (MProgressDelegate *)progressDelegate 
 {
 	MProgressDelegate *pd;

@@ -410,5 +410,4 @@ thePath = [NSBezierPath bezierPathWithOvalInRect:theBounds];
 //
 [self didChangeValueForKey:@"pieChartStyle"];
 }
-
 @end

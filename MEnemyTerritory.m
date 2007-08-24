@@ -9,7 +9,7 @@
 #import "MEnemyTerritory.h"
 
 // this game name is not used anymore, we now use the bundleName
-static NSString *const _gameName			= @"Wolfenstein Enemy Territory";
+static NSString *const _gameName			= @"Wolfenstein ET";
 static NSString *const _bundleIdentifier	= @"com.activision.rtcw_et";
 static NSString *const _serverTypeString	= @"woets";
 static NSString *const _masterServerFlag	= @"woetm";
@@ -80,11 +80,11 @@ static NSString *const _defaultServerPort	= @"27960";
 #pragma mark Overriden Instance Methods
 
 - (id) init {
-	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+//	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	
-	NSString *bundleName = [[[ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier] lastPathComponent] stringByDeletingPathExtension];
+//	NSString *bundleName = [[[ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier] lastPathComponent] stringByDeletingPathExtension];
 		
-	self = [super initWithGameName:[NSString stringWithString:bundleName]
+	self = [super initWithGameName:_gameName 
 					 andBundlePath:[[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:_bundleIdentifier]];
 	if (self != nil) {
 		bundleIdentifier = _bundleIdentifier;

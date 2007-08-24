@@ -84,6 +84,7 @@ extern NSString *iFragPBoardType;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+	NSManagedObjectContext *moc = [[NSApp delegate] managedObjectContext];
 	// test to see if a server was removed, and if so see if it should be deleted
 	if([keyPath isEqualToString:@"servers"]){
 		if([[change objectForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeRemoval){
@@ -91,20 +92,21 @@ extern NSString *iFragPBoardType;
 			NSArray *removedServers = [change objectForKey:NSKeyValueChangeOldKey];
 			NSEnumerator *serverEnum = [removedServers objectEnumerator];
 			id server;
-			NSManagedObjectContext *moc = [[NSApp delegate] managedObjectContext];
+			
 			while(server = [serverEnum nextObject]){
 				//server no longer is contained in any serverlist
 				if([[server valueForKey:@"inServerLists"] count] == 0){
 					[moc deleteObject:server];
 				}
 			}
-			
-			NSError *error = nil;
-			[moc save:&error];
-			if(error != nil){
-				NSLog(@"%@", error);
-			}
 		}
+	}
+
+	// always save chages
+	NSError *error = nil;
+	[moc save:&error];
+	if(error != nil){
+		NSLog(@"%@", error);
 	}
 }
 

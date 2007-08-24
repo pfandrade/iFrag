@@ -13,15 +13,18 @@
 @class MServer;
 @class MQuery;
 
+NSString *const MServerListNeedsReloadNotification = @"ServerListNeedsReloadNotification";
+
 @interface MServerList : NSManagedObject {
 	BOOL busyFlag;
+	BOOL needsReload;
 	MProgressDelegate *progressDelegate;
 	MQuery *currentQuery;
 }
 
 + (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context;
 
-- (void)syncObjectsFromStore:(NSArray *)objectIDs;
+- (void)insertServers:(NSArray *)servers;
 
 #pragma mark Accessors
 - (NSString *)gameServerType;
@@ -33,6 +36,9 @@
 #pragma mark Temporary attributes
 - (BOOL)busyFlag;
 - (void)setBusyFlag:(BOOL)value;
+
+- (BOOL)needsReload;
+- (void)setNeedsReload:(BOOL)value;
 
 - (MProgressDelegate *)progressDelegate;
 - (void)setProgressDelegate:(MProgressDelegate *)value;

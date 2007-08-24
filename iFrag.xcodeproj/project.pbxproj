@@ -24,6 +24,7 @@
 		D23289FD0BBB14080095E5E2 /* CToxicProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = D23289FB0BBB14080095E5E2 /* CToxicProgressIndicator.m */; };
 		D23884680B9327EC003DA6C7 /* KBGradientOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = D23884660B9327EC003DA6C7 /* KBGradientOutlineView.m */; };
 		D23FBFE90C173452008F9266 /* MDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = D23FBFE70C173452008F9266 /* MDrawerController.m */; };
+		D24014670C74A13F004DE480 /* MQuake4.m in Sources */ = {isa = PBXBuildFile; fileRef = D24014650C74A13F004DE480 /* MQuake4.m */; };
 		D240CFA50B1903CE00651B0B /* qstat in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2FF2C440AFFAA870014B41D /* qstat */; };
 		D240CFA90B19059B00651B0B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		D2455DFB0C14C2A300F27444 /* InspectorWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = D2455DF90C14C2A300F27444 /* InspectorWindow.nib */; };
@@ -72,9 +73,10 @@
 		D2D92ED60C2C46EC00C164D6 /* MTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D92ED40C2C46EC00C164D6 /* MTableView.m */; };
 		D2E052360B8CA07C00297692 /* Folder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2E052350B8CA07C00297692 /* Folder.tiff */; };
 		D2E0DDE80C346CB400330F4E /* MOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E0DDE60C346CB400330F4E /* MOutlineView.m */; };
+		D2E26A800C70A490002F7594 /* MDictionaryToArrayTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E26A7E0C70A490002F7594 /* MDictionaryToArrayTransformer.m */; };
 		D2E7A5CF0C57A35000F3A06C /* game_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2E7A5CE0C57A35000F3A06C /* game_header.tiff */; };
 		D2F0ADB00B06698A00037C58 /* MServerList.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F0ADAE0B06698A00037C58 /* MServerList.m */; };
-		D2F2894F0BDA632900FF3AD4 /* MRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F2894D0BDA632900FF3AD4 /* MRule.m */; };
+		D2F2894F0BDA632900FF3AD4 /* MRules.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F2894D0BDA632900FF3AD4 /* MRules.m */; };
 		D2F28CA80BDABF3E00FF3AD4 /* iFrag_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F28CA60BDABF3E00FF3AD4 /* iFrag_AppDelegate.m */; };
 		D2F310720BD431D5007128B7 /* Action.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2F310710BD431D5007128B7 /* Action.tiff */; };
 		D2F60E310BCF0E8D0097AF76 /* Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2F60E300BCF0E8D0097AF76 /* Remove.tiff */; };
@@ -128,6 +130,8 @@
 		D23FBFDA0C172FBD008F9266 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PlayersDrawer.nib; sourceTree = "<group>"; };
 		D23FBFE60C173452008F9266 /* MDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDrawerController.h; sourceTree = "<group>"; };
 		D23FBFE70C173452008F9266 /* MDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDrawerController.m; sourceTree = "<group>"; };
+		D24014640C74A13F004DE480 /* MQuake4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQuake4.h; sourceTree = "<group>"; };
+		D24014650C74A13F004DE480 /* MQuake4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MQuake4.m; sourceTree = "<group>"; };
 		D2455DFA0C14C2A300F27444 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/InspectorWindow.nib; sourceTree = "<group>"; };
 		D24601790BD29E6C00666D90 /* MMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMainController.h; sourceTree = "<group>"; };
 		D248AFB30BBE72C30040B90B /* MOutlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOutlineCell.h; sourceTree = "<group>"; };
@@ -206,12 +210,14 @@
 		D2E052350B8CA07C00297692 /* Folder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Folder.tiff; sourceTree = "<group>"; };
 		D2E0DDE50C346CB400330F4E /* MOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOutlineView.h; sourceTree = "<group>"; };
 		D2E0DDE60C346CB400330F4E /* MOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutlineView.m; sourceTree = "<group>"; };
+		D2E26A7D0C70A490002F7594 /* MDictionaryToArrayTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDictionaryToArrayTransformer.h; sourceTree = "<group>"; };
+		D2E26A7E0C70A490002F7594 /* MDictionaryToArrayTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDictionaryToArrayTransformer.m; sourceTree = "<group>"; };
 		D2E286170B98C3DE0078CC28 /* MErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MErrorCodes.h; sourceTree = "<group>"; };
 		D2E7A5CE0C57A35000F3A06C /* game_header.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = game_header.tiff; sourceTree = "<group>"; };
 		D2F0ADAD0B06698A00037C58 /* MServerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServerList.h; sourceTree = "<group>"; };
 		D2F0ADAE0B06698A00037C58 /* MServerList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServerList.m; sourceTree = "<group>"; };
-		D2F2894C0BDA632900FF3AD4 /* MRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRule.h; sourceTree = "<group>"; };
-		D2F2894D0BDA632900FF3AD4 /* MRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRule.m; sourceTree = "<group>"; };
+		D2F2894C0BDA632900FF3AD4 /* MRules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRules.h; sourceTree = "<group>"; };
+		D2F2894D0BDA632900FF3AD4 /* MRules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRules.m; sourceTree = "<group>"; };
 		D2F28CA50BDABF3E00FF3AD4 /* iFrag_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iFrag_AppDelegate.h; sourceTree = "<group>"; };
 		D2F28CA60BDABF3E00FF3AD4 /* iFrag_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iFrag_AppDelegate.m; sourceTree = "<group>"; };
 		D2F310710BD431D5007128B7 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Action.tiff; sourceTree = "<group>"; };
@@ -348,10 +354,8 @@
 				D2BF91250B03A383004BCD69 /* MServer.m */,
 				D2BF915F0B03B78A004BCD69 /* MPlayer.h */,
 				D2BF91600B03B78A004BCD69 /* MPlayer.m */,
-				D2F2894C0BDA632900FF3AD4 /* MRule.h */,
-				D2F2894D0BDA632900FF3AD4 /* MRule.m */,
-				D289AFE80BBFC94A0000BA5E /* MProgressDelegate.h */,
-				D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */,
+				D2F2894C0BDA632900FF3AD4 /* MRules.h */,
+				D2F2894D0BDA632900FF3AD4 /* MRules.m */,
 			);
 			name = Server;
 			sourceTree = "<group>";
@@ -367,6 +371,8 @@
 				D2A059300C4D15CE007BF4F5 /* MEnemyTerritory.m */,
 				D28923890B6CD50900AD2D6D /* MFavorites.h */,
 				D289238A0B6CD50900AD2D6D /* MFavorites.m */,
+				D24014640C74A13F004DE480 /* MQuake4.h */,
+				D24014650C74A13F004DE480 /* MQuake4.m */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -455,8 +461,8 @@
 				D248AFB40BBE72C30040B90B /* MOutlineCell.m */,
 				D23289F20BBB12710095E5E2 /* NSBezierPath_AMShading.h */,
 				D23289F30BBB12710095E5E2 /* NSBezierPath_AMShading.m */,
-				D23289FB0BBB14080095E5E2 /* CToxicProgressIndicator.m */,
 				D23289FC0BBB14080095E5E2 /* CToxicProgressIndicator.h */,
+				D23289FB0BBB14080095E5E2 /* CToxicProgressIndicator.m */,
 				D21BECC60B3EDA4800FCDC80 /* MThinSplitView.h */,
 				D21BECC70B3EDA4800FCDC80 /* MThinSplitView.m */,
 				D25EF8B40B58847200E66729 /* MInnerSplitView.h */,
@@ -504,6 +510,10 @@
 				D249B0AA0C15792100ED8743 /* MInspectorWindowController.m */,
 				D2FCDB490C53944000BC889F /* MTableColumnsController.h */,
 				D2FCDB4A0C53944000BC889F /* MTableColumnsController.m */,
+				D2E26A7D0C70A490002F7594 /* MDictionaryToArrayTransformer.h */,
+				D2E26A7E0C70A490002F7594 /* MDictionaryToArrayTransformer.m */,
+				D289AFE80BBFC94A0000BA5E /* MProgressDelegate.h */,
+				D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -621,7 +631,7 @@
 				D2AD5F3E0BD41A6600C0F614 /* MActionButtonCell.m in Sources */,
 				D2AD5F850BD421A900C0F614 /* MActionButton.m in Sources */,
 				D29C6DC30BD952F900F816AD /* domain.xcdatamodel in Sources */,
-				D2F2894F0BDA632900FF3AD4 /* MRule.m in Sources */,
+				D2F2894F0BDA632900FF3AD4 /* MRules.m in Sources */,
 				D2F28CA80BDABF3E00FF3AD4 /* iFrag_AppDelegate.m in Sources */,
 				D2780DFC0BDD401B008CF458 /* MQuery.m in Sources */,
 				D213510C0BE794AE0035C46A /* MServerListsController.m in Sources */,
@@ -632,6 +642,8 @@
 				D2A059320C4D15CE007BF4F5 /* MEnemyTerritory.m in Sources */,
 				D2FCDB4C0C53944000BC889F /* MTableColumnsController.m in Sources */,
 				D2FCDC080C54A05E00BC889F /* MTableHeaderView.m in Sources */,
+				D2E26A800C70A490002F7594 /* MDictionaryToArrayTransformer.m in Sources */,
+				D24014670C74A13F004DE480 /* MQuake4.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

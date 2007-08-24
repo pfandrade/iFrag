@@ -70,7 +70,9 @@
 		
 	qstatQueryResultingXMLFile = [[qstatTask queryGameServer:[[sl game] masterServerAddress]
 											 withServerType:[[sl game] masterServerFlag]] retain];
-	
+
+//	qstatQueryResultingXMLFile = [[NSURL URLWithString:@"file://localhost/Users/cereal/Desktop/stuff/iFrag_stuff/qstat_small.xml"] retain];
+//	[self qstatTaskDidTerminate:nil];
 }
 
 - (void)refreshGameServers:(NSArray *)servers inServerList:(MServerList *)sl
@@ -121,7 +123,7 @@
 		}else {
 			w = serverCount;
 		}
-		NSArray *args = [NSArray arrayWithObjects:qstatQueryResultingXMLFile, [serverList objectID], w, port, nil];
+		NSArray *args = [NSArray arrayWithObjects:qstatQueryResultingXMLFile, serverList, w, port, nil];
 		[NSThread detachNewThreadSelector:@selector(parseServers:) toTarget:qParser withObject:args];
 	}
 }

@@ -16,5 +16,4 @@
 - (NSArrayController *)serversArrayController;
 - (void)setServersArrayController:(NSArrayController *)value;
 
-
 @end

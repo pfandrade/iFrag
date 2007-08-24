@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "MProgressDelegate.h"
 
 @interface MOutlineCell : NSTextFieldCell {
 }
@@ -15,9 +15,6 @@
 - (NSImage *)image;
 - (NSString *)title;
 - (NSAttributedString *)attributedTitle;
-- (NSProgressIndicator *)progressIndicator;
-
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
-- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
+- (MProgressDelegate *)progressDelegate;
 
 @end

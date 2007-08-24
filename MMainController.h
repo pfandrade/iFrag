@@ -58,5 +58,7 @@ NSString *iFragPBoardType = @"iFragPBoardType";
 - (IBAction)addServer:(id)sender;
 - (IBAction)refreshSelectedServers:(id)sender;
 - (IBAction)refreshServerList:(id)sender;
+- (IBAction)reloadServerList:(id)sender;
+- (IBAction)reloadCurrentServerListFromStore:(id)sender;
 
 @end

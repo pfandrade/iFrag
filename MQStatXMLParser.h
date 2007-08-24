@@ -16,21 +16,21 @@
 	BOOL shouldStop;
 	@private
 	id progressDelegate;
-	NSManagedObjectContext *context;
+//	NSManagedObjectContext *context;
 	MServerList *sl;
 	NSNumber *count;
-	NSMutableSet *currentServers;
-	MServer *currentServer;
-	NSMutableSet *currentRules;
+	NSMutableArray *currentServers;
+	NSMutableDictionary *currentServer;
+	NSMutableDictionary *currentRules;
 	NSString *currentRuleName;
-	NSMutableSet *currentPlayers;
-	MPlayer *currentPlayer;
+	NSMutableArray *currentPlayers;
+	NSDictionary *currentPlayer;
 	NSMutableString *currentString;
 	BOOL inElement, inPlayers;
 	NSAutoreleasePool *innerPool;
 	int serverSyncStep, serverCount;
 	NSPort *port;
-	NSMutableArray *objectsToSync;
+//	NSMutableArray *objectsToSync;
 }
 
 - (id)progressDelegate;

@@ -7,6 +7,7 @@
 //
 #import "MMainController.h"
 #import "KBGradientOutlineView.h"
+#import "MOutlineView.h"
 #import "MOutlineCell.h"
 //#import "MComparableAttributedString.h"
 //#import "AMButtonBarItem.h"
@@ -15,6 +16,7 @@
 #import "MServersController.h"
 #import "MQStatTask.h"
 #import "MQStatXMLParser.h"
+#import "MDictionaryToArrayTransformer.h"
 
 #define THINSPLITVIEW_SAVE_NAME @"thinsplitview"
 
@@ -48,6 +50,7 @@
 	// Insert custom cell types into the outline view
     NSTableColumn *tableColumn = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
     MOutlineCell *outlineCell = [[[MOutlineCell alloc] init] autorelease];
+	//[outlineCell startAnimation];
     [outlineCell setEditable: NO];
     [tableColumn setDataCell:outlineCell];
 	[splitView setNeedsDisplay:YES];
@@ -60,10 +63,16 @@
 	// Reset the ThinSplitView splitter position to the saved state
 	[splitView loadLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 	
+	// Register Dictionary To Array ValueTransformer
+	MDictionaryToArrayTransformer *dictToArray = [[MDictionaryToArrayTransformer new] autorelease];
+	[NSValueTransformer setValueTransformer:dictToArray forName:@"DictionaryToArrayTransformer"];
 	// register as observer to NSWindow terminate notification
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(applicationWillTerminate:) 
 												 name:NSApplicationWillTerminateNotification object:NSApp];
+//	[[NSNotificationCenter defaultCenter] addObserver:self 
+//											 selector:@selector(serveListNeedsReload:) 
+//												 name:MServerListNeedsReloadNotification object:nil];
 	
 }
 
@@ -149,6 +158,25 @@
 {
 	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
 	[currentServerList terminateQuery];
+	//NSFetchRequest *fr = [[NSFetchRequest alloc] init];
+//	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+//	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
+//	[fr setEntity:ed];
+//	NSPredicate *p = [NSPredicate predicateWithFormat:@"ANY inServerLists.gameServerType like %@", [currentServerList gameServerType]];
+//	[fr setPredicate:p];
+//	NSError *error = nil;
+////	NSLog(@"%d",[[context executeFetchRequest:fr error:&error] count]);
+//
+//	//[serversController setManagedObjectContext:context];
+////	[serversController setEntityName:@"Server"];
+////	[serversController setFetchPredicate:p];
+////	[serversController fetch:self];
+////	[serversController fetchWithRequest:fr merge:NO error:&error];
+//	if(error != nil)
+//		NSLog(@"%@", error);
+//	[context setStalenessInterval:10.0];
+//	[context refreshObject:currentServerList mergeChanges:YES];
+	// create new context
 }
 
 - (IBAction)addToFavorites:(id)sender
@@ -203,6 +231,32 @@
 	[currentServerList reload];
 }
 
+- (IBAction)reloadCurrentServerListFromStore:(id)sender
+{
+	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	NSFetchRequest *fr = [[NSFetchRequest alloc] init];
+	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
+	[fr setEntity:ed];
+	NSPredicate *p = [NSPredicate predicateWithFormat:@"ANY inServerLists.gameServerType like %@", [currentServerList gameServerType]];
+	[fr setPredicate:p];
+	NSError *error = nil;
+	//NSLog(@"%d",[[context executeFetchRequest:fr error:&error] count]);
+	//
+	//	//[serversController setManagedObjectContext:context];
+	////	[serversController setEntityName:@"Server"];
+	[serversController setFetchPredicate:p];
+	[context setStalenessInterval:1.0];
+	//[serversController fetch:self];
+		[serversController fetchWithRequest:fr merge:NO error:&error];
+	//	if(error != nil)
+	//		NSLog(@"%@", error);
+	//[context setStalenessInterval:10.0];
+	[context refreshObject:currentServerList mergeChanges:YES];
+	[currentServerList setNeedsReload:NO];
+	[fr release];
+}
+
 #pragma mark -
 #pragma mark NSWindow delegate methods
 
@@ -232,7 +286,13 @@
 	[splitView storeLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 }
 
-//#pragma mark Ouline View Delegate Methods
+#pragma mark Ouline View Delegate Methods
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+	if ([(MOutlineView *)gamesOutlineView mouseOverRow] == [outlineView rowForItem:item])
+		NSLog(@"%d could be highlighted", [outlineView rowForItem:item]);
+	else NSLog(@"%d shouldn't be highlighted", [outlineView rowForItem:item]);
+}
 //
 //- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 //{
@@ -248,16 +308,19 @@
 //
 //- (void)outlineViewSelectionDidChange:(NSNotification *)notification
 //{
-//	[self setCurrentServerList:[serverLists objectAtIndex:[gamesOutlineView selectedRow]]];
-//	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-//	[context refreshObject:currentServerList mergeChanges:YES];
-//	
-//	[mainWindow setTitle:[NSString stringWithFormat:@"%@ (%d servers)",
-//		[currentServerList name], 
-//		[[currentServerList valueForKey:@"servers"] count]]];
-//	[mainWindow displayIfNeeded];
-//	
-//	//TODO por aqui um refreshObjects:mergeChanges:NO !
+	//MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+//	if([currentServerList needsReload]){
+//		[self reloadCurrentServerListFromStore:self];
+//	}
+//}
+
+//- (void)serveListNeedsReload:(NSNotification *)notification
+//{
+//	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+//	MServerList *sl = [notification object];
+//	if(sl ==  currentServerList){
+//		[self reloadCurrentServerListFromStore:self];
+//	}
 //}
 
 @end

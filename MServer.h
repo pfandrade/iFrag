@@ -11,7 +11,7 @@
 @class MGenericGame;
 @class MServerList;
 @class MPlayer;
-@class MRule;
+@class MRules;
 
 @interface MServer : NSManagedObject {
 
@@ -63,14 +63,12 @@
 - (NSDate *)lastRefreshDate;
 - (void)setLastRefreshDate:(NSDate *)value;
 
+- (MRules *)rules;
+- (void)setRules:(MRules *)value;
+
 	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
 - (void)addPlayersObject:(MPlayer *)value;
 - (void)removePlayersObject:(MPlayer *)value;
-
-
-	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
-- (void)addRulesObject:(MRule *)value;
-- (void)removeRulesObject:(MRule *)value;
 
 	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
 - (void)addInServerListsObject:(MServerList *)value;

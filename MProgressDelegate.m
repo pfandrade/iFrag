@@ -17,50 +17,50 @@
 	return [pd autorelease];
 }
 
-- (id) init {
-	self = [super init];
-	if (self != nil) {
-		progressIndicator = [CToxicProgressIndicator new];
-		[progressIndicator setStyle:NSProgressIndicatorSpinningStyle];
-		[progressIndicator setDisplayedWhenStopped:NO];
-		[progressIndicator setHidden:YES];
-		[progressIndicator setUsesThreadedAnimation:YES];
-		[(CToxicProgressIndicator *)progressIndicator setStepCount:16]; //4 for each 90 degrees
-	}
-	return self;
+- (double)minValue {
+    return minValue;
 }
 
-- (id)initWithCoder:(NSCoder *)coder 
-{
-	self = [super init];
-	if(self != nil){
-		progressIndicator = [[coder decodeObjectForKey:@"MProgressIndicator"] retain];
-	}
-	return self;
+- (void)setMinValue:(double)value {
+    if (minValue != value) {
+        minValue = value;
+    }
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-	[coder encodeObject:progressIndicator forKey:@"MProgressIndicator"];
+- (double)maxValue {
+    return maxValue;
 }
 
-- (NSProgressIndicator *)progressIndicator {
-    return [[progressIndicator retain] autorelease];
+- (void)setMaxValue:(double)value {
+    if (maxValue != value) {
+        maxValue = value;
+    }
 }
 
-- (void)setProgressIndicator:(NSProgressIndicator *)value {
-    if (progressIndicator != value) {
-        [progressIndicator release];
-        progressIndicator = [value retain];
+- (double)doubleValue {
+    return doubleValue;
+}
+
+- (void)setDoubleValue:(double)value {
+    if (doubleValue != value) {
+        doubleValue = value;
+    }
+}
+
+- (BOOL)isRunning {
+    return isRunning;
+}
+
+- (void)setIsRunning:(BOOL)value {
+    if (isRunning != value) {
+        isRunning = value;
     }
 }
 
 - (void)started
 {
-	[progressIndicator setHidden:NO];
-	[progressIndicator setNeedsDisplay:YES];
-	[progressIndicator startAnimation:self];
-	[progressIndicator setIndeterminate:YES];
+	[self setIsRunning:YES];
+//	[progressIndicator startAnimation:self];
 }
 
 - (void)startedProcessing:(unsigned)nItems
@@ -68,30 +68,25 @@
 	[self started];
 	if(nItems < 10) //it's not worth it :
 		return;
-	[progressIndicator setMinValue:1];
-	[progressIndicator setMaxValue:(double)nItems];
-	[progressIndicator setDoubleValue:1];
-	[progressIndicator stopAnimation:self];
-	[progressIndicator setIndeterminate:NO];
+	[self setMaxValue:(double)nItems];
+	[self setDoubleValue:1];
 }
 
 - (void)incrementByOne
 {
-	[progressIndicator incrementBy:1];
+	doubleValue += 1;
 }
 
 - (void)processed:(unsigned)nItem
 {
-	[progressIndicator setDoubleValue:(double)nItem];
+	doubleValue = nItem;
 }
 
 - (void)finished
 {
-	[progressIndicator displayIfNeeded];
-	[progressIndicator setIndeterminate:YES];
-	[progressIndicator setHidden:YES];
-	[progressIndicator stopAnimation:self];
-	[progressIndicator setDoubleValue:0];
+	[self setIsRunning:NO];
+	//[progressIndicator stopAnimation:self];
+	doubleValue = 0;
 }
 
 @end

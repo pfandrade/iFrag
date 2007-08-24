@@ -1,31 +1,34 @@
 //
-//  MQuake3.m
+//  MQuake4.m
 //  iFrag
 //
-//  Created by Paulo Filipe Andrade on 07/01/28.
+//  Created by Paulo Filipe Andrade on 07/08/16.
 //  Copyright 2007 Maracuja Software. All rights reserved.
 //
 
-#import "MQuake3.h"
-#include <stdlib.h> //para o abs
+#import "MQuake4.h"
+#import <stdlib.h>
+
+#define QUAKE4APPNAME @"Quake 4"
+
 // this game name is not used anymore, we now use the bundleName
-static NSString *const _gameName			= @"Quake 3";
-static NSString *const _bundleIdentifier	= @"com.idsoftware.Quake3";
-static NSString *const _serverTypeString	= @"q3s";
-static NSString *const _masterServerFlag	= @"q3m";
-static NSString *const _masterServerAddress = @"master3.idsoftware.com";
-static NSString *const _defaultGameType		= @"baseq3";
-static NSString *const _defaultServerPort	= @"27960";
+static NSString *const _gameName			= @"Quake 4";
+static NSString *const _bundleIdentifier	= @"com.aspyr.Quake4";
+static NSString *const _serverTypeString	= @"q4s";
+static NSString *const _masterServerFlag	= @"q4m";
+static NSString *const _masterServerAddress = @"q4master.idsoftware.com";
+static NSString *const _defaultGameType		= @"q4base";
+static NSString *const _defaultServerPort	= @"28004";
 
-
-@implementation MQuake3
-
-#pragma mark Overriden Abstract Class Methods
+@implementation MQuake4
 
 + (BOOL)isInstalled {
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	
-	return ([ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier] != nil);
+	//	return ([ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier] != nil);
+	//we have to use fullPathForApplication: because Aspyr though it would be great to have 
+	//the same bundle indentifier for "Quake 4" and "Quake 4 Dedicated Server"
+	return ([ws fullPathForApplication:QUAKE4APPNAME] != nil);
 }
 
 + (NSAttributedString *)processName:(NSString *)name {
@@ -33,23 +36,23 @@ static NSString *const _defaultServerPort	= @"27960";
 	
 	if(colors == nil){
 		colors = [[NSArray arrayWithObjects:[NSColor blackColor],[NSColor redColor],[NSColor greenColor],[NSColor yellowColor],
-											[NSColor blueColor],[NSColor colorWithCalibratedRed:0.18 green:1.0 blue:1.0 alpha:1.0],
-											[NSColor purpleColor],[NSColor lightGrayColor],nil] retain];
+			[NSColor blueColor],[NSColor colorWithCalibratedRed:0.18 green:1.0 blue:1.0 alpha:1.0],
+			[NSColor purpleColor],[NSColor lightGrayColor],nil] retain];
 	}
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSArray *slices = [name componentsSeparatedByString:@"^"];
 	NSMutableAttributedString *attribString = [[NSMutableAttributedString alloc] init];
 	NSEnumerator *str_enum = [slices objectEnumerator];
-
+	
 	NSString *currentString, *subString;
 	NSColor *color = [NSColor blackColor]; //default color
-	NSScanner *scanner1, *scanner2, *scanner3;
+	
 	int colorCode, len;
-	unsigned red, green, blue;
+	float red, green, blue;
 	
 	currentString = [str_enum nextObject];	//skip the first string
 	if([currentString length] > 0) [attribString appendAttributedString:[[[NSAttributedString alloc] initWithString:currentString] autorelease]];
-
+	
 	while((currentString = [str_enum nextObject])){
 		if ((len = [currentString length]) < 2){
 			[attribString appendAttributedString:
@@ -59,34 +62,32 @@ static NSString *const _defaultServerPort	= @"27960";
 			continue;
 		}
 		colorCode = [currentString characterAtIndex:0] - '0';
-		if((colorCode == ('x' - '0'))){
-			if(len > 7){
-				scanner1 = [NSScanner scannerWithString:[currentString substringWithRange:NSMakeRange(1,2)]];
-				scanner2 = [NSScanner scannerWithString:[currentString substringWithRange:NSMakeRange(3,2)]];
-				scanner3 = [NSScanner scannerWithString:[currentString substringWithRange:NSMakeRange(5,2)]];
-				if(![scanner1 scanHexInt:&red] || ![scanner2 scanHexInt:&green] || ![scanner3 scanHexInt:&blue]){
-					color = [colors objectAtIndex:7];
-					subString = [currentString substringFromIndex:1];
-				}
-				color = [NSColor colorWithDeviceRed:(red/255.0) green:(green/255.0) blue:(blue/255.0) alpha:1.0];
-				subString = [currentString substringFromIndex:7];
+		if((colorCode == ('c' - '0'))){
+			if(len > 4){
+				red = abs([currentString characterAtIndex:1] - '0') / 10.0;
+				green = abs([currentString characterAtIndex:2] -'0') / 10.0;
+				blue = abs([currentString characterAtIndex:3] - '0') / 10.0;
+				color = [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1.0];
+				subString = [currentString substringFromIndex:4];
 			} else {
 				color = [colors objectAtIndex:7];
 				subString = [currentString substringFromIndex:1];
 			}
 		} else {
-//			colorCode = (colorCode > 9 || colorCode < 0) ? 7 : colorCode; //Reset to white
+			//			colorCode = (colorCode > 9 || colorCode < 0) ? 7 : colorCode; //Reset to white
 			color = [colors objectAtIndex:abs((colorCode % 8))];
 			subString = [currentString substringFromIndex:1];
 		}
 		[attribString appendAttributedString:
-				[[[NSAttributedString alloc] initWithString:subString
-												attributes:[NSDictionary dictionaryWithObject:color
-																					   forKey:NSForegroundColorAttributeName]] autorelease]];
+			[[[NSAttributedString alloc] initWithString:subString
+											 attributes:[NSDictionary dictionaryWithObject:color
+																					forKey:NSForegroundColorAttributeName]] autorelease]];
 	}
+	
 	[pool release];
 	return [attribString autorelease];
 }
+
 
 + (NSError *)connectToServer:(MServer *)server {
 	//TODO:
@@ -98,11 +99,10 @@ static NSString *const _defaultServerPort	= @"27960";
 - (id) init {
 //	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	
-//	NSString *bundleName = [[[ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier] lastPathComponent] stringByDeletingPathExtension];
+//	NSString *bundleName = [[[ws fullPathForApplication:QUAKE4APPNAME] lastPathComponent] stringByDeletingPathExtension];
 	
-	self = [super initWithGameName:_gameName 
-					 andBundlePath:[[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:_bundleIdentifier]];
-	
+	self = [super initWithGameName:_gameName
+					 andBundlePath:[[NSWorkspace sharedWorkspace] fullPathForApplication:QUAKE4APPNAME]];
 	if (self != nil) {
 		bundleIdentifier = _bundleIdentifier;
 	}
@@ -132,3 +132,4 @@ static NSString *const _defaultServerPort	= @"27960";
 }
 
 @end
+

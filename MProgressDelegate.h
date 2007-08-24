@@ -9,14 +9,24 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MProgressDelegate : NSObject <NSCoding> {
-	NSProgressIndicator *progressIndicator;
+@interface MProgressDelegate : NSObject {
+	double minValue, maxValue, doubleValue;
+	BOOL isRunning;
 }
 
 + (MProgressDelegate *)progressDelegate;
 
-- (NSProgressIndicator *)progressIndicator;
-- (void)setProgressIndicator:(NSProgressIndicator *)value;
+- (double)minValue;
+- (void)setMinValue:(double)value;
+
+- (double)minValue;
+- (void)setMinValue:(double)value;
+
+- (double)minValue;
+- (void)setMinValue:(double)value;
+
+- (BOOL)isRunning;
+- (void)setIsRunning:(BOOL)value;
 
 - (void)started;
 - (void)startedProcessing:(unsigned)nItems;

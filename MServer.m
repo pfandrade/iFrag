@@ -9,7 +9,7 @@
 #import "MServer.h"
 #import "MGenericGame.h"
 #import "MPlayer.h"
-#import "MRule.h"
+#import "MRules.h"
 
 
 @implementation MServer
@@ -375,6 +375,25 @@ static NSMutableDictionary *existingAddresses = nil;
     [self didChangeValueForKey: @"lastRefreshDate"];
 }
 
+- (MRules *)rules 
+{
+    id tmpObject;
+    
+    [self willAccessValueForKey: @"rules"];
+    tmpObject = [self primitiveValueForKey: @"rules"];
+    [self didAccessValueForKey: @"rules"];
+    
+    return tmpObject;
+}
+
+- (void)setRules:(MRules *)value 
+{
+    [self willChangeValueForKey: @"rules"];
+    [self setPrimitiveValue: value
+                     forKey: @"rules"];
+    [self didChangeValueForKey: @"rules"];
+}
+
 - (void)addPlayersObject:(MPlayer *)value 
 {    
     NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
@@ -402,35 +421,6 @@ static NSMutableDictionary *existingAddresses = nil;
 	
     [changedObjects release];
 }
-
-- (void)addRulesObject:(MRule *)value 
-{    
-    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
-    
-    [self willChangeValueForKey:@"rules" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-    
-    [[self primitiveValueForKey: @"rules"] addObject: value];
-    
-    [self didChangeValueForKey:@"rules" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-    
-    [changedObjects release];
-}
-
-- (void)removeRulesObject:(MRule *)value 
-{
-    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
-    
-    [self willChangeValueForKey:@"rules" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
-    
-    [[self primitiveValueForKey: @"rules"] removeObject: value];
-    
-    [self didChangeValueForKey:@"rules" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
-    
-	[[self managedObjectContext] deleteObject:value];
-	
-    [changedObjects release];
-}
-
 
 - (void)addInServerListsObject:(MServerList *)value 
 {    

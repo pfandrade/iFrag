@@ -16,11 +16,14 @@ NSString *const MRefreshServerList		  =	@"RefreshServerListItem";
 NSString *const MPlayGame				  = @"PlayGameItem";
 NSString *const MAddServer				  = @"AddServerItem";
 NSString *const MDeleteServer			  = @"DeleteServerItem";
+NSString *const MStopQuery				  = @"StopQueryItem";
+NSString *const MSearchField			  = @"SearchFieldItem";
 
 @interface  MToolbarController : NSObject
 {
 	IBOutlet id mainController;
 	IBOutlet id serversController;
+	IBOutlet id searchField;
 }
 
 @end

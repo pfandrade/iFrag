@@ -33,6 +33,12 @@
 - (NSString *)stringRepresentation;
 - (NSAttributedString *)attributedRepresentation;
 
+- (NSNumber *)isPunkbusterEnabled;
+- (void)setIsPunkbusterEnabled:(NSNumber *)value;
+
+- (NSNumber *)isPrivate;
+- (void)setIsPrivate:(NSNumber *)value;
+
 #pragma mark Property accessors
 - (NSString *)address;
 - (void)setAddress:(NSString *)value;
@@ -65,6 +71,9 @@
 
 - (MRules *)rules;
 - (void)setRules:(MRules *)value;
+
+- (NSDictionary *)rulesDict;
+- (void)setRulesDict:(NSDictionary *)value;
 
 	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
 - (void)addPlayersObject:(MPlayer *)value;

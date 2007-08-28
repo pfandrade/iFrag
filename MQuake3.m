@@ -131,4 +131,14 @@ static NSString *const _defaultServerPort	= @"27960";
 	return _defaultServerPort;
 }
 
++ (BOOL)isPunkbusterEnabled:(MServer *)server
+{
+	return ([[[server rulesDict] valueForKey:@"sv_punkbuster"] intValue] == 1);
+}
+
++ (BOOL)isPrivate:(MServer *)server
+{
+	return ([[[server rulesDict] valueForKey:@"g_needpass"] intValue] == 1);
+}	
+
 @end

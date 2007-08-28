@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MServer;
+#import "MServer.h"
 
 @interface MGenericGame : NSObject <NSCopying> {
 	NSString *name;
@@ -49,6 +49,8 @@
 - (NSString *)masterServerAddress;
 - (NSString *)defaultGameType;
 - (NSString *)defaultServerPort;
+- (BOOL)isPunkbusterEnabled:(MServer *)server;
+- (BOOL)isPrivate:(MServer *)server;
 
 - (NSComparisonResult)compare:(MGenericGame *)game;
 @end
@@ -64,4 +66,7 @@
 + (NSString *)masterServerAddress;
 + (NSString *)defaultGameType;
 + (NSString *)defaultServerPort;
++ (BOOL)isPunkbusterEnabled:(MServer *)server;
++ (BOOL)isPrivate:(MServer *)server;
+
 @end

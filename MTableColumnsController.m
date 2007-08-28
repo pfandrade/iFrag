@@ -15,9 +15,11 @@ typedef enum _MColumnPosition {
 	MGameColumn			= 0,
 	MServerNameColumn	= 1,
 	MMODColumn			= 2,
-	MMapColumn			= 3,
-	MPingColumn			= 4,
-	MPlayersColumn		= 5
+	MPunkbuster			= 3,
+	MPrivate			= 4,
+	MMapColumn			= 5,
+	MPingColumn			= 6,
+	MPlayersColumn		= 7
 } MColumnPosition;
 
 @interface MTableColumnsController (Private)
@@ -35,7 +37,7 @@ typedef enum _MColumnPosition {
 	self = [super init];
 	if (self != nil) {
 		[self load];
-		availableTableColumnsIdentifiers = [[NSArray arrayWithObjects:@"game.icon",@"attributedName",@"gameType",@"map",@"ping",@"fullness",nil] retain];
+		availableTableColumnsIdentifiers = [[NSArray arrayWithObjects:@"game.icon",@"attributedName",@"gameType",@"isPunkbusterEnabled",@"isPrivate",@"map",@"ping",@"fullness",nil] retain];
 	}
 	return self;
 }
@@ -67,8 +69,8 @@ typedef enum _MColumnPosition {
 	
 	if(availableTableColumns == nil){
 		NSDictionary *availableTableColumnsDict = [NSDictionary dictionaryWithObjects:
-			[NSArray arrayWithObjects:@"Game",@"Server Name",@"MOD",@"Map",@"Ping",@"Players",nil]
-																			   forKeys:availableTableColumnsIdentifiers];
+			[NSArray arrayWithObjects:@"Game",@"Server Name",@"MOD",@"PunkBuster",@"Private",@"Map",@"Ping",@"Players",nil]
+																			  forKeys:availableTableColumnsIdentifiers];
 		NSMutableArray *tempArray = [[NSMutableArray alloc] initWithCapacity:[availableTableColumnsIdentifiers count]];
 		NSEnumerator *tcie = [availableTableColumnsIdentifiers objectEnumerator];
 		NSString *identifier;
@@ -101,6 +103,21 @@ typedef enum _MColumnPosition {
 				[tc setDataCell:[[[NSImageCell alloc] init] autorelease]];
 			}
 			
+			if([identifier isEqualToString:@"isPunkbusterEnabled"] || [identifier isEqualToString:@"isPrivate"]){
+				NSImage *header = ([identifier isEqualToString:@"isPunkbusterEnabled"]) 
+				? [NSImage imageNamed:@"punk_header.tif"] : [NSImage imageNamed:@"lock_header.tif"];
+				[[tc headerCell] setImage:header];
+				[[tc headerCell] setAlignment:NSCenterTextAlignment];
+				[tc setWidth:15.0];
+				NSButtonCell *switchButtonCell = [[NSButtonCell alloc] init];
+				[switchButtonCell setButtonType:NSSwitchButton];
+				[switchButtonCell setControlSize:NSMiniControlSize];
+				[switchButtonCell setEditable:NO];
+				[switchButtonCell setSelectable:NO];
+				[switchButtonCell setEnabled:NO];
+				[tc setDataCell:[switchButtonCell autorelease]];
+			}
+
 			[tc bind:@"value" 
 			toObject:serversController 
 		 withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@",identifier] 
@@ -132,12 +149,12 @@ typedef enum _MColumnPosition {
 											 selector:@selector(save)
 												 name:NSApplicationWillTerminateNotification
 											   object:NSApp];
-
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(tableColumnsDidChange:)
 												 name:NSTableViewColumnDidMoveNotification
 											   object:serversTableView];
-
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(tableColumnsDidChange:)
 												 name:NSTableViewColumnDidResizeNotification
@@ -158,7 +175,7 @@ typedef enum _MColumnPosition {
 	   [selectedServerList valueForKey:@"name"] == NSMultipleValuesMarker ||
 	   [selectedServerList valueForKey:@"name"] == NSNotApplicableMarker)
 		return;
-
+	
 	[columnsForGames setObject:[serversTableView sortDescriptors] 
 						forKey:[NSString stringWithFormat:@"%@_SortDescriptors",[selectedServerList valueForKey:@"name"]]];
 	[self save];
@@ -168,6 +185,7 @@ typedef enum _MColumnPosition {
 {
 	id selectedServerList = [serverListsController selection];
 	NSMutableArray *gameColumns;
+	if(selectedServerList == nil) return;
 	
 	/*protect this code against valueMarkers*/
 	if([selectedServerList valueForKey:@"name"] == NSNoSelectionMarker ||
@@ -182,8 +200,10 @@ typedef enum _MColumnPosition {
 			//only the Favorites list needs the game column
 			[gameColumns removeObjectAtIndex:MGameColumn];
 		}
-		[columnsForGames setObject:gameColumns forKey:[selectedServerList valueForKey:@"name"]];
-		[gameColumns release];
+		if([selectedServerList valueForKey:@"name"] != nil){ //not sure why this happens sometimes but it happens
+			[columnsForGames setObject:gameColumns forKey:[selectedServerList valueForKey:@"name"]];
+			[gameColumns release];
+		}
 	}
 	
 	/* remove currentColumns */
@@ -200,6 +220,7 @@ typedef enum _MColumnPosition {
 		toObject:serversController 
 	 withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@",[tc identifier]] 
 		 options:nil];
+		
 		[serversTableView addTableColumn:tc];
 	}
 	[serversTableView setSortDescriptors:
@@ -216,7 +237,7 @@ typedef enum _MColumnPosition {
 	   [selectedServerList valueForKey:@"name"] == NSMultipleValuesMarker ||
 	   [selectedServerList valueForKey:@"name"] == NSNotApplicableMarker)
 		return;
-
+	
 	[columnsForGames setObject:[[[serversTableView tableColumns] mutableCopy] autorelease] forKey:[selectedServerList valueForKey:@"name"]];
 	[self save];
 }
@@ -249,7 +270,7 @@ typedef enum _MColumnPosition {
 				[tc bind:@"value" 
 				toObject:serversController 
 			 withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@",[tc identifier]] 
-				 options:nil];				
+				 options:nil];
 				[serversTableView addTableColumn:tc];
 				break;
 			}

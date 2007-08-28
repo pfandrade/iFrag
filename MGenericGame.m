@@ -7,11 +7,10 @@
 //
 
 #import "MGenericGame.h"
-#import "MServer.h"
 
 
-#define SERVERTYPESTRINGS	[[NSArray arrayWithObjects:@"FAV",			@"Q3S",		@"WOETS",			@"Q4S", nil] retain]
-#define GAMECLASSNAMES		[[NSArray arrayWithObjects:@"MFavorites",	@"MQuake3",	@"MEnemyTerritory", @"MQuake4",nil] retain]
+#define SERVERTYPESTRINGS	[[NSArray arrayWithObjects:@"FAV",			@"Q3S",		@"WOETS",			@"Q4S",		@"COD2S", nil] retain]
+#define GAMECLASSNAMES		[[NSArray arrayWithObjects:@"MFavorites",	@"MQuake3",	@"MEnemyTerritory", @"MQuake4",	@"MCallOfDuty2", nil] retain]
 
 static NSArray *_serverTypeStrings; 
 static NSArray *_gameClassNames;
@@ -196,6 +195,16 @@ static NSDictionary *_gwsts;
 	if([[game name] isEqual:@"Favorites"])
 		return NSOrderedDescending;
 	return [[self name] compare:[game name]];
+}
+
+- (BOOL)isPunkbusterEnabled:(MServer *)server
+{
+	return [[self class] isPunkbusterEnabled:server];
+}
+
+- (BOOL)isPrivate:(MServer *)server
+{
+	return [[self class] isPrivate:server];
 }
 
 #pragma mark Copy methods

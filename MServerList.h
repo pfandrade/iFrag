@@ -8,20 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
+NSString *const MQueryTerminatedNotification = @"QueryTerminatedNotification";
+
 @class MGenericGame;
 @class MProgressDelegate;
 @class MServer;
 @class MQuery;
 
-NSString *const MServerListNeedsReloadNotification = @"ServerListNeedsReloadNotification";
-
 @interface MServerList : NSManagedObject {
 	BOOL busyFlag;
 	BOOL needsReload;
 	MProgressDelegate *progressDelegate;
-	MQuery *currentQuery;
+	MQuery *currentQuery;	
 }
-
 + (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context;
 
 - (void)insertServers:(NSArray *)servers;
@@ -63,8 +62,8 @@ NSString *const MServerListNeedsReloadNotification = @"ServerListNeedsReloadNoti
 - (void)addServers:(NSSet *)inServers;
 - (void)removeServers:(NSSet *)inServers;
 
-- (void)reload;
-- (void)refreshServers:(NSArray *)inServers;
+- (BOOL)reload;
+- (BOOL)refreshServers:(NSArray *)inServers;
 
 #pragma mark Actions
 - (void)terminateQuery;

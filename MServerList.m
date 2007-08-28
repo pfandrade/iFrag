@@ -347,11 +347,11 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	
 }
 
--(void)reload
+-(BOOL)reload
 {
 	//if we are busy return
 	if([self busyFlag])
-		return;
+		return NO;
 	[self setBusyFlag:YES];
 	
 	MProgressDelegate *pd = [[MProgressDelegate new] autorelease];
@@ -359,16 +359,17 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	currentQuery = [MQuery new];
 	
 	[currentQuery reloadServerList:self];
+	return YES;
 }
 
--(void)refreshServers:(NSArray *)inServers
+-(BOOL)refreshServers:(NSArray *)inServers
 {
 	if(inServers == nil){ // refresh the entire list
 		inServers = [self valueForKey:@"servers"];
 	}
 	
 	if([self busyFlag] || [inServers count] == 0)
-		return;
+		return NO;
 	[self setBusyFlag:YES];
 		
 	MProgressDelegate *pd = [[MProgressDelegate new] autorelease];
@@ -376,6 +377,7 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	currentQuery = [MQuery new];
 	
 	[currentQuery refreshGameServers:inServers inServerList:self];
+	return YES;
 
 }
 
@@ -390,6 +392,7 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	[self setProgressDelegate:nil];
 	[self setBusyFlag:NO];
 	[currentQuery release]; currentQuery = nil;
+	[[NSNotificationCenter defaultCenter] postNotificationName:MQueryTerminatedNotification object:self];
 }
 
 @end

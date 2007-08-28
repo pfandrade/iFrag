@@ -20,6 +20,7 @@ static NSMutableDictionary *existingAddresses = nil;
 + (void)initialize
 {
 	[self setKeys:[NSArray arrayWithObjects:@"numplayers", @"maxplayers", nil] triggerChangeNotificationsForDependentKey:@"fullness"];
+	[self setKeys:[NSArray arrayWithObjects:@"rules", nil] triggerChangeNotificationsForDependentKey:@"serverFlags"];
 	existingAddressesLock = [NSLock new];
 }
 
@@ -193,6 +194,27 @@ static NSMutableDictionary *existingAddresses = nil;
 	
 	[mutAttS autorelease];
 	return [[mutAttS copy] autorelease];
+}
+
+- (NSNumber *)isPunkbusterEnabled
+{
+	MGenericGame *g = [self game];
+	return [NSNumber numberWithBool:[g isPunkbusterEnabled:self]];
+}
+- (NSNumber *)isPrivate
+{
+	MGenericGame *g = [self game];
+	return [NSNumber numberWithBool:[g isPrivate:self]];
+}
+
+- (void)setIsPunkbusterEnabled:(NSNumber *)value
+{
+	//do nothing
+}
+
+- (void)setIsPrivate:(NSNumber *)value
+{
+	//do nothing
 }
 
 #pragma mark Property accessors
@@ -392,6 +414,16 @@ static NSMutableDictionary *existingAddresses = nil;
     [self setPrimitiveValue: value
                      forKey: @"rules"];
     [self didChangeValueForKey: @"rules"];
+}
+
+- (NSDictionary *)rulesDict
+{
+	return [[self rules] rules];
+}
+
+- (void)setRulesDict:(NSDictionary *)value
+{
+	[[self rules] setRules:value];
 }
 
 - (void)addPlayersObject:(MPlayer *)value 

@@ -22,6 +22,14 @@
 
 @implementation MMainController
 
++ (void)initialize
+{
+	// Register Dictionary To Array ValueTransformer
+	MDictionaryToArrayTransformer *dictToArray = [[MDictionaryToArrayTransformer new] autorelease];
+	[NSValueTransformer setValueTransformer:dictToArray forName:@"DictionaryToArrayTransformer"];
+		
+}
+
 - (void)awakeFromNib
 {
 	// hack to load some classes that set up preference values
@@ -47,32 +55,32 @@
 	
 	//Set the tableview as the nextResponder
 	[gamesOutlineView setNextResponder:serversTableView];
+	
 	// Insert custom cell types into the outline view
     NSTableColumn *tableColumn = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
+	outlineColumnController = [[MOutlineColumnController alloc] initWithTableColumn:tableColumn];
     MOutlineCell *outlineCell = [[[MOutlineCell alloc] init] autorelease];
-	//[outlineCell startAnimation];
-    [outlineCell setEditable: NO];
+	[outlineCell setEditable: NO];
     [tableColumn setDataCell:outlineCell];
 	[splitView setNeedsDisplay:YES];
 	
-	//order the outline view
+	// Order the outline view
 	NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"game" ascending:YES];
 	[serverTreeController setSortDescriptors:[NSArray arrayWithObject:desc]];
+	[serverTreeController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
 	[desc release];
 	
 	// Reset the ThinSplitView splitter position to the saved state
 	[splitView loadLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 	
-	// Register Dictionary To Array ValueTransformer
-	MDictionaryToArrayTransformer *dictToArray = [[MDictionaryToArrayTransformer new] autorelease];
-	[NSValueTransformer setValueTransformer:dictToArray forName:@"DictionaryToArrayTransformer"];
-	// register as observer to NSWindow terminate notification
+	// Register as observer to NSWindow terminate notification
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(applicationWillTerminate:) 
 												 name:NSApplicationWillTerminateNotification object:NSApp];
-//	[[NSNotificationCenter defaultCenter] addObserver:self 
-//											 selector:@selector(serveListNeedsReload:) 
-//												 name:MServerListNeedsReloadNotification object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(queryTerminated:) 
+												 name:MQueryTerminatedNotification object:nil];
 	
 }
 
@@ -100,6 +108,10 @@
 			[menuItem setTitle:@"Hide Players"];
 	}
 	
+	if ([menuItem action] == @selector(copyAddress:)){
+		return ([[serversController selectedObjects] count] > 0);
+	}
+	
 	return YES;
 }
 
@@ -116,6 +128,21 @@
 
 #pragma mark -
 #pragma mark Actions
+- (void)copyAddress:(id)sender
+{
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *types = [NSArray arrayWithObjects:NSStringPboardType, nil];
+	[pb declareTypes:types owner:self];
+	
+	NSEnumerator *iter = [[serversController selectedObjects] objectEnumerator];
+	NSMutableString *addresses = [[NSMutableString alloc] init];
+	id s = [iter nextObject];
+	[addresses appendString:[s valueForKey:@"address"]];
+	while(s = [iter nextObject]){
+		[addresses appendFormat:@"\n%@",[s valueForKey:@"address"]];
+	}
+	[pb setString:addresses forType:NSStringPboardType];
+}
 
 - (IBAction)showPreferences:(id)sender
 {
@@ -153,30 +180,15 @@
 	[[playersDrawerController drawer] toggle:sender];
 }
 
-
-- (IBAction)playGame:(id)sender
+- (IBAction)stopQuery:(id)sender
 {
 	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
 	[currentServerList terminateQuery];
-	//NSFetchRequest *fr = [[NSFetchRequest alloc] init];
-//	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-//	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
-//	[fr setEntity:ed];
-//	NSPredicate *p = [NSPredicate predicateWithFormat:@"ANY inServerLists.gameServerType like %@", [currentServerList gameServerType]];
-//	[fr setPredicate:p];
-//	NSError *error = nil;
-////	NSLog(@"%d",[[context executeFetchRequest:fr error:&error] count]);
-//
-//	//[serversController setManagedObjectContext:context];
-////	[serversController setEntityName:@"Server"];
-////	[serversController setFetchPredicate:p];
-////	[serversController fetch:self];
-////	[serversController fetchWithRequest:fr merge:NO error:&error];
-//	if(error != nil)
-//		NSLog(@"%@", error);
-//	[context setStalenessInterval:10.0];
-//	[context refreshObject:currentServerList mergeChanges:YES];
-	// create new context
+}
+
+- (IBAction)playGame:(id)sender
+{
+	NSLog(@"%@", [serverTreeController selectionIndexPaths]);
 }
 
 - (IBAction)addToFavorites:(id)sender
@@ -213,22 +225,30 @@
 {
 	NSArray *selServers = [serversController selectedObjects];
 	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	BOOL ret;
 	if([selServers count] > 0)
-		[currentServerList refreshServers:selServers];
+		ret = [currentServerList refreshServers:selServers];
 	else
-		[currentServerList refreshServers:nil];
+		ret = [currentServerList refreshServers:nil];
+	if(ret){
+		[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
+	}
 }
 
 - (IBAction)refreshServerList:(id)sender
 {
 	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
-	[currentServerList refreshServers:nil]; // talvez o melhor seja passar todos em vez de nil
+	if([currentServerList refreshServers:nil]){ // talvez o melhor seja passar todos em vez de nil
+		[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
+	}
 }
 
 - (IBAction)reloadServerList:(id)sender
 {
 	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
-	[currentServerList reload];
+	if([currentServerList reload]){
+		[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
+	}
 }
 
 - (IBAction)reloadCurrentServerListFromStore:(id)sender
@@ -269,7 +289,7 @@
     return [[NSApp delegate] windowWillReturnUndoManager:window];
 }
 
-#pragma mark NSApp notification handlers
+#pragma mark Notification Handlers
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
@@ -286,13 +306,20 @@
 	[splitView storeLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 }
 
-#pragma mark Ouline View Delegate Methods
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+- (void)queryTerminated:(id)sl
 {
-	if ([(MOutlineView *)gamesOutlineView mouseOverRow] == [outlineView rowForItem:item])
-		NSLog(@"%d could be highlighted", [outlineView rowForItem:item]);
-	else NSLog(@"%d shouldn't be highlighted", [outlineView rowForItem:item]);
+	[[NSNotificationCenter defaultCenter] postNotificationName:MQueryEnded object:self];
 }
+
+//#pragma mark Ouline View Delegate Methods
+//- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+//{
+//	if ([(MOutlineView *)gamesOutlineView mouseOverRow] == [outlineView rowForItem:item])
+//		NSLog(@"%d could be highlighted", [outlineView rowForItem:item]);
+//	else NSLog(@"%d shouldn't be highlighted", [outlineView rowForItem:item]);
+//	
+//	NSLog(@"cell address %@",cell);
+//}
 //
 //- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 //{

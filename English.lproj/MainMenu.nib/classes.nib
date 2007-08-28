@@ -10,6 +10,7 @@
             ACTIONS = {
                 addServer = id; 
                 addToFavorites = id; 
+                copyAddress = id; 
                 playGame = id; 
                 refreshSelectedServers = id; 
                 refreshServerList = id; 
@@ -74,7 +75,12 @@
             }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = MOutlineView; LANGUAGE = ObjC; SUPERCLASS = KBGradientOutlineView; }, 
+        {
+            CLASS = MOutlineView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {splitView = MThinSplitView; }; 
+            SUPERCLASS = KBGradientOutlineView; 
+        }, 
         {
             CLASS = MPlayersController; 
             LANGUAGE = ObjC; 
@@ -127,7 +133,7 @@
         {
             CLASS = MToolbarController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {mainController = id; serversController = id; }; 
+            OUTLETS = {mainController = id; searchField = id; serversController = id; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 

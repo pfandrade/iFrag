@@ -12,6 +12,8 @@
 
 extern NSString *iFragPBoardType;
 
+static NSArray *keysToCopy = nil;
+
 @implementation MServersController
 
 + (void)initialize{
@@ -34,15 +36,15 @@ extern NSString *iFragPBoardType;
 	[serversTableView setVerticalMotionCanBeginDrag:NO];
 	[serversTableView setDraggingSourceOperationMask:(NSDragOperationCopy | NSDragOperationMove) forLocal:YES];
 	[serversTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+	if(keysToCopy == nil){
+		keysToCopy = [[NSArray arrayWithObjects:@"serverType", @"address", @"attributedName", @"gameType", @"map", @"ping", @"fullness"] retain];
+	}
 }
 
 #pragma mark Copy & Paste
 - (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes 
 	 toPasteboard:(NSPasteboard*)pboard 
-{ 
-	// Copy items that are displayed in the tableView
-	NSArray *tableColumns = [serversTableView tableColumns];
-	
+{ 	
 	//release previously cached information
 	[copiedItemsCache release];
 	copiedItemsCache = [[NSMutableArray alloc] initWithCapacity:[rowIndexes count]];
@@ -54,9 +56,9 @@ extern NSString *iFragPBoardType;
 	row = [rowIndexes firstIndex];
 	
 	do {
-		rowObjectKeyValues = [[NSMutableArray alloc] initWithCapacity:[tableColumns count]];
-		for (i = 0; i < [tableColumns count]; i++){
-			value = [[servers objectAtIndex:row] valueForKey:[[tableColumns objectAtIndex:i] identifier]]; 
+		rowObjectKeyValues = [[NSMutableArray alloc] initWithCapacity:[keysToCopy count]];
+		for (i = 0; i < [keysToCopy count]; i++){
+			value = [[servers objectAtIndex:row] valueForKey:[keysToCopy objectAtIndex:i]]; 
 			[rowObjectKeyValues insertObject:[[value copy] autorelease] atIndex:i];
 		}
 		[copiedItemsCache addObject:rowObjectKeyValues];

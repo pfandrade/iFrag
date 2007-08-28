@@ -13,8 +13,10 @@
 #import "MInspectorWindowController.h"
 #import "MDrawerController.h"
 #import "MAddServerController.h"
+#import "MOutlineColumnController.h"
 
-NSString *iFragPBoardType = @"iFragPBoardType";
+
+NSString *const iFragPBoardType = @"iFragPBoardType";
 
 @interface MMainController : NSObject
 {
@@ -38,6 +40,7 @@ NSString *iFragPBoardType = @"iFragPBoardType";
     IBOutlet id serversController;
 	IBOutlet id serverListsController;
 	IBOutlet id serverTreeController;
+	MOutlineColumnController *outlineColumnController;
 }
 
 - (void)resizedSplitView:(id)theSplitView toSize:(float)newSize;

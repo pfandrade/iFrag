@@ -13,16 +13,12 @@
 
 const static float heightPercentage = 0.45;
 const static float lineWidth = 2.0;
-const static NSTimeInterval animationDelay = 5.0/60.0;
 const static double stepAngle = 360.0 / PIECHART_STEPS;
 
-static NSTimer *heartbeatTimer = nil;
 static double spinnerPosition = 0;
 
 @interface MOutlineCell (Private)
 
-- (NSTimer *)heartbeatTimer;
-- (void)setHeartbeatTimer:(NSTimer *)value;
 - (void)drawIndeterminateIndicaterInRect:(NSRect)aRect;
 - (void)drawPieChartInRect:(NSRect)aRect;
 
@@ -30,20 +26,6 @@ static double spinnerPosition = 0;
 
 @implementation MOutlineCell
 
-- (NSTimer *)heartbeatTimer
-{
-	return heartbeatTimer;
-}
-
-- (void)setHeartbeatTimer:(NSTimer *)value
-{
-	if (heartbeatTimer != value) {
-		id old = heartbeatTimer;
-		heartbeatTimer = [value retain];
-		[old invalidate];
-		[old release];
-	}
-}
 
 - (double)spinnerPosition
 {
@@ -59,35 +41,6 @@ static double spinnerPosition = 0;
 		} else if (spinnerPosition < 0.0) {
 			spinnerPosition = 0.0;
 		}
-	}
-}
-
-- (void)animate:(NSTimer *)aTimer
-{
-	double value = fmod(([self spinnerPosition] + (5.0/60.0)), 1.0);
-	[self setSpinnerPosition:value];
-	[[self controlView] setNeedsDisplay:YES];
-	
-}
-
-- (void)startAnimation
-{
-	if ([self heartbeatTimer] == nil) {
-		[self setHeartbeatTimer:[NSTimer scheduledTimerWithTimeInterval:animationDelay  target:self selector:@selector(animate:) userInfo:NULL repeats:YES]];
-		[[NSRunLoop currentRunLoop] addTimer:[self heartbeatTimer] forMode:NSEventTrackingRunLoopMode];
-	}else{
-		[[self heartbeatTimer] retain]; //increase retainCount
-	}
-}
-
-- (void)stopAnimation
-{
-	if([[self heartbeatTimer] retainCount] == 1){
-		[[self heartbeatTimer] invalidate];
-		[self setHeartbeatTimer:nil];
-		[self animate:nil];
-	}else{
-		[[self heartbeatTimer] release]; //decrease retainCount
 	}
 }
 
@@ -150,8 +103,8 @@ static double spinnerPosition = 0;
 	NSMutableAttributedString *drawString = [[self attributedTitle] mutableCopy];
 	NSRect	aRect;
 	
-	/** draw the indicator **/
 	id pd = [self progressDelegate];
+	
 	if ([pd isRunning]){
 		float diameter = floor(heightPercentage * cellFrame.size.height);
 		NSSize	indicatorSize = NSMakeSize(diameter,diameter);
@@ -159,16 +112,19 @@ static double spinnerPosition = 0;
 		NSDivideRect(cellFrame, &cellFrame, &aRect,(cellFrame.size.width - indicatorSize.width - 8), NSMinXEdge);
 		
 		aRect.origin.x += 4;
-
+		
 		aRect.origin.y += ceil((aRect.size.height - indicatorSize.height) / 2);
 		
 		aRect.size.width -= 8;
 		aRect.size.height = indicatorSize.height;
+		
+		/** draw the indicator **/
 		if([pd doubleValue] <= [pd minValue]){
 			[self drawIndeterminateIndicaterInRect:aRect];
 		}else{
 			[self drawPieChartInRect:aRect];
 		}
+	
 	}
 	
 	/** Draw the string **/

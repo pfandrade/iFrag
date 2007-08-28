@@ -17,4 +17,7 @@
 - (NSAttributedString *)attributedTitle;
 - (MProgressDelegate *)progressDelegate;
 
+- (double)spinnerPosition;
+- (void)setSpinnerPosition:(double)value;
+
 @end

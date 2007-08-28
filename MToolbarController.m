@@ -43,13 +43,13 @@
 		[item setTarget:mainController];
 		[item setAction:@selector(togglePlayers:)];
 	} else if ( [itemIdentifier isEqualToString:MReloadServerList] ) {
-		[item setLabel:@"Update"];
+		[item setLabel:@"Get New List"];
 		[item setPaletteLabel:[item label]];
 		[item setImage:[NSImage imageNamed:@"Update.tiff"]];
 		[item setTarget:mainController];
 		[item setAction:@selector(reloadServerList:)];
 	} else if ( [itemIdentifier isEqualToString:MRefreshServerList] ) {
-		[item setLabel:@"Refresh"];
+		[item setLabel:@"Refresh List"];
 		[item setPaletteLabel:[item label]];
 		[item setImage:[NSImage imageNamed:@"Refresh.tiff"]];
 		[item setTarget:mainController];
@@ -72,6 +72,19 @@
 		[item setImage:[NSImage imageNamed:@"Play.tiff"]];
 		[item setTarget:mainController];
 		[item setAction:@selector(playGame:)];
+    }else if ( [itemIdentifier isEqualToString:MStopQuery] ) {
+		[item setLabel:@"Stop"];
+		[item setPaletteLabel:[item label]];
+		[item setImage:[NSImage imageNamed:@"Stop.tiff"]];
+		[item setTarget:mainController];
+		[item setAction:@selector(stopQuery:)];
+    }else if ( [itemIdentifier isEqualToString:MSearchField] ) {
+		NSRect fRect = [searchField frame];
+		[item setLabel:@"Search"];
+		[item setPaletteLabel:[item label]];
+		[item setView:searchField];
+		[item setMinSize:fRect.size];
+		[item setMaxSize:fRect.size];
     }
 	
     return [item autorelease];
@@ -88,17 +101,24 @@
 		MRefreshServerList,
 		MPlayGame,
 		MAddServer,
-		MDeleteServer, nil];
+		MDeleteServer,
+		MStopQuery,
+		MSearchField,
+		nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
 	return [NSArray arrayWithObjects:MPlayGame,
+		NSToolbarSpaceItemIdentifier,
 		MRefreshServerList,
 		MReloadServerList,
+		MStopQuery,
 		NSToolbarFlexibleSpaceItemIdentifier,
 		MServerInfoItemIdentifier,
-		MPlayersDrawerIdentifier, nil];
+		MPlayersDrawerIdentifier,
+		MSearchField,
+		nil];
 }
 
 // Toolbar Icon Validator

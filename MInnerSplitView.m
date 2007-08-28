@@ -26,6 +26,16 @@
 	//Do nothing
 }
 
+//- (void)mouseEntered:(NSEvent*)theEvent
+//{
+//	NSLog(@"Mouse entered NSSplitview");
+//}
+//
+//- (void)mouseMoved:(NSEvent*)theEvent
+//{
+//	NSLog(@"Mouse moved NSSplitView");
+//}
+
 #pragma mark Animation Methods
 //http://www.cocoadev.com/index.pl?AnimatedNSSplitView
 

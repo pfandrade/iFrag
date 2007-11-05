@@ -10,8 +10,9 @@
 #import "MGenericGame.h"
 #import "MServerList.h"
 #import "MServersController.h"
+#import "MMainController.h"
 
-extern NSString *iFragPBoardType;
+//extern NSString *iFragPBoardType;
 
 @interface NSObject (private)
 - (id)observedObject;

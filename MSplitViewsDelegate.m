@@ -7,6 +7,8 @@
 //
 
 #import "MSplitViewsDelegate.h"
+#import "MMainController.h"
+#import "MInnerSplitView.h"
 
 #define SOURCELIST_MIN_SIZE 50
 #define SOURCELIST_MAX_SIZE 250

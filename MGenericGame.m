@@ -8,6 +8,9 @@
 
 #import "MGenericGame.h"
 
+#import "MServer.h"
+#import "MServerPasswordController.h"
+
 
 #define SERVERTYPESTRINGS	[[NSArray arrayWithObjects:@"FAV",			@"Q3S",		@"WOETS",			@"Q4S",		@"COD2S", nil] retain]
 #define GAMECLASSNAMES		[[NSArray arrayWithObjects:@"MFavorites",	@"MQuake3",	@"MEnemyTerritory", @"MQuake4",	@"MCallOfDuty2", nil] retain]
@@ -15,6 +18,7 @@
 static NSArray *_serverTypeStrings; 
 static NSArray *_gameClassNames;
 static NSDictionary *_gwsts;
+static MServerPasswordController *serverPasswordController = nil;
 
 @implementation MGenericGame
 
@@ -164,7 +168,50 @@ static NSDictionary *_gwsts;
 }
 
 - (NSError *)connectToServer:(MServer *)server {
-	return [[self class] connectToServer:server];
+	NSString *password = nil;
+	NSAlert *warning = nil;
+	// see if server is reachable
+	if([[server ping] intValue] == 9999){
+		warning = [NSAlert alertWithMessageText:@"Server seems unreachable."
+								  defaultButton:@"Yes" alternateButton:@"No" otherButton:nil 
+					  informativeTextWithFormat:@"The server you are trying to connect appears to be unreachable.\nWould you like to continue connecting anyway?"];
+		[warning setAlertStyle:NSInformationalAlertStyle];
+		switch([warning runModal]){
+			case NSAlertDefaultReturn: 
+				break;
+			case NSAlertAlternateReturn:
+				return nil;
+			default:
+				return nil;
+		}
+	}
+	// see if server is full
+	int nP = [[server numplayers] intValue];
+	int mP = [[server maxplayers] intValue];
+	if(nP != -1 && nP == mP){
+		warning = [NSAlert alertWithMessageText:@"Server is full."
+								  defaultButton:@"Yes" alternateButton:@"No" otherButton:nil 
+					  informativeTextWithFormat:@"The server you are trying to connect is full.\nWould you like to continue connecting anyway?"];
+		[warning setAlertStyle:NSInformationalAlertStyle];
+		switch([warning runModal]){
+			case NSAlertDefaultReturn: 
+				break;
+			case NSAlertAlternateReturn:
+				return nil;
+			default:
+				return nil;
+		}
+	}
+	
+	// see if we need a password
+	if([[server isPrivate] boolValue]){
+		if(serverPasswordController == nil){
+			serverPasswordController = [[MServerPasswordController alloc] initWithWindowNibName:@"ServerPasswordDialog"];
+		}
+		[serverPasswordController setServer:server];
+		password = [serverPasswordController runModalSheetForWindow:[NSApp mainWindow]];
+	}
+	return [[self class] launchWithServer:server andPassword:password];
 }
 
 - (NSString *)serverTypeString{

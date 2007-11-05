@@ -115,7 +115,7 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 			[currentServer setValue:nil forKey:@"rules"];
 			NSSet *playersToDelete = [currentServer mutableSetValueForKey:@"players"];
 			[currentServer setValue:nil forKey:@"players"];
-			[context deleteObject:rulesToDelete];
+			if(rulesToDelete != nil) [context deleteObject:rulesToDelete];
 			NSEnumerator *ptdEnum = [[playersToDelete allObjects] objectEnumerator];
 			MPlayer *p;
 			while(p = [ptdEnum nextObject]){

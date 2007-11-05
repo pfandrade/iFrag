@@ -9,8 +9,9 @@
 #import "MServersController.h"
 #import "MServer.h"
 #import "MServerList.h"
+#import "MMainController.h"
 
-extern NSString *iFragPBoardType;
+//NSString *const iFragPBoardType;
 
 static NSArray *keysToCopy = nil;
 
@@ -37,7 +38,7 @@ static NSArray *keysToCopy = nil;
 	[serversTableView setDraggingSourceOperationMask:(NSDragOperationCopy | NSDragOperationMove) forLocal:YES];
 	[serversTableView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 	if(keysToCopy == nil){
-		keysToCopy = [[NSArray arrayWithObjects:@"serverType", @"address", @"attributedName", @"gameType", @"map", @"ping", @"fullness"] retain];
+		keysToCopy = [[NSArray arrayWithObjects:@"serverType", @"address", @"attributedName", @"gameType", @"map", @"ping", @"fullness",nil] retain];
 	}
 }
 

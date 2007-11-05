@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MProgressDelegate.h"
+
+@class MProgressDelegate;
 
 @interface MOutlineCell : NSTextFieldCell {
 }

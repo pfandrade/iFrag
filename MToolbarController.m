@@ -7,6 +7,7 @@
 //
 
 #import "MToolbarController.h"
+#import "MMainController.h"
 
 @implementation MToolbarController
 
@@ -49,7 +50,7 @@
 		[item setTarget:mainController];
 		[item setAction:@selector(reloadServerList:)];
 	} else if ( [itemIdentifier isEqualToString:MRefreshServerList] ) {
-		[item setLabel:@"Refresh List"];
+		[item setLabel:@"Refresh"];
 		[item setPaletteLabel:[item label]];
 		[item setImage:[NSImage imageNamed:@"Refresh.tiff"]];
 		[item setTarget:mainController];

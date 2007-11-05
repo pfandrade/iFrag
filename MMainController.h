@@ -7,16 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MThinSplitView.h"
-#import "MInnerSplitView.h"
-#import "AMButtonBar.h"
-#import "MInspectorWindowController.h"
-#import "MDrawerController.h"
-#import "MAddServerController.h"
-#import "MOutlineColumnController.h"
 
+@class MInspectorWindowController;
+@class MDrawerController;
+@class MAddServerController;
+@class MOutlineColumnController;
+@class MThinSplitView;
+@class MInnerSplitView;
+@class AMButtonBar;
 
-NSString *const iFragPBoardType = @"iFragPBoardType";
+static NSString *const iFragPBoardType = @"iFragPBoardType";
 
 @interface MMainController : NSObject
 {

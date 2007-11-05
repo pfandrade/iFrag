@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancel = id; connect = id; }; 
+            CLASS = MServerPasswordController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {connectButton = NSButton; image = NSImageView; passwordField = NSTextField; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

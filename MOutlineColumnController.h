@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-NSString *const MQueryStarted = @"QueryStarted";
-NSString *const MQueryEnded = @"QueryEnded";
+static NSString *MQueryStarted = @"QueryStarted";
+static NSString *MQueryEnded = @"QueryEnded";
 
 
 @interface MOutlineColumnController : NSObject {

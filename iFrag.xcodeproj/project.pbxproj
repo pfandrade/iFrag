@@ -63,10 +63,13 @@
 		D289AFEB0BBFC94A0000BA5E /* MProgressDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */; };
 		D28BE9160C2431680030B303 /* PlayersDrawer.nib in Resources */ = {isa = PBXBuildFile; fileRef = D28BE9150C2431680030B303 /* PlayersDrawer.nib */; };
 		D294F87E0BC5A5B3004C48B7 /* MServersController.m in Sources */ = {isa = PBXBuildFile; fileRef = D294F87C0BC5A5B3004C48B7 /* MServersController.m */; };
+		D2963FC70CCF92840081EAAA /* iFrag.icns in Resources */ = {isa = PBXBuildFile; fileRef = D2963FC60CCF92840081EAAA /* iFrag.icns */; };
 		D29C6DC30BD952F900F816AD /* domain.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D29C6DC20BD952F900F816AD /* domain.xcdatamodel */; };
+		D29FA3BB0C8F74920016B965 /* MServerPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = D29FA3B90C8F74920016B965 /* MServerPasswordController.m */; };
 		D2A059320C4D15CE007BF4F5 /* MEnemyTerritory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A059300C4D15CE007BF4F5 /* MEnemyTerritory.m */; };
 		D2A0595D0C4D1D7F007BF4F5 /* qstat.cfg in Resources */ = {isa = PBXBuildFile; fileRef = D2A059400C4D18E1007BF4F5 /* qstat.cfg */; };
 		D2A1AE9B0C00749D003C81E9 /* Update.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2A1AE9A0C00749D003C81E9 /* Update.tiff */; };
+		D2A797D20CDFBEC3007B5D4D /* ServerPasswordDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = D2A797D10CDFBEC3007B5D4D /* ServerPasswordDialog.nib */; };
 		D2AD5F3E0BD41A6600C0F614 /* MActionButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AD5F3C0BD41A6600C0F614 /* MActionButtonCell.m */; };
 		D2AD5F850BD421A900C0F614 /* MActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AD5F830BD421A900C0F614 /* MActionButton.m */; };
 		D2BF91270B03A383004BCD69 /* MServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BF91250B03A383004BCD69 /* MServer.m */; };
@@ -202,7 +205,11 @@
 		D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MProgressDelegate.m; sourceTree = "<group>"; };
 		D294F87B0BC5A5B3004C48B7 /* MServersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServersController.h; sourceTree = "<group>"; };
 		D294F87C0BC5A5B3004C48B7 /* MServersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServersController.m; sourceTree = "<group>"; };
+		D2963FC60CCF92840081EAAA /* iFrag.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iFrag.icns; sourceTree = "<group>"; };
 		D29C6DC20BD952F900F816AD /* domain.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = domain.xcdatamodel; sourceTree = "<group>"; };
+		D29FA3A10C8F71530016B965 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ServerPasswordDialog.nib; sourceTree = "<group>"; };
+		D29FA3B80C8F74920016B965 /* MServerPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MServerPasswordController.h; sourceTree = "<group>"; };
+		D29FA3B90C8F74920016B965 /* MServerPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MServerPasswordController.m; sourceTree = "<group>"; };
 		D2A0592F0C4D15CE007BF4F5 /* MEnemyTerritory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEnemyTerritory.h; sourceTree = "<group>"; };
 		D2A059300C4D15CE007BF4F5 /* MEnemyTerritory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEnemyTerritory.m; sourceTree = "<group>"; };
 		D2A059400C4D18E1007BF4F5 /* qstat.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = qstat.cfg; sourceTree = "<group>"; };
@@ -323,8 +330,9 @@
 				D29B206F0BCD765B00228D51 /* Icons */,
 				D26E57DB0B568AE80020EC68 /* Credits.rtf */,
 				D2FF2C440AFFAA870014B41D /* qstat */,
-				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				D2A797D10CDFBEC3007B5D4D /* ServerPasswordDialog.nib */,
 				D21524790BD16FF20046CB9E /* AddServerDialog.nib */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				D28BE9150C2431680030B303 /* PlayersDrawer.nib */,
@@ -438,6 +446,7 @@
 		D29B206F0BCD765B00228D51 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				D2963FC60CCF92840081EAAA /* iFrag.icns */,
 				D2F60E300BCF0E8D0097AF76 /* Remove.tiff */,
 				D20DE6C50BCD8528000E8B31 /* Add.tiff */,
 				D2CABD3B0C84CA61004B550D /* Favorites.icns */,
@@ -551,6 +560,8 @@
 				D289AFE90BBFC94A0000BA5E /* MProgressDelegate.m */,
 				D251DF6C0C820B8C0059A964 /* MOutlineColumnController.h */,
 				D251DF6D0C820B8C0059A964 /* MOutlineColumnController.m */,
+				D29FA3B80C8F74920016B965 /* MServerPasswordController.h */,
+				D29FA3B90C8F74920016B965 /* MServerPasswordController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -583,9 +594,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iFrag" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* iFrag */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* iFrag */,
 			);
@@ -623,6 +636,8 @@
 				D2CABD5B0C84CB82004B550D /* Refresh.tiff in Resources */,
 				D24DA9FE0C84D5F1007E1A8C /* lock_header.tif in Resources */,
 				D24DAA0C0C84D95E007E1A8C /* punk_header.tif in Resources */,
+				D2A797D20CDFBEC3007B5D4D /* ServerPasswordDialog.nib in Resources */,
+				D2963FC70CCF92840081EAAA /* iFrag.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,6 +701,7 @@
 				D280FB110C81B50E00D50884 /* AMRollOverButton.m in Sources */,
 				D280FB120C81B51000D50884 /* AMRollOverButtonCell.m in Sources */,
 				D251DF6F0C820B8C0059A964 /* MOutlineColumnController.m in Sources */,
+				D29FA3BB0C8F74920016B965 /* MServerPasswordController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,6 +756,14 @@
 			name = PlayersDrawer.nib;
 			sourceTree = "<group>";
 		};
+		D2A797D10CDFBEC3007B5D4D /* ServerPasswordDialog.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D29FA3A10C8F71530016B965 /* English */,
+			);
+			name = ServerPasswordDialog.nib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -780,6 +804,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DDEBUG";

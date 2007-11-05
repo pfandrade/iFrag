@@ -2,6 +2,7 @@
 #import "MMainController.h"
 #import "MServer.h"
 #import "MGenericGame.h"
+#import "MServerList.h"
 
 #include <netdb.h>
 #include <netinet/in.h>

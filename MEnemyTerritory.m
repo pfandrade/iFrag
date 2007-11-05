@@ -7,6 +7,7 @@
 //
 
 #import "MEnemyTerritory.h"
+#import "MServer.h"
 
 // this game name is not used anymore, we now use the bundleName
 static NSString *const _gameName			= @"Wolfenstein ET";
@@ -72,9 +73,27 @@ static NSString *const _defaultServerPort	= @"27960";
 	return [attribString autorelease];
 }
 
-+ (NSError *)connectToServer:(MServer *)server {
-	//TODO:
-	return nil;
++ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass{
+	static NSString *executable = @"/Contents/MacOS/Wolfenstein ET";
+	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	NSString *path = [NSString stringWithFormat:@"%@%@", [ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier], executable];
+	NSMutableArray *args = [[NSMutableArray alloc] init];
+	
+	// set game_type
+	[args addObject:@"+set"]; [args addObject:@"fs_game"]; [args addObject:[server gameType]];
+	// set punkbuster
+	if([[server isPunkbusterEnabled] boolValue]){
+		[args addObject:@"+set"]; [args addObject:@"cl_punkbuster"]; [args addObject:@"1"];
+	}
+	// set password
+	if([[server isPrivate] boolValue]){
+		[args addObject:@"+password"]; [args addObject:pass];
+	}
+	// set address
+	[args addObject:@"+connect"]; [args addObject:[server address]];
+	[NSTask launchedTaskWithLaunchPath:path arguments:[[args copy] autorelease]];
+	[args release];
+	return nil;	
 }
 
 #pragma mark Overriden Instance Methods

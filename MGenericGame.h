@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class MServer;
 
-#import "MServer.h"
 
 @interface MGenericGame : NSObject <NSCopying> {
 	NSString *name;
@@ -60,7 +60,7 @@
 #pragma mark Abstract Class Methods
 + (BOOL)isInstalled;
 + (NSAttributedString *)processName:(NSString *)name;
-+ (NSError *)connectToServer:(MServer *)server;
++ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass;
 + (NSString *)serverTypeString;
 + (NSString *)masterServerFlag;
 + (NSString *)masterServerAddress;

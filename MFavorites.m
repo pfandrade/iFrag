@@ -28,10 +28,10 @@ static NSString *const _defaultServerPort	= @"55555";
 	return [[[NSAttributedString alloc] initWithString:name] autorelease];
 }
 
-+ (NSError *)connectToServer:(MServer *)server {
++ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass {
 	NSString *gameClassName = [MGenericGame gameClassNameWithServerTypeString:[server serverType]];
 	Class gameClass = objc_getClass([gameClassName UTF8String]);
-	return [gameClass connectToServer:server];
+	return [gameClass launchWithServer:server andPassword:pass];
 }
 
 - (id) init {

@@ -7,6 +7,7 @@
 //
 
 #import "MOutlineCell.h"
+#import "MProgressDelegate.h"
 
 #define DEG2RAD  0.017453292519943295
 #define PIECHART_STEPS 8

@@ -7,8 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MMainController.h"
-#import "MInnerSplitView.h"
 
 @interface MSplitViewsDelegate : NSObject {
 	IBOutlet id mainController;

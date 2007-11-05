@@ -17,6 +17,15 @@
 #import "MQStatTask.h"
 #import "MQStatXMLParser.h"
 #import "MDictionaryToArrayTransformer.h"
+#import "MGenericGame.h"
+#import "MThinSplitView.h"
+#import "MInnerSplitView.h"
+#import "AMButtonBar.h"
+#import "MInspectorWindowController.h"
+#import "MDrawerController.h"
+#import "MAddServerController.h"
+#import "MOutlineColumnController.h"
+
 
 #define THINSPLITVIEW_SAVE_NAME @"thinsplitview"
 
@@ -48,6 +57,10 @@
 //	[item setTitle:@"LAN"];
 //	[filterBar insertItem:item atIndex:2];
 	[rightSplitView hideFilterBar];
+	
+	// set doubleClick action for NSTableView
+	[serversTableView setTarget:self];
+	[serversTableView setDoubleAction:@selector(playGame:)];
 	
 	// Set appearance options (like gradient) in the custom outlineView
 	[(KBGradientOutlineView *)gamesOutlineView setUsesGradientSelection:YES];
@@ -188,7 +201,9 @@
 
 - (IBAction)playGame:(id)sender
 {
-	NSLog(@"%@", [serverTreeController selectionIndexPaths]);
+	//NSLog(@"%@", [serverTreeController selectionIndexPaths]);
+	MServer *s = [[serversController selectedObjects] objectAtIndex:0];
+	[[s game] connectToServer:s];
 }
 
 - (IBAction)addToFavorites:(id)sender

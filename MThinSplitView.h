@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MDragHandleButton.h"
+
+@class MDragHandleButton;
 
 @interface MThinSplitView : NSSplitView {
 	IBOutlet MDragHandleButton *resizeHandle;

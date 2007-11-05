@@ -7,7 +7,10 @@
 //
 
 #import "MQuake4.h"
+#import "MServer.h"
+
 #import <stdlib.h>
+
 
 #define QUAKE4APPNAME @"Quake 4"
 
@@ -88,7 +91,7 @@ static NSString *const _defaultServerPort	= @"28004";
 }
 
 
-+ (NSError *)connectToServer:(MServer *)server {
++ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass{
 	//TODO:
 	return nil;
 }

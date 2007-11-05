@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MMainController.h"
+
 
 NSString *const MServerInfoItemIdentifier =	@"ServerInfoItem";
 NSString *const MPlayersDrawerIdentifier  =	@"PlayersDrawerItem";

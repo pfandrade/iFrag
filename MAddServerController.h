@@ -1,7 +1,8 @@
 /* MAddServerController */
 
 #import <Cocoa/Cocoa.h>
-#import "MServerList.h"
+
+@class MServerList;
 
 @interface MAddServerController : NSWindowController
 {

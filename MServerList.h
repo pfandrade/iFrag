@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-NSString *const MQueryTerminatedNotification = @"QueryTerminatedNotification";
+static NSString *const MQueryTerminatedNotification = @"QueryTerminatedNotification";
 
 @class MGenericGame;
 @class MProgressDelegate;

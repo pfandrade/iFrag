@@ -7,6 +7,7 @@
 //
 
 #import "MThinSplitView.h"
+#import "MDragHandleButton.h"
 
 @interface MThinSplitView(Private)
 

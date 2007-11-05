@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+
 #import "MGenericGame.h"
 
 @interface MEnemyTerritory : MGenericGame {

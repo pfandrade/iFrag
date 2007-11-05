@@ -91,7 +91,7 @@ static NSString *const _defaultServerPort	= @"28960";
 }
 
 
-+ (NSError *)connectToServer:(MServer *)server {
++ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass{
 	//TODO:
 	return nil;
 }

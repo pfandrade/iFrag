@@ -73,10 +73,8 @@ static NSString *const _defaultServerPort	= @"27960";
 	return [attribString autorelease];
 }
 
-+ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass{
-	static NSString *executable = @"/Contents/MacOS/Wolfenstein ET";
-	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	NSString *path = [NSString stringWithFormat:@"%@%@", [ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier], executable];
+- (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass{
+	NSString *path = [self executableGamePath];
 	NSMutableArray *args = [[NSMutableArray alloc] init];
 	
 	// set game_type
@@ -111,34 +109,34 @@ static NSString *const _defaultServerPort	= @"27960";
 	return self;
 }
 
-+ (NSString *)serverTypeString {
+- (NSString *)serverTypeString {
     return _serverTypeString;
 }
 
-+ (NSString *)masterServerFlag {
+- (NSString *)masterServerFlag {
     return _masterServerFlag;
 }
 
-+ (NSString *)masterServerAddress {
+- (NSString *)masterServerAddress {
     return _masterServerAddress;
 }
 
-+ (NSString *)defaultGameType
+- (NSString *)defaultGameType
 {
 	return _defaultGameType;
 }
 
-+ (NSString *)defaultServerPort
+- (NSString *)defaultServerPort
 {
 	return _defaultServerPort;
 }
 
-+ (BOOL)isPunkbusterEnabled:(MServer *)server
+- (BOOL)isPunkbusterEnabled:(MServer *)server
 {
 	return ([[[server rulesDict] valueForKey:@"sv_punkbuster"] intValue] == 1);
 }
 
-+ (BOOL)isPrivate:(MServer *)server
+- (BOOL)isPrivate:(MServer *)server
 {
 	return ([[[server rulesDict] valueForKey:@"g_needpass"] intValue] == 1);
 }	

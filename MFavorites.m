@@ -28,12 +28,6 @@ static NSString *const _defaultServerPort	= @"55555";
 	return [[[NSAttributedString alloc] initWithString:name] autorelease];
 }
 
-+ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass {
-	NSString *gameClassName = [MGenericGame gameClassNameWithServerTypeString:[server serverType]];
-	Class gameClass = objc_getClass([gameClassName UTF8String]);
-	return [gameClass launchWithServer:server andPassword:pass];
-}
-
 - (id) init {
 	self = [super initWithGameName:[NSString stringWithString:_gameName]
 												andBundlePath:@"!Favorites doesn't have a bundlePath!" ];
@@ -46,23 +40,29 @@ static NSString *const _defaultServerPort	= @"55555";
 }
 
 
-+ (NSString *)serverTypeString {
+- (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass {
+	NSString *gameClassName = [MGenericGame gameClassNameWithServerTypeString:[server serverType]];
+	Class gameClass = objc_getClass([gameClassName UTF8String]);
+	return [gameClass launchWithServer:server andPassword:pass];
+}
+
+- (NSString *)serverTypeString {
     return _serverTypeString;
 }
 
-+ (NSString *)masterServerFlag {
+- (NSString *)masterServerFlag {
     return _masterServerFlag;
 }
 
-+ (NSString *)masterServerAddress {
+- (NSString *)masterServerAddress {
     return _masterServerAddress;
 }
 
-+ (NSString *)defaultGameType{
+- (NSString *)defaultGameType{
 	return _defaultGameType;
 }
 
-+ (NSString *)defaultServerPort
+- (NSString *)defaultServerPort
 {
 	return _defaultServerPort;
 }

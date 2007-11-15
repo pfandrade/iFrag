@@ -91,7 +91,7 @@ static NSString *const _defaultServerPort	= @"28004";
 }
 
 
-+ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass{
+- (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass{
 	//TODO:
 	return nil;
 }
@@ -111,34 +111,34 @@ static NSString *const _defaultServerPort	= @"28004";
 	return self;
 }
 
-+ (NSString *)serverTypeString {
+- (NSString *)serverTypeString {
     return _serverTypeString;
 }
 
-+ (NSString *)masterServerFlag {
+- (NSString *)masterServerFlag {
     return _masterServerFlag;
 }
 
-+ (NSString *)masterServerAddress {
+- (NSString *)masterServerAddress {
     return _masterServerAddress;
 }
 
-+ (NSString *)defaultGameType
+- (NSString *)defaultGameType
 {
 	return _defaultGameType;
 }
 
-+ (NSString *)defaultServerPort
+- (NSString *)defaultServerPort
 {
 	return _defaultServerPort;
 }
 
-+ (BOOL)isPunkbusterEnabled:(MServer *)server
+- (BOOL)isPunkbusterEnabled:(MServer *)server
 {
 	return ([[[server rulesDict] valueForKey:@"sv_punkbuster"] intValue] == 1);
 }
 
-+ (BOOL)isPrivate:(MServer *)server
+- (BOOL)isPrivate:(MServer *)server
 {
 	return ([[[server rulesDict] valueForKey:@"si_usePass"] intValue] == 1);
 }	

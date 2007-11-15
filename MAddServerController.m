@@ -3,6 +3,7 @@
 #import "MServer.h"
 #import "MGenericGame.h"
 #import "MServerList.h"
+#import "MServerTreeController.h"
 
 #include <netdb.h>
 #include <netinet/in.h>
@@ -210,7 +211,7 @@
 
 - (void)setupWindow
 {
-	serverList = [[serverListsTreeController selectedObjects] objectAtIndex:0];
+	serverList = [serverListsTreeController selectedServerList];
 	
 	//title, subtitle and popup
 	[kind removeAllItems];

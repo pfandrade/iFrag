@@ -16,6 +16,15 @@
 
 @implementation MQuery
 
++ (void)initialize{
+	
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *appDefaults = [NSDictionary
+								 dictionaryWithObject:[NSNumber numberWithBool:NO]  forKey:@"pipeQstatOutput"];
+	
+    [defaults registerDefaults:appDefaults];
+}
+
 - (void) dealloc {
 	[qstatTask release];
 	[serverList release];
@@ -63,14 +72,20 @@
 	/*** Start Qstat  ***/
 	qstatTask = [[MQStatTask alloc] init];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(qstatTaskDidTerminate:) 
-												 name:NSTaskDidTerminateNotification
-											   object:[qstatTask qstat]];
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"pipeQstatOutput"]){
+		// TODO
+	}else{
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(qstatTaskDidTerminate:) 
+													 name:NSTaskDidTerminateNotification
+												   object:[qstatTask qstat]];
 		
-	qstatQueryResultingXMLFile = [[qstatTask queryGameServer:[[sl game] masterServerAddress]
-											 withServerType:[[sl game] masterServerFlag]] retain];
+		qstatQueryResultingXMLFile = [[qstatTask queryGameServer:[[sl game] masterServerAddress]
+												  withServerType:[[sl game] masterServerFlag]] retain];
+	}
+	
 
+	
 //	qstatQueryResultingXMLFile = [[NSURL URLWithString:@"file://localhost/Users/cereal/Desktop/stuff/iFrag_stuff/qstat_small.xml"] retain];
 //	[self qstatTaskDidTerminate:nil];
 }

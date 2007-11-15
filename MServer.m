@@ -418,12 +418,25 @@ static NSMutableDictionary *existingAddresses = nil;
 
 - (NSDictionary *)rulesDict
 {
-	return [[self rules] rules];
+	id tmpObject;
+	[self willAccessValueForKey: @"rulesDict"];
+	tmpObject = [[self rules] rules];
+	[self didAccessValueForKey: @"rulesDict"];
+	return tmpObject;
 }
 
 - (void)setRulesDict:(NSDictionary *)value
 {
-	[[self rules] setRules:value];
+	MRules *myRules = [self rules];
+	[self willChangeValueForKey: @"rulesDict"];
+	if(myRules == nil){
+		myRules = [MRules createRulesInContext:[self managedObjectContext]];
+		[myRules setRules:value];
+		[self setRules:myRules];
+	}else{
+		[[self rules] setRules:value];
+	}
+   [self didChangeValueForKey: @"rulesDict"];
 }
 
 - (void)addPlayersObject:(MPlayer *)value 

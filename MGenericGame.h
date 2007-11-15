@@ -9,6 +9,21 @@
 #import <Cocoa/Cocoa.h>
 @class MServer;
 
+@protocol MGaming
+
++ (BOOL)isInstalled;
++ (NSAttributedString *)processName:(NSString *)name;
+
+- (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass;
+- (NSString *)serverTypeString;
+- (NSString *)masterServerFlag;
+- (NSString *)masterServerAddress;
+- (NSString *)defaultGameType;
+- (NSString *)defaultServerPort;
+- (BOOL)isPunkbusterEnabled:(MServer *)server;
+- (BOOL)isPrivate:(MServer *)server;
+
+@end
 
 @interface MGenericGame : NSObject <NSCopying> {
 	NSString *name;
@@ -43,7 +58,8 @@
 
 - (NSAttributedString *)processName:(NSString *)name;
 - (NSError *)connectToServer:(MServer *)server;
-
+- (NSString *)executableGamePath;
+#pragma mark Default Methods
 - (NSString *)serverTypeString;
 - (NSString *)masterServerFlag;
 - (NSString *)masterServerAddress;
@@ -53,20 +69,4 @@
 - (BOOL)isPrivate:(MServer *)server;
 
 - (NSComparisonResult)compare:(MGenericGame *)game;
-@end
-
-@interface MGenericGame (Abstract)
-
-#pragma mark Abstract Class Methods
-+ (BOOL)isInstalled;
-+ (NSAttributedString *)processName:(NSString *)name;
-+ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass;
-+ (NSString *)serverTypeString;
-+ (NSString *)masterServerFlag;
-+ (NSString *)masterServerAddress;
-+ (NSString *)defaultGameType;
-+ (NSString *)defaultServerPort;
-+ (BOOL)isPunkbusterEnabled:(MServer *)server;
-+ (BOOL)isPrivate:(MServer *)server;
-
 @end

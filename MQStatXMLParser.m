@@ -46,8 +46,7 @@
 	[currentPlayers release];
 	[currentPlayer release];
 	[currentString release];
-//	[objectsToSync release];
-//	[context release];
+	[context release];
 	[port release];
 	[super dealloc];
 }
@@ -86,19 +85,27 @@
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	
 	// create new context for this thread
-	//context = [[NSManagedObjectContext alloc] init];
-	//[context setPersistentStoreCoordinator:[[NSApp delegate] persistentStoreCoordinator]];
-	//[context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-	//[context setUndoManager:nil];
+	context = [[NSManagedObjectContext alloc] init];
+	[context setPersistentStoreCoordinator:[[NSApp delegate] persistentStoreCoordinator]];
+	[context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+	[context setUndoManager:nil];
 	
 	NSURL *file = [args objectAtIndex:0];
-	sl = [[args objectAtIndex:1] retain];
+	sl = [args objectAtIndex:1];
+	sl = [[context objectWithID:[sl objectID]] retain];
 	count = [[args objectAtIndex:2] retain];
 	port = [[args objectAtIndex:3] retain];
 	
-	currentServers = [NSMutableArray new];
+	currentServers = [[sl mutableSetValueForKey:@"servers"] retain];
 	serverSyncStep = [[NSUserDefaults standardUserDefaults] integerForKey:@"serverSyncStep"];
 	serverCount = 0;
+	
+	// register the save notification
+	[[NSNotificationCenter defaultCenter] 
+	addObserver:self
+	selector:@selector(syncObjectsWithMainThread:) 
+	name:NSManagedObjectContextDidSaveNotification 
+	object:context];
 	
 	NSXMLParser *qstatParser = [[NSXMLParser alloc] initWithContentsOfURL:file];
 	[qstatParser setDelegate:self];
@@ -107,7 +114,31 @@
 	
 	innerPool = [[NSAutoreleasePool alloc] init];
 	[qstatParser parse];
+
+#ifdef DEBUG
+	// Test to see if there were errors and log that information
+	NSError *error = nil;
+	if([qstatParser parserError] != nil){
+		NSLog(@"NSXMLParser Parse Error: %@", error);
+		// copy file
+		error = nil;
+		[[NSFileManager defaultManager] moveItemAtPath:[file path]
+												toPath:[@"~/Desktop/iFrag.xml" stringByExpandingTildeInPath]
+												 error:&error];
+		if(error == nil){
+			NSLog(@"Parsing error ocurred at line %@ and column %@ in file %@",
+				  [qstatParser lineNumber],
+				  [qstatParser columnNumber],
+				  [@"~/Desktop/iFrag.xml" stringByExpandingTildeInPath]);
+		}else{
+			NSLog(@"Could not move xml file: %@", error);
+		}
+	}
+#endif
 	[qstatParser release];
+	//unregister the save notification
+	[[NSNotificationCenter defaultCenter] 
+	removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
 	
 	[innerPool release];
 	[pool release];
@@ -118,13 +149,11 @@
 	if((id)count != (id)[NSNull null]){
 		[progressDelegate startedProcessing:[count intValue]];
 	}
-//	objectsToSync = [NSMutableArray new];
-	
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
-	[self syncObjectsWithMainThread];
+	[self flushChangesToMainThread];
 	[self sendTerminateMessage];
 }
 
@@ -145,19 +174,18 @@ didStartElement:(NSString *)elementName
 
 		 //Isto nao devia acontecer
 		[currentServer release];
-		currentServer = [NSMutableDictionary new];
+		currentServer = [[MServer createServerWithAddress:[attributeDict objectForKey:@"address"] inContext:context] retain];
+		[currentServer setServerType:[attributeDict objectForKey:@"type"]];
 		
 		NSString *status = [attributeDict objectForKey:@"status"]; 
 		if([status isEqualToString:@"DOWN"] || [status isEqualToString:@"TIMEOUT"]){
-			[currentServer setValue:[NSNumber numberWithInt:9999] forKey:@"ping"];
-//			if([currentServer valueForKey:@"name"] == nil)
-//				[currentServer setName:[NSString stringWithFormat:@"unknown (%@)",[attributeDict objectForKey:@"address"]]];
-//			[[currentServer mutableSetValueForKey:@"players"] removeAllObjects];
-			[currentServer setValue:[NSNumber numberWithInt:-1] forKey:@"numplayers"];
-			[currentServer setValue:[NSNumber numberWithInt:-1] forKey:@"maxplayers"];
+			[currentServer setPing:[NSNumber numberWithInt:9999]];
+			if([currentServer valueForKey:@"name"] == nil)
+				[currentServer setName:@"Server Timed Out"];
+			[[currentServer mutableSetValueForKey:@"players"] removeAllObjects];
+			[currentServer setNumplayers:[NSNumber numberWithInt:-1]];
+			[currentServer setMaxplayers:[NSNumber numberWithInt:-1]];
 		}
-		[currentServer setValue:[attributeDict objectForKey:@"type"] forKey:@"serverType"];
-		[currentServer setValue:[attributeDict objectForKey:@"address"] forKey:@"address"];
         return;
     }
 	
@@ -210,9 +238,8 @@ didStartElement:(NSString *)elementName
 	// --------- Element players ---------
 	if ([elementName isEqualToString:@"players"]) {
 		[currentPlayers release];
-		//currentPlayers = [[currentServer mutableSetValueForKey:@"players"] retain];
-		//[currentPlayers removeAllObjects];
-		currentPlayers = [NSMutableArray new];
+		currentPlayers = [[currentServer mutableSetValueForKey:@"players"] retain];
+		[currentPlayers removeAllObjects];
 		inPlayers = YES;
         return;
 	}
@@ -220,7 +247,7 @@ didStartElement:(NSString *)elementName
 	//  --------- Element player ---------
 	if ([elementName isEqualToString:@"player"]) {
 		[currentPlayer release]; currentPlayer = nil;
-		currentPlayer = [NSMutableDictionary new];
+		currentPlayer = [[MPlayer createPlayerInContext:context] retain];
         return;
 	}
 	
@@ -240,14 +267,13 @@ didStartElement:(NSString *)elementName
 		if(currentServer == nil){ //isto esta aqui para o caso especial do header
 			return;
 		}
-		[currentServer setValue:[NSDate date] forKey:@"lastRefreshDate"];
+		[currentServer setLastRefreshDate:[NSDate date]];
 		[currentServers addObject:currentServer];
-//		[objectsToSync addObject:currentServer];
 		[currentServer release]; currentServer = nil;
 		[progressDelegate incrementByOne];
 
 		if(++serverCount == serverSyncStep){
-			[self syncObjectsWithMainThread];
+			[self flushChangesToMainThread];
 			serverCount = 0;
 		}
 		
@@ -261,12 +287,12 @@ didStartElement:(NSString *)elementName
 	// --------- Element name ---------	
 	if ([elementName isEqualToString:@"name"]) {
 		if(inPlayers){
-			[currentPlayer setValue:currentString forKey:@"name"];
+			[currentPlayer setName:currentString];
 			[currentString release]; currentString = nil;
 			inElement = NO;
 			return;
 		}
-		[currentServer setValue:currentString forKey:@"name"];
+		[currentServer setName:currentString];
 		[currentString release]; currentString = nil;
 		inElement = NO;
 		return;
@@ -274,7 +300,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element gametype ---------	
 	if ([elementName isEqualToString:@"gametype"]) {
-		[currentServer setValue:currentString forKey:@"gameType"];
+		[currentServer setGameType:currentString];
 		[currentString release]; currentString = nil;
 		inElement = NO;
         return;
@@ -282,7 +308,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element map ---------	
 	if ([elementName isEqualToString:@"map"]) {
-		[currentServer setValue:currentString forKey:@"map"];
+		[currentServer setMap:currentString];
 		[currentString release]; currentString = nil;
 		inElement = NO;
         return;
@@ -290,7 +316,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element numplayers ---------	
 	if ([elementName isEqualToString:@"numplayers"]) {
-		[currentServer setValue:[NSNumber numberWithInt:[currentString intValue]] forKey:@"numplayers"];
+		[currentServer setNumplayers:[NSNumber numberWithInt:[currentString intValue]]];
 		[currentString release]; currentString = nil;
 		inElement = NO;
         return;
@@ -298,7 +324,7 @@ didStartElement:(NSString *)elementName
 
 	// --------- Element maxplayers ---------	
 	if ([elementName isEqualToString:@"maxplayers"]) {
-		[currentServer setValue:[NSNumber numberWithInt:[currentString intValue]] forKey:@"maxplayers"];
+		[currentServer setMaxplayers:[NSNumber numberWithInt:[currentString intValue]]];
 		[currentString release]; currentString = nil;
 		inElement = NO;
         return;
@@ -311,12 +337,12 @@ didStartElement:(NSString *)elementName
 			if([playerPing intValue] > 999){
 				playerPing = [NSNumber numberWithInt:999];
 			}
-			[currentPlayer setValue:playerPing forKey:@"ping"];
+			[currentPlayer setPing:playerPing];
 			[currentString release]; currentString = nil;
 			inElement = NO;
 			return;
 		}		
-		[currentServer setValue:[NSNumber numberWithInt:[currentString intValue]] forKey:@"ping"];
+		[currentServer setPing:[NSNumber numberWithInt:[currentString intValue]]];
 		[currentString release]; currentString = nil;
 		inElement = NO;
         return;
@@ -324,17 +350,14 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element rules ---------
 	if ([elementName isEqualToString:@"rules"]) {
-		[currentServer setValue:currentRules forKey:@"rules"];
+		[currentServer setRulesDict:currentRules];
 		[currentRules release]; currentRules = nil;
         return;
     }
 	
 	// --------- Element rule ---------
 	if ([elementName isEqualToString:@"rule"]) {
-		//[currentRules setObject:currentString forKey:currentRuleName];
-		//MRules *rule = [MRules createRuleInContext:context];
-		//[rule setName:currentRuleName]; [rule setValue:currentString];
-		[currentRules setValue:currentString forKey:currentRuleName];
+		[currentRules setObject:currentString forKey:currentRuleName];
 		[currentString release]; currentString = nil;
 		[currentRuleName release]; currentRuleName = nil;
 		inElement = NO;
@@ -343,7 +366,6 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element players ---------
 	if ([elementName isEqualToString:@"players"]) {
-		[currentServer setValue:currentPlayers forKey:@"players"];
 		[currentPlayers release]; currentPlayers = nil;
 		inPlayers = NO;
 		return;
@@ -358,7 +380,7 @@ didStartElement:(NSString *)elementName
 	
 	// --------- Element score ---------	
 	if ([elementName isEqualToString:@"score"]) {
-		[currentPlayer setValue:[NSNumber numberWithInt:[currentString intValue]] forKey:@"score"];
+		[currentPlayer setScore:[NSNumber numberWithInt:[currentString intValue]]];
 		[currentString release]; currentString = nil;
 		inElement = NO;
         return;
@@ -368,8 +390,9 @@ didStartElement:(NSString *)elementName
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
-	NSLog(@"PARSE ERROR OCCURRED:\n%@",parseError);
-	[self syncObjectsWithMainThread];
+	NSLog(@"PARSE ERROR OCCURRED:\n%@", parseError);
+	
+	[self flushChangesToMainThread];
 	[self sendTerminateMessage];
 }
 
@@ -423,34 +446,34 @@ didStartElement:(NSString *)elementName
 	return [muts autorelease];
 }
 
-- (void)syncObjectsWithMainThread
-{	
-//	NSMutableSet *objectIDsToSync = [[NSMutableSet alloc] initWithSet:[[context insertedObjects] valueForKey:@"objectID"]];
-//	[objectIDsToSync unionSet:[[context updatedObjects] valueForKey:@"objectID"]];
-	
-	//flush changes to disk
-//	NSError *error = nil;
-//	[context save:&error];
-//	if(error != nil)
-//		NSLog(@"Save Error: %@", error);
-//	NSArray *objectIDsToSync = [objectsToSync valueForKey:@"objectID"];
-	// update mainthread
-	[sl performSelectorOnMainThread:@selector(insertServers:)
-						 withObject:currentServers
-					  waitUntilDone:YES];
 
-//	[objectsToSync release];
+- (void)flushChangesToMainThread
+{
+	//flush changes to disk
+	NSError *error = nil;
+	[context save:&error];
+	//this save will trigger the syncObjectsWithMainThread
+	if(error != nil)
+		NSLog(@"Save Error: %@", error);
+	
+	NSManagedObjectID *tempOID = [sl objectID];
+	[sl release];
 	[currentServers release];
-//	NSManagedObjectID *tempOID = [sl objectID];
-//	[sl release];
-//	[currentServers release];
-//	[context reset];
+	[context reset];
 	//setup new autorelease pool
 	[innerPool release];
 	innerPool = [[NSAutoreleasePool alloc] init];
-//	sl = [[context objectWithID:tempOID] retain];
-	currentServers = [NSMutableArray new];
-//	objectsToSync = [NSMutableArray new];
+	sl = [[context objectWithID:tempOID] retain];
+	currentServers = [[sl mutableSetValueForKey:@"servers"] retain];
 }
+
+- (void)syncObjectsWithMainThread:(NSNotification *)aNotification
+{	
+	// update mainthread
+	[sl performSelectorOnMainThread:@selector(mergeChanges:)
+						 withObject:aNotification
+					  waitUntilDone:YES];
+}
+
 
 @end

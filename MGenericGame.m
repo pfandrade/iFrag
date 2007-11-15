@@ -62,6 +62,7 @@ static MServerPasswordController *serverPasswordController = nil;
 	return [[[NSAttributedString alloc] initWithString:name] autorelease];
 }
 
+
 #pragma mark Overriden Methods
 - (id)initWithGameName:(NSString *)inName andBundlePath:(NSString *)path {
 	self = [super init];
@@ -161,10 +162,75 @@ static MServerPasswordController *serverPasswordController = nil;
     }
 }
 
-
-
 - (NSAttributedString *)processName:(NSString *)inName {
 	return [[self class] processName:inName];
+}
+
+- (NSString *)executableGamePath
+{
+	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	NSBundle *bundle = [NSBundle bundleWithPath:[ws absolutePathForAppBundleWithIdentifier:[self bundleIdentifier]]];
+	return [bundle executablePath];
+}
+
+#pragma mark Default Methods
+
+- (NSString *)serverTypeString
+{
+	@throw [NSException exceptionWithName:@"PlaceholderMethod" 
+								   reason:@"MGenericGame serverTypeString placeholder method was called" 
+								 userInfo:nil];
+	return nil;
+}
+- (NSString *)masterServerFlag
+{
+	@throw [NSException exceptionWithName:@"PlaceholderMethod" 
+								   reason:@"MGenericGame masterServerFlag placeholder method was called" 
+								 userInfo:nil];
+	return nil;
+	
+}
+- (NSString *)masterServerAddress
+{
+	@throw [NSException exceptionWithName:@"PlaceholderMethod" 
+								   reason:@"MGenericGame masterServerAddress placeholder method was called" 
+								 userInfo:nil];
+	return nil;
+	
+}
+- (NSString *)defaultGameType
+{
+	@throw [NSException exceptionWithName:@"PlaceholderMethod" 
+								   reason:@"MGenericGame defaultGameType placeholder method was called" 
+								 userInfo:nil];
+	return nil;
+	
+}
+- (NSString *)defaultServerPort
+{
+	@throw [NSException exceptionWithName:@"PlaceholderMethod" 
+								   reason:@"MGenericGame defaultServerPort placeholder method was called" 
+								 userInfo:nil];
+	return nil;
+	
+}
+
+- (BOOL)isPunkbusterEnabled:(MServer *)server
+{
+	@throw [NSException exceptionWithName:@"PlaceholderMethod" 
+								   reason:@"MGenericGame isPunkbusterEnabled: placeholder method was called" 
+								 userInfo:nil];
+	return NO;
+}
+
+- (BOOL)isPrivate:(MServer *)server
+{
+	// default implementation
+	// no to be used
+	@throw [NSException exceptionWithName:@"PlaceholderMethod" 
+								   reason:@"MGenericGame isPrivate: placeholder method was called" 
+								 userInfo:nil];
+	return NO;
 }
 
 - (NSError *)connectToServer:(MServer *)server {
@@ -214,26 +280,6 @@ static MServerPasswordController *serverPasswordController = nil;
 	return [[self class] launchWithServer:server andPassword:password];
 }
 
-- (NSString *)serverTypeString{
-	return [[self class] serverTypeString];
-}
-
-- (NSString *)masterServerFlag{
-	return [[self class] masterServerFlag];
-}
-
-- (NSString *)masterServerAddress{
-	return [[self class] masterServerAddress];
-}
-
-- (NSString *)defaultGameType {
-	return [[self class] defaultGameType];
-}
-
-- (NSString *)defaultServerPort
-{
-	return [[self class] defaultServerPort];
-}
 
 - (NSComparisonResult)compare:(MGenericGame *)game
 {
@@ -242,16 +288,6 @@ static MServerPasswordController *serverPasswordController = nil;
 	if([[game name] isEqual:@"Favorites"])
 		return NSOrderedDescending;
 	return [[self name] compare:[game name]];
-}
-
-- (BOOL)isPunkbusterEnabled:(MServer *)server
-{
-	return [[self class] isPunkbusterEnabled:server];
-}
-
-- (BOOL)isPrivate:(MServer *)server
-{
-	return [[self class] isPrivate:server];
 }
 
 #pragma mark Copy methods

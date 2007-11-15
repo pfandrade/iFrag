@@ -10,7 +10,7 @@
 
 #import "MGenericGame.h"
 
-@interface MFavorites : MGenericGame {
+@interface MFavorites : MGenericGame <MGaming>{
 }
 
 @end

@@ -10,7 +10,7 @@
 
 #import "MGenericGame.h"
 
-@interface MCallOfDuty2 : MGenericGame {
+@interface MCallOfDuty2 : MGenericGame <MGaming>{
 
 }
 

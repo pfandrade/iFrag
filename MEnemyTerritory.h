@@ -10,7 +10,7 @@
 
 #import "MGenericGame.h"
 
-@interface MEnemyTerritory : MGenericGame {
+@interface MEnemyTerritory : MGenericGame <MGaming> {
 
 }
 

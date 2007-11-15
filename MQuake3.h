@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "MGenericGame.h"
 
-@interface MQuake3 : MGenericGame {
+@interface MQuake3 : MGenericGame <MGaming>{
 
 }
 

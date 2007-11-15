@@ -16,7 +16,6 @@
 #import "MServersController.h"
 #import "MQStatTask.h"
 #import "MQStatXMLParser.h"
-#import "MDictionaryToArrayTransformer.h"
 #import "MGenericGame.h"
 #import "MThinSplitView.h"
 #import "MInnerSplitView.h"
@@ -25,19 +24,14 @@
 #import "MDrawerController.h"
 #import "MAddServerController.h"
 #import "MOutlineColumnController.h"
-
+#import "MSmartListEditorController.h"
+#import "MSmartServerList.h"
+#import "MServerListsController.h"
+#import "MServerTreeController.h"
 
 #define THINSPLITVIEW_SAVE_NAME @"thinsplitview"
 
 @implementation MMainController
-
-+ (void)initialize
-{
-	// Register Dictionary To Array ValueTransformer
-	MDictionaryToArrayTransformer *dictToArray = [[MDictionaryToArrayTransformer new] autorelease];
-	[NSValueTransformer setValueTransformer:dictToArray forName:@"DictionaryToArrayTransformer"];
-		
-}
 
 - (void)awakeFromNib
 {
@@ -58,9 +52,11 @@
 //	[filterBar insertItem:item atIndex:2];
 	[rightSplitView hideFilterBar];
 	
-	// set doubleClick action for NSTableView
+	// set doubleClick action for NSTableView and NSOutlineView
 	[serversTableView setTarget:self];
 	[serversTableView setDoubleAction:@selector(playGame:)];
+	[gamesOutlineView setTarget:self];
+	[gamesOutlineView setDoubleAction:@selector(editSmartList:)];
 	
 	// Set appearance options (like gradient) in the custom outlineView
 	[(KBGradientOutlineView *)gamesOutlineView setUsesGradientSelection:YES];
@@ -195,20 +191,19 @@
 
 - (IBAction)stopQuery:(id)sender
 {
-	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	MServerList *currentServerList = [serverTreeController selectedServerList];
 	[currentServerList terminateQuery];
 }
 
 - (IBAction)playGame:(id)sender
 {
-	//NSLog(@"%@", [serverTreeController selectionIndexPaths]);
 	MServer *s = [[serversController selectedObjects] objectAtIndex:0];
 	[[s game] connectToServer:s];
 }
 
 - (IBAction)addToFavorites:(id)sender
 {
-	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	MServerList *currentServerList = [serverTreeController selectedServerList];;
 	if([[currentServerList name] isEqualToString:@"Favorites"]) 
 		return;
 	
@@ -225,21 +220,11 @@
 	[[[NSApp delegate] managedObjectContext] save:nil];
 }
 
-- (IBAction)addServer:(id)sender
-{
-	if (addServerWindowController == nil) { 
-		addServerWindowController = [[MAddServerController alloc] initWithWindowNibName:@"AddServerDialog"];
-		[addServerWindowController setServerListsTreeController:serverTreeController];
-		[addServerWindowController setServersController:serversController];
-	}
-	
-	[addServerWindowController runModalSheetForWindow:mainWindow];	
-}
 
 - (IBAction)refreshSelectedServers:(id)sender
 {
 	NSArray *selServers = [serversController selectedObjects];
-	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	MServerList *currentServerList = [serverTreeController selectedServerList];
 	BOOL ret;
 	if([selServers count] > 0)
 		ret = [currentServerList refreshServers:selServers];
@@ -252,7 +237,7 @@
 
 - (IBAction)refreshServerList:(id)sender
 {
-	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
+	MServerList *currentServerList = [serverTreeController selectedServerList];
 	if([currentServerList refreshServers:nil]){ // talvez o melhor seja passar todos em vez de nil
 		[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
 	}
@@ -266,30 +251,39 @@
 	}
 }
 
-- (IBAction)reloadCurrentServerListFromStore:(id)sender
+- (IBAction)addServer:(id)sender
 {
-	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
-	NSFetchRequest *fr = [[NSFetchRequest alloc] init];
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
-	[fr setEntity:ed];
-	NSPredicate *p = [NSPredicate predicateWithFormat:@"ANY inServerLists.gameServerType like %@", [currentServerList gameServerType]];
-	[fr setPredicate:p];
-	NSError *error = nil;
-	//NSLog(@"%d",[[context executeFetchRequest:fr error:&error] count]);
-	//
-	//	//[serversController setManagedObjectContext:context];
-	////	[serversController setEntityName:@"Server"];
-	[serversController setFetchPredicate:p];
-	[context setStalenessInterval:1.0];
-	//[serversController fetch:self];
-		[serversController fetchWithRequest:fr merge:NO error:&error];
-	//	if(error != nil)
-	//		NSLog(@"%@", error);
-	//[context setStalenessInterval:10.0];
-	[context refreshObject:currentServerList mergeChanges:YES];
-	[currentServerList setNeedsReload:NO];
-	[fr release];
+	if (addServerWindowController == nil) { 
+		addServerWindowController = [[MAddServerController alloc] initWithWindowNibName:@"AddServerDialog"];
+		[addServerWindowController setServerListsTreeController:serverTreeController];
+		[addServerWindowController setServersController:serversController];
+	}
+	
+	[addServerWindowController runModalSheetForWindow:mainWindow];	
+}
+
+- (IBAction)addSmartList:(id)sender
+{
+	if (smartListEditorWindowController == nil) { 
+		smartListEditorWindowController = [[MSmartListEditorController alloc] initWithWindowNibName:@"SmartListEditorDialog"];
+	}
+	[smartListEditorWindowController setServerList:[serverTreeController selectedServerList]];
+	[smartListEditorWindowController runModalSheetForWindow:mainWindow];
+}
+
+- (IBAction)editSmartList:(id)sender
+{
+	MSmartServerList *ssl = [serverTreeController selectedSmartServerList];
+	if(ssl == nil){
+		return;
+	}
+	
+	if (smartListEditorWindowController == nil) { 
+		smartListEditorWindowController = [[MSmartListEditorController alloc] initWithWindowNibName:@"SmartListEditorDialog"];
+	}
+	[smartListEditorWindowController setServerList:[serverTreeController selectedServerList]];
+	[smartListEditorWindowController setSmartServerList:ssl];
+	[smartListEditorWindowController runModalSheetForWindow:mainWindow];
 }
 
 #pragma mark -

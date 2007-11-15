@@ -90,10 +90,8 @@ static NSString *const _defaultServerPort	= @"27960";
 	return [attribString autorelease];
 }
 
-+ (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass {
-	static NSString *executable = @"/Contents/MacOS/Quake3";
-	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	NSString *path = [NSString stringWithFormat:@"%@%@", [ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier], executable];
+- (NSError *)launchWithServer:(MServer *)server andPassword:(NSString *)pass {
+	NSString *path = [self executableGamePath];
 	NSMutableArray *args = [[NSMutableArray alloc] init];
 	
 	// set game_type
@@ -108,6 +106,9 @@ static NSString *const _defaultServerPort	= @"27960";
 	}
 	// set address
 	[args addObject:@"+connect"]; [args addObject:[server address]];
+#ifdef DEBUG
+	NSLog(@"Lauching Quake3 with command line:\n%@ %@",path, [args componentsJoinedByString:@" "]);
+#endif
 	[NSTask launchedTaskWithLaunchPath:path arguments:[[args copy] autorelease]];
 	[args release];
 	return nil;
@@ -115,11 +116,7 @@ static NSString *const _defaultServerPort	= @"27960";
 
 #pragma mark Overriden Instance Methods
 
-- (id) init {
-//	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	
-//	NSString *bundleName = [[[ws absolutePathForAppBundleWithIdentifier:_bundleIdentifier] lastPathComponent] stringByDeletingPathExtension];
-	
+- (id) init {	
 	self = [super initWithGameName:_gameName 
 					 andBundlePath:[[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:_bundleIdentifier]];
 	
@@ -129,34 +126,34 @@ static NSString *const _defaultServerPort	= @"27960";
 	return self;
 }
 
-+ (NSString *)serverTypeString {
+- (NSString *)serverTypeString {
     return _serverTypeString;
 }
 
-+ (NSString *)masterServerFlag {
+- (NSString *)masterServerFlag {
     return _masterServerFlag;
 }
 
-+ (NSString *)masterServerAddress {
+- (NSString *)masterServerAddress {
     return _masterServerAddress;
 }
 
-+ (NSString *)defaultGameType
+- (NSString *)defaultGameType
 {
 	return _defaultGameType;
 }
 
-+ (NSString *)defaultServerPort
+- (NSString *)defaultServerPort
 {
 	return _defaultServerPort;
 }
 
-+ (BOOL)isPunkbusterEnabled:(MServer *)server
+- (BOOL)isPunkbusterEnabled:(MServer *)server
 {
 	return ([[[server rulesDict] valueForKey:@"sv_punkbuster"] intValue] == 1);
 }
 
-+ (BOOL)isPrivate:(MServer *)server
+- (BOOL)isPrivate:(MServer *)server
 {
 	return ([[[server rulesDict] valueForKey:@"g_needpass"] intValue] == 1);
 }	

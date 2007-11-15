@@ -16,6 +16,9 @@
 
 @implementation MServerList
 
+@dynamic smartLists;
+@dynamic servers;
+
 + (void)initialize
 {
 	[self setKeys:[NSArray arrayWithObjects:@"name", @"icon", @"progressDelegate", nil] 
@@ -37,98 +40,12 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	[super dealloc];
 }
 
-- (void)insertServers:(NSArray *)servers
+- (void)mergeChanges:(NSNotification *)saveChangesNotification
 {
-	//to be executed in the main thread!
-//	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-//	[context processPendingChanges];
-//	[[context undoManager] disableUndoRegistration];
-	
-//	[context refreshObject:self mergeChanges:YES];
-	//NSEnumerator *enumerator = [objectIDs objectEnumerator];
-//	NSManagedObjectID *objID;
-//	id obj;
-	
-//	// this is for trying to speed up this loop
-//	SEL nextObj_sel = @selector(nextObject);
-//	SEL objWithID_sel = @selector(objectWithID:);
-//	SEL refreshObj_sel = @selector(refreshObject:mergeChanges:);
-//	IMP nextObj_imp = [enumerator methodForSelector:nextObj_sel];
-//	IMP objWithID_imp = [context methodForSelector:objWithID_sel];
-//	IMP refreshObj_imp =[context methodForSelector:refreshObj_sel];
-//	
-//	while(objID = nextObj_imp(enumerator, nextObj_sel)){
-//		obj = objWithID_imp(context, objWithID_sel, objID);
-//		refreshObj_imp(context, refreshObj_sel, obj, NO);
-//	}
-	
-//	NSFetchRequest *fr = [[NSFetchRequest alloc] init];
-//	[fr setEntity:[NSEntityDescription entityForName:@"Server" inManagedObjectContext:context]];
-//	[fr setPredicate:[NSPredicate predicateWithFormat:@"" argumentArray:
-//	[context setStalenessInterval:10.0];
-//	[context refreshObject:self mergeChanges:YES];
-//	NSLog(@"%d", [[[self valueForKey:@"servers"] valueForKey:@"name"] count]);
-//	[context processPendingChanges];
-//	[[context undoManager] enableUndoRegistration];
-//	MServerList *mainThreadSL = [context objectWithID:[self objectID]];
-//	[context refreshObject:mainThreadSL mergeChanges:YES];
-//	[mainThreadSL setNeedsReload:YES];
-//	[[NSNotificationCenter defaultCenter] postNotificationName:MServerListNeedsReloadNotification object:mainThreadSL];
-	
-	NSManagedObjectContext *context = [self managedObjectContext];
+	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
 	[context processPendingChanges];
 	[[context undoManager] disableUndoRegistration];
-	MServer *currentServer;
-	NSMutableDictionary *currentServerDict;
-	NSEnumerator *serverEnum = [servers objectEnumerator];
-	NSMutableSet *serversToAdd = [NSMutableSet new];
-	
-	while(currentServerDict = [serverEnum nextObject]){
-		NSMutableArray *playersDicts = [currentServerDict valueForKey:@"players"];
-		NSEnumerator *playerEnum = [playersDicts objectEnumerator];
-		NSMutableSet *players = [NSMutableSet new];
-		MPlayer *currentPlayer;
-		MRules *currentRules;
-		NSMutableDictionary *currentPlayerDict;
-		// change the players key to NSManagedObjects
-		while(currentPlayerDict = [playerEnum nextObject]){
-			currentPlayer = [MPlayer createPlayerInContext:context];
-			[currentPlayer setValuesForKeysWithDictionary:currentPlayerDict];
-			[players addObject:currentPlayer];
-		}
-		[currentServerDict setObject:players forKey:@"players"];
-		[players release]; players = nil;
-		// change the rules key to NSManagedObject
-		currentRules = [MRules createRulesInContext:context];
-		
-		[currentRules setRules:[currentServerDict valueForKey:@"rules"]];
-		[currentServerDict setObject:currentRules forKey:@"rules"];
-		
-		// get the server
-		currentServer = [MServer createServerWithAddress:[currentServerDict valueForKey:@"address"] inContext:context];
-		if([[currentServer objectID] isTemporaryID]){
-			[currentServer setValuesForKeysWithDictionary:currentServerDict];
-		
-		}else{
-			// delete current players and rules
-			MRules *rulesToDelete = [currentServer valueForKey:@"rules"];
-			[currentServer setValue:nil forKey:@"rules"];
-			NSSet *playersToDelete = [currentServer mutableSetValueForKey:@"players"];
-			[currentServer setValue:nil forKey:@"players"];
-			if(rulesToDelete != nil) [context deleteObject:rulesToDelete];
-			NSEnumerator *ptdEnum = [[playersToDelete allObjects] objectEnumerator];
-			MPlayer *p;
-			while(p = [ptdEnum nextObject]){
-				[context deleteObject:p];
-			}
-			
-			[currentServer setValuesForKeysWithDictionary:currentServerDict];
-		}
-		[serversToAdd addObject:currentServer];
-	}
-	
-	[self addServers:serversToAdd];
-	[serversToAdd release];
+	[context mergeChangesFromContextDidSaveNotification:saveChangesNotification];
 	[context processPendingChanges];
 	[[context undoManager] enableUndoRegistration];
 }
@@ -182,7 +99,6 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	[self didChangeValueForKey: @"game"];
 	
 }
-
 
 #pragma mark Temporary attributes
 
@@ -395,4 +311,167 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 	[[NSNotificationCenter defaultCenter] postNotificationName:MQueryTerminatedNotification object:self];
 }
 
+- (BOOL)isLeaf
+{
+	NSSet *ssl = [self smartLists];
+	if(ssl == nil || [ssl count] == 0){
+		return YES;
+	}
+	return NO;
+}
 @end
+
+#if 0
+/*
+ *
+ * You do not need any of these.  
+ * These are templates for writing custom functions that override the default CoreData functionality.
+ * You should delete all the methods that you do not customize.
+ * Optimized versions will be provided dynamically by the framework.
+ *
+ *
+ */
+
+
+// coalesce these into one @interface MServerList (CoreDataGeneratedPrimitiveAccessors) section
+@interface MServerList (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSString *)primitiveGameServerType;
+- (void)setPrimitiveGameServerType:(NSString *)value;
+
+- (UNKNOWN_TYPE)primitiveGame;
+- (void)setPrimitiveGame:(UNKNOWN_TYPE)value;
+
+- (NSMutableSet*)primitiveSmartLists;
+- (void)setPrimitiveSmartLists:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitiveServers;
+- (void)setPrimitiveServers:(NSMutableSet*)value;
+
+@end
+
+- (NSString *)gameServerType 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"gameServerType"];
+    tmpValue = [self primitiveGameServerType];
+    [self didAccessValueForKey:@"gameServerType"];
+    
+    return tmpValue;
+}
+
+- (void)setGameServerType:(NSString *)value 
+{
+    [self willChangeValueForKey:@"gameServerType"];
+    [self setPrimitiveGameServerType:value];
+    [self didChangeValueForKey:@"gameServerType"];
+}
+
+- (BOOL)validateGameServerType:(id *)valueRef error:(NSError **)outError 
+{
+    // Insert custom validation logic here.
+    return YES;
+}
+
+- (UNKNOWN_TYPE)game 
+{
+    UNKNOWN_TYPE tmpValue;
+    
+    [self willAccessValueForKey:@"game"];
+    tmpValue = [self primitiveGame];
+    [self didAccessValueForKey:@"game"];
+    
+    return tmpValue;
+}
+
+- (void)setGame:(UNKNOWN_TYPE)value 
+{
+    [self willChangeValueForKey:@"game"];
+    [self setPrimitiveGame:value];
+    [self didChangeValueForKey:@"game"];
+}
+
+- (BOOL)validateGame:(id *)valueRef error:(NSError **)outError 
+{
+    // Insert custom validation logic here.
+    return YES;
+}
+
+
+- (void)addSmartListsObject:(NSManagedObject *)value 
+{    
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    
+    [self willChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    [[self primitiveSmartLists] addObject:value];
+    [self didChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    
+    [changedObjects release];
+}
+
+- (void)removeSmartListsObject:(NSManagedObject *)value 
+{
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    
+    [self willChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+    [[self primitiveSmartLists] removeObject:value];
+    [self didChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+    
+    [changedObjects release];
+}
+
+- (void)addSmartLists:(NSSet *)value 
+{    
+    [self willChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value];
+    [[self primitiveSmartLists] unionSet:value];
+    [self didChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value];
+}
+
+- (void)removeSmartLists:(NSSet *)value 
+{
+    [self willChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value];
+    [[self primitiveSmartLists] minusSet:value];
+    [self didChangeValueForKey:@"smartLists" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value];
+}
+
+
+- (void)addServersObject:(MServer *)value 
+{    
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    
+    [self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    [[self primitiveServers] addObject:value];
+    [self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    
+    [changedObjects release];
+}
+
+- (void)removeServersObject:(MServer *)value 
+{
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    
+    [self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+    [[self primitiveServers] removeObject:value];
+    [self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+    
+    [changedObjects release];
+}
+
+- (void)addServers:(NSSet *)value 
+{    
+    [self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value];
+    [[self primitiveServers] unionSet:value];
+    [self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value];
+}
+
+- (void)removeServers:(NSSet *)value 
+{
+    [self willChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value];
+    [[self primitiveServers] minusSet:value];
+    [self didChangeValueForKey:@"servers" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value];
+}
+
+#endif
+
+

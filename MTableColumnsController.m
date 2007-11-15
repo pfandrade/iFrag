@@ -190,7 +190,7 @@ typedef enum _MColumnPosition {
 	/*protect this code against valueMarkers*/
 	if([selectedServerList valueForKey:@"name"] == NSNoSelectionMarker ||
 	   [selectedServerList valueForKey:@"name"] == NSMultipleValuesMarker ||
-	   [selectedServerList valueForKey:@"name"] == NSNotApplicableMarker)
+	   [selectedServerList valueForKey:@"name"] == NSNotApplicableMarker || YES)
 		return;
 	
 	if((gameColumns = [columnsForGames objectForKey:[selectedServerList valueForKey:@"name"]]) == nil){

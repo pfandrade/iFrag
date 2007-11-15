@@ -3,6 +3,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class MServerList;
+@class MServerTreeController;
 
 @interface MAddServerController : NSWindowController
 {
@@ -13,7 +14,7 @@
     IBOutlet NSTextField *subTitle;
     IBOutlet NSTextField *title;
 
-	NSTreeController *serverListsTreeController;
+	MServerTreeController *serverListsTreeController;
 	NSArrayController *serversController;
 	MServerList *serverList;
 }

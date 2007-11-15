@@ -16,15 +16,15 @@
 	BOOL shouldStop;
 	@private
 	id progressDelegate;
-//	NSManagedObjectContext *context;
+	NSManagedObjectContext *context;
 	MServerList *sl;
 	NSNumber *count;
-	NSMutableArray *currentServers;
-	NSMutableDictionary *currentServer;
+	NSMutableSet *currentServers;
+	MServer *currentServer;
 	NSMutableDictionary *currentRules;
 	NSString *currentRuleName;
-	NSMutableArray *currentPlayers;
-	NSDictionary *currentPlayer;
+	NSMutableSet *currentPlayers;
+	MPlayer *currentPlayer;
 	NSMutableString *currentString;
 	BOOL inElement, inPlayers;
 	NSAutoreleasePool *innerPool;
@@ -45,6 +45,7 @@
 
 //private
 - (NSString *)replaceEscapedCharacters:(NSString *)string;
-- (void)syncObjectsWithMainThread;
+- (void)flushChangesToMainThread;
+- (void)syncObjectsWithMainThread:(NSNotification *)aNotification;
 
 @end

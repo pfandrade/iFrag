@@ -21,16 +21,14 @@ static NSString *const MQueryTerminatedNotification = @"QueryTerminatedNotificat
 	MProgressDelegate *progressDelegate;
 	MQuery *currentQuery;	
 }
+@property (retain) NSString * gameServerType;
+@property (retain) MGenericGame * game;
+@property (retain) NSSet* servers;
+@property (retain) NSSet* smartLists;
+
 + (id)createServerListForGame:(MGenericGame *)theGame inContext:(NSManagedObjectContext *)context;
 
-- (void)insertServers:(NSArray *)servers;
-
-#pragma mark Accessors
-- (NSString *)gameServerType;
-- (void)setGameServerType:(NSString *)value;
-
-- (MGenericGame *)game;
-- (void)setGame:(MGenericGame *)value;
+- (void)mergeChanges:(NSNotification *)saveChangesNotification;
 
 #pragma mark Temporary attributes
 - (BOOL)busyFlag;
@@ -54,19 +52,25 @@ static NSString *const MQueryTerminatedNotification = @"QueryTerminatedNotificat
 - (void)setIcon:(NSImage *)value;
 
 #pragma mark Modifiers
-
-	// Access to-many relationship via -[NSObject mutableSetValueForKey:]
-- (void)addServersObject:(MServer *)value;
-- (void)removeServersObject:(MServer *)value;
-
-- (void)addServers:(NSSet *)inServers;
-- (void)removeServers:(NSSet *)inServers;
-
 - (BOOL)reload;
 - (BOOL)refreshServers:(NSArray *)inServers;
 
 #pragma mark Actions
 - (void)terminateQuery;
 - (void)queryTerminated;
+
+@end
+
+@interface MServerList (CoreDataGeneratedAccessors)
+
+- (void)addServersObject:(MServer *)value;
+- (void)removeServersObject:(MServer *)value;
+- (void)addServers:(NSSet *)value;
+- (void)removeServers:(NSSet *)value;
+
+- (void)addSmartListsObject:(NSManagedObject *)value;
+- (void)removeSmartListsObject:(NSManagedObject *)value;
+- (void)addSmartLists:(NSSet *)value;
+- (void)removeSmartLists:(NSSet *)value;
 
 @end

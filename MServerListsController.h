@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class MServerList;
 
 @interface MServerListsController : NSArrayController {
 	IBOutlet id serverListsOutlineView;

@@ -15,6 +15,10 @@
 @class MThinSplitView;
 @class MInnerSplitView;
 @class AMButtonBar;
+@class MSmartListEditorController;
+@class MServersController;
+@class MServerListsController;
+@class MServerTreeController;
 
 static NSString *const iFragPBoardType = @"iFragPBoardType";
 
@@ -28,6 +32,7 @@ static NSString *const iFragPBoardType = @"iFragPBoardType";
 	MInspectorWindowController *inspectorWindowController;
 	MDrawerController *playersDrawerController;
 	MAddServerController *addServerWindowController;
+	MSmartListEditorController *smartListEditorWindowController;
 	
 	// Views
 	IBOutlet id gamesOutlineView;
@@ -37,9 +42,9 @@ static NSString *const iFragPBoardType = @"iFragPBoardType";
 	IBOutlet AMButtonBar *filterBar;
 	
 	// Controllers
-    IBOutlet id serversController;
-	IBOutlet id serverListsController;
-	IBOutlet id serverTreeController;
+    IBOutlet MServersController *serversController;
+	IBOutlet MServerListsController *serverListsController;
+	IBOutlet MServerTreeController *serverTreeController;
 	MOutlineColumnController *outlineColumnController;
 }
 
@@ -62,6 +67,7 @@ static NSString *const iFragPBoardType = @"iFragPBoardType";
 - (IBAction)refreshSelectedServers:(id)sender;
 - (IBAction)refreshServerList:(id)sender;
 - (IBAction)reloadServerList:(id)sender;
-- (IBAction)reloadCurrentServerListFromStore:(id)sender;
+- (IBAction)addSmartList:(id)sender;
+- (IBAction)editSmartList:(id)sender;
 
 @end

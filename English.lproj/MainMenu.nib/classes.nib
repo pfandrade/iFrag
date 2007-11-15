@@ -1,149 +1,304 @@
-{
-    IBClasses = (
-        {
-            CLASS = AMButtonBar; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; }; 
-            SUPERCLASS = NSView; 
-        }, 
-        {
-            ACTIONS = {
-                addServer = id; 
-                addToFavorites = id; 
-                copyAddress = id; 
-                playGame = id; 
-                refreshSelectedServers = id; 
-                refreshServerList = id; 
-                reloadServerList = id; 
-                removeServers = id; 
-                toggleInspector = id; 
-                togglePlayers = id; 
-            }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = KBGradientOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
-        {
-            CLASS = LRFilterBar; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {originalSender = id; }; 
-            SUPERCLASS = NSView; 
-        }, 
-        {CLASS = MActionButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
-        {
-            ACTIONS = {add = id; cancel = id; }; 
-            CLASS = MAddServerController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                addButton = NSButton; 
-                address = NSTextField; 
-                image = NSImageView; 
-                kind = NSPopUpButton; 
-                serverListsTreeController = id; 
-                subTitle = NSTextField; 
-                title = NSTextField; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {CLASS = MDragHandleButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
-        {CLASS = MInnerSplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
-        {
-            ACTIONS = {
-                addServer = id; 
-                addToFavorites = id; 
-                playGame = id; 
-                refreshSelectedServers = id; 
-                refreshServerList = id; 
-                reloadServerList = id; 
-                showPreferences = id; 
-                toggleInspector = id; 
-                togglePlayers = id; 
-            }; 
-            CLASS = MMainController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                filterBar = AMButtonBar; 
-                gamesOutlineView = id; 
-                mainWindow = NSWindow; 
-                rightSplitView = MInnerSplitView; 
-                serverListsController = id; 
-                serverTreeController = id; 
-                serversController = id; 
-                serversTableView = id; 
-                splitView = MThinSplitView; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            CLASS = MOutlineView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {splitView = MThinSplitView; }; 
-            SUPERCLASS = KBGradientOutlineView; 
-        }, 
-        {
-            CLASS = MPlayersController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {playersTableView = id; }; 
-            SUPERCLASS = NSArrayController; 
-        }, 
-        {
-            CLASS = MServerListsController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {serverListsOutlineView = id; serversController = id; treeController = id; }; 
-            SUPERCLASS = NSArrayController; 
-        }, 
-        {
-            CLASS = MServersController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {serversTableView = id; }; 
-            SUPERCLASS = NSArrayController; 
-        }, 
-        {
-            CLASS = MSplitViewsDelegate; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {mainController = id; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {toggleColumn = id; }; 
-            CLASS = MTableColumnsController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                columnsMenu = NSMenu; 
-                serverListsController = NSTreeController; 
-                serverListsOutlineView = NSOutlineView; 
-                serversController = NSArrayController; 
-                serversTableView = NSTableView; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {copy = id; cut = id; paste = id; }; 
-            CLASS = MTableView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSTableView; 
-        }, 
-        {
-            CLASS = MThinSplitView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {resizeHandle = id; }; 
-            SUPERCLASS = NSSplitView; 
-        }, 
-        {
-            CLASS = MToolbarController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {mainController = id; searchField = id; serversController = id; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {
-            ACTIONS = {saveAction = id; }; 
-            CLASS = "iFrag_AppDelegate"; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {window = NSWindow; }; 
-            SUPERCLASS = NSObject; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addServer</key>
+				<string>id</string>
+				<key>addSmartList</key>
+				<string>id</string>
+				<key>addToFavorites</key>
+				<string>id</string>
+				<key>editSmartList</key>
+				<string>id</string>
+				<key>playGame</key>
+				<string>id</string>
+				<key>refreshSelectedServers</key>
+				<string>id</string>
+				<key>refreshServerList</key>
+				<string>id</string>
+				<key>reloadCurrentServerListFromStore</key>
+				<string>id</string>
+				<key>reloadServerList</key>
+				<string>id</string>
+				<key>showPreferences</key>
+				<string>id</string>
+				<key>toggleInspector</key>
+				<string>id</string>
+				<key>togglePlayers</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MMainController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>filterBar</key>
+				<string>AMButtonBar</string>
+				<key>gamesOutlineView</key>
+				<string>id</string>
+				<key>mainWindow</key>
+				<string>NSWindow</string>
+				<key>rightSplitView</key>
+				<string>MInnerSplitView</string>
+				<key>serverListsController</key>
+				<string>MServerListsController</string>
+				<key>serverTreeController</key>
+				<string>MServerTreeController</string>
+				<key>serversController</key>
+				<string>MServersController</string>
+				<key>serversTableView</key>
+				<string>id</string>
+				<key>splitView</key>
+				<string>MThinSplitView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MThinSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>resizeHandle</key>
+				<string>MDragHandleButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSSplitView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>saveAction</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>iFrag_AppDelegate</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MSplitViewsDelegate</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>mainController</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>KBGradientOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSOutlineView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>toggleColumn</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MTableColumnsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>columnsMenu</key>
+				<string>NSMenu</string>
+				<key>serverListsController</key>
+				<string>NSTreeController</string>
+				<key>serverListsOutlineView</key>
+				<string>NSOutlineView</string>
+				<key>serversController</key>
+				<string>NSArrayController</string>
+				<key>serversTableView</key>
+				<string>NSTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MActionButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSPopUpButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MDragHandleButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AMButtonBar</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>splitView</key>
+				<string>MThinSplitView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>KBGradientOutlineView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addServer</key>
+				<string>id</string>
+				<key>addToFavorites</key>
+				<string>id</string>
+				<key>copyAddress</key>
+				<string>id</string>
+				<key>playGame</key>
+				<string>id</string>
+				<key>refreshSelectedServers</key>
+				<string>id</string>
+				<key>refreshServerList</key>
+				<string>id</string>
+				<key>reloadServerList</key>
+				<string>id</string>
+				<key>removeServers</key>
+				<string>id</string>
+				<key>toggleInspector</key>
+				<string>id</string>
+				<key>togglePlayers</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>copy</key>
+				<string>id</string>
+				<key>cut</key>
+				<string>id</string>
+				<key>paste</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MToolbarController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>mainController</key>
+				<string>id</string>
+				<key>searchField</key>
+				<string>id</string>
+				<key>serversController</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MServerTreeController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTreeController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MServersController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>serversTableView</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSArrayController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MServerListsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>serverListsOutlineView</key>
+				<string>id</string>
+				<key>serversController</key>
+				<string>id</string>
+				<key>treeController</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSArrayController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>MInnerSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSSplitView</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

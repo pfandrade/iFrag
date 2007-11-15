@@ -10,7 +10,7 @@
 
 #import "MGenericGame.h"
 
-@interface MQuake4 : MGenericGame {
+@interface MQuake4 : MGenericGame <MGaming>{
 
 }
 

@@ -38,14 +38,10 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>filterBar</key>
-				<string>AMButtonBar</string>
 				<key>gamesOutlineView</key>
 				<string>id</string>
 				<key>mainWindow</key>
 				<string>NSWindow</string>
-				<key>rightSplitView</key>
-				<string>MInnerSplitView</string>
 				<key>serverListsController</key>
 				<string>MServerListsController</string>
 				<key>serverTreeController</key>
@@ -54,8 +50,6 @@
 				<string>MServersController</string>
 				<key>serversTableView</key>
 				<string>id</string>
-				<key>splitView</key>
-				<string>MThinSplitView</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
@@ -65,11 +59,6 @@
 			<string>MThinSplitView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>resizeHandle</key>
-				<string>MDragHandleButton</string>
-			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSSplitView</string>
 		</dict>
@@ -92,27 +81,6 @@
 			<string>NSObject</string>
 		</dict>
 		<dict>
-			<key>CLASS</key>
-			<string>MSplitViewsDelegate</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>mainController</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>KBGradientOutlineView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSOutlineView</string>
-		</dict>
-		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>toggleColumn</key>
@@ -127,7 +95,7 @@
 				<key>columnsMenu</key>
 				<string>NSMenu</string>
 				<key>serverListsController</key>
-				<string>NSTreeController</string>
+				<string>MServerTreeController</string>
 				<key>serverListsOutlineView</key>
 				<string>NSOutlineView</string>
 				<key>serversController</key>
@@ -140,32 +108,18 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>MActionButton</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSPopUpButton</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>MDragHandleButton</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSButton</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>AMButtonBar</string>
+			<string>MWindow</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>delegate</key>
-				<string>id</string>
+				<key>addNewServerButton</key>
+				<string>NSButton</string>
+				<key>addNewSmartListButton</key>
+				<string>NSButton</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSView</string>
+			<string>NSWindow</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -178,7 +132,7 @@
 				<string>MThinSplitView</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>KBGradientOutlineView</string>
+			<string>NSOutlineView</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -274,6 +228,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>MOutlineCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextFieldCell</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>MServerListsController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -288,14 +250,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSArrayController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>MInnerSplitView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSSplitView</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

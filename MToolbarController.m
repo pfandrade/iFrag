@@ -46,7 +46,8 @@
 	} else if ( [itemIdentifier isEqualToString:MReloadServerList] ) {
 		[item setLabel:@"Get New List"];
 		[item setPaletteLabel:[item label]];
-		[item setImage:[NSImage imageNamed:@"Update.tiff"]];
+//		[item setImage:[NSImage imageNamed:@"Update.tiff"]];
+		[item setImage:[NSImage imageNamed:@"NSNetwork"]];
 		[item setTarget:mainController];
 		[item setAction:@selector(reloadServerList:)];
 	} else if ( [itemIdentifier isEqualToString:MRefreshServerList] ) {

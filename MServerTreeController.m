@@ -12,9 +12,19 @@
 
 @implementation MServerTreeController
 
+- (id)currentSelection
+{
+	id selectedObjects = [self selectedObjects];
+	if(selectedObjects != nil && [selectedObjects count] > 0){
+		return [selectedObjects objectAtIndex:0];
+	}
+	return nil;
+}
+
 - (MServerList *)selectedServerList
 {
-	id selectedObject = [[self selectedObjects] objectAtIndex:0];
+	id selectedObject = [self currentSelection];
+	
 	if([selectedObject isKindOfClass:[MServerList class]]){
 		return selectedObject;
 	}else{
@@ -24,7 +34,7 @@
 
 - (MSmartServerList *)selectedSmartServerList
 {
-	id selectedObject = [[self selectedObjects] objectAtIndex:0];
+	id selectedObject = [self currentSelection];
 	if([selectedObject isKindOfClass:[MSmartServerList class]]){
 		return selectedObject;
 	}else{
@@ -34,7 +44,7 @@
 
 - (BOOL)isServerListSelected
 {
-	id selectedObject = [[self selectedObjects] objectAtIndex:0];
+	id selectedObject = [self currentSelection];
 	if([selectedObject isKindOfClass:[MServerList class]]){
 		return YES;
 	}

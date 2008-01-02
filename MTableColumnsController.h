@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class MServerTreeController;
 
 @interface MTableColumnsController : NSObject {
 	IBOutlet NSTableView *serversTableView;
 	IBOutlet NSOutlineView *serverListsOutlineView;
-	IBOutlet NSTreeController *serverListsController;
+	IBOutlet MServerTreeController *serverListsController;
 	IBOutlet NSArrayController *serversController;
 	IBOutlet NSMenu *columnsMenu;
 	NSMutableDictionary *columnsForGames;

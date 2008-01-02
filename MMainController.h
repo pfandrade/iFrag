@@ -12,20 +12,18 @@
 @class MDrawerController;
 @class MAddServerController;
 @class MOutlineColumnController;
-@class MThinSplitView;
-@class MInnerSplitView;
-@class AMButtonBar;
 @class MSmartListEditorController;
 @class MServersController;
 @class MServerListsController;
 @class MServerTreeController;
+@class MWindow;
 
 static NSString *const iFragPBoardType = @"iFragPBoardType";
 
 @interface MMainController : NSObject
 {
 	// Windows
-    IBOutlet NSWindow *mainWindow;
+    IBOutlet MWindow *mainWindow;
 	
 	// Window Controllers
 	NSWindowController *preferencesWindowController;
@@ -37,9 +35,6 @@ static NSString *const iFragPBoardType = @"iFragPBoardType";
 	// Views
 	IBOutlet id gamesOutlineView;
 	IBOutlet id serversTableView;
-	IBOutlet MThinSplitView *splitView;
-	IBOutlet MInnerSplitView *rightSplitView;
-	IBOutlet AMButtonBar *filterBar;
 	
 	// Controllers
     IBOutlet MServersController *serversController;
@@ -47,13 +42,6 @@ static NSString *const iFragPBoardType = @"iFragPBoardType";
 	IBOutlet MServerTreeController *serverTreeController;
 	MOutlineColumnController *outlineColumnController;
 }
-
-- (void)resizedSplitView:(id)theSplitView toSize:(float)newSize;
-
-#pragma mark Accessor Methods
-
-- (id)mainSplitView;
-- (id)innerRigthSplitView;
 
 #pragma mark Actions
 - (IBAction)showPreferences:(id)sender;

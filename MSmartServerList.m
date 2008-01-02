@@ -95,7 +95,8 @@ triggerChangeNotificationsForDependentKey:@"infoDict"];
 - (NSImage *)icon
 {
 	if(icon == nil){
-		icon = [[NSImage imageNamed:@"Smart Folder"] retain];
+//		icon = [[NSImage imageNamed:@"Smart Folder"] retain];
+		icon = [[NSImage imageNamed:@"NSFolderSmart"] retain];
 	}
 	return icon;
 }

@@ -151,15 +151,6 @@ static double spinnerPosition = 0;
 	[drawString release];
 }
 
-//- (NSSize)cellSize {
-//    NSSize cellSize = [super cellSize];
-//	NSImage *image = [self image];
-//	NSProgressIndicator *progressInd = [self progressIndicator];
-//    cellSize.width += (image ? [image size].width + 3 : 0);
-//	cellSize.width += (![progressInd isHidden] ? ceil(cellSize.height * heightPercentage)  + 3 : 0);
-//    return cellSize;
-//}
-
 - (void)drawIndeterminateIndicaterInRect:(NSRect)aRect
 {
 	int step = round([self spinnerPosition]/(5.0/60.0));

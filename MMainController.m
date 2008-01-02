@@ -6,20 +6,13 @@
 //  Copyright 2006 Maracuja Software. All rights reserved.
 //
 #import "MMainController.h"
-#import "KBGradientOutlineView.h"
 #import "MOutlineView.h"
 #import "MOutlineCell.h"
-//#import "MComparableAttributedString.h"
-//#import "AMButtonBarItem.h"
-//#import "CTGradient_AMButtonBar.h"
 #import "MServerList.h"
 #import "MServersController.h"
 #import "MQStatTask.h"
 #import "MQStatXMLParser.h"
 #import "MGenericGame.h"
-#import "MThinSplitView.h"
-#import "MInnerSplitView.h"
-#import "AMButtonBar.h"
 #import "MInspectorWindowController.h"
 #import "MDrawerController.h"
 #import "MAddServerController.h"
@@ -28,8 +21,7 @@
 #import "MSmartServerList.h"
 #import "MServerListsController.h"
 #import "MServerTreeController.h"
-
-#define THINSPLITVIEW_SAVE_NAME @"thinsplitview"
+#import "MWindow.h"
 
 @implementation MMainController
 
@@ -37,20 +29,6 @@
 {
 	// hack to load some classes that set up preference values
 	[MQStatTask class]; [MQStatXMLParser class];
-	// Setup the Button Bar
-//	[rightSplitView showFilterBar];
-//	[filterBar setShowsBaselineSeparator:NO];
-//	[filterBar setBackgroundGradient:[CTGradient blueButtonBarGradient]];
-//	AMButtonBarItem *item = [[[AMButtonBarItem alloc] initWithIdentifier:@"all"] autorelease];
-//	[item setTitle:@"All"];
-//	[filterBar insertItem:item atIndex:0];
-//	item = [[[AMButtonBarItem alloc] initWithIdentifier:@"world"] autorelease];
-//	[item setTitle:@"World"];
-//	[filterBar insertItem:item atIndex:1];
-//	item = [[[AMButtonBarItem alloc] initWithIdentifier:@"lan"] autorelease];
-//	[item setTitle:@"LAN"];
-//	[filterBar insertItem:item atIndex:2];
-	[rightSplitView hideFilterBar];
 	
 	// set doubleClick action for NSTableView and NSOutlineView
 	[serversTableView setTarget:self];
@@ -58,20 +36,16 @@
 	[gamesOutlineView setTarget:self];
 	[gamesOutlineView setDoubleAction:@selector(editSmartList:)];
 	
-	// Set appearance options (like gradient) in the custom outlineView
-	[(KBGradientOutlineView *)gamesOutlineView setUsesGradientSelection:YES];
-	[(KBGradientOutlineView *)gamesOutlineView setSelectionGradientIsContiguous:YES];
-	
 	//Set the tableview as the nextResponder
 	[gamesOutlineView setNextResponder:serversTableView];
 	
 	// Insert custom cell types into the outline view
     NSTableColumn *tableColumn = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
 	outlineColumnController = [[MOutlineColumnController alloc] initWithTableColumn:tableColumn];
-    MOutlineCell *outlineCell = [[[MOutlineCell alloc] init] autorelease];
-	[outlineCell setEditable: NO];
-    [tableColumn setDataCell:outlineCell];
-	[splitView setNeedsDisplay:YES];
+//  MOutlineCell *outlineCell = [[[MOutlineCell alloc] init] autorelease];
+//	[outlineCell setEditable: NO];
+//    [tableColumn setDataCell:outlineCell];
+//	[splitView setNeedsDisplay:YES];
 	
 	// Order the outline view
 	NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"game" ascending:YES];
@@ -80,7 +54,7 @@
 	[desc release];
 	
 	// Reset the ThinSplitView splitter position to the saved state
-	[splitView loadLayoutWithName:THINSPLITVIEW_SAVE_NAME];
+//	[splitView loadLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 	
 	// Register as observer to NSWindow terminate notification
 	[[NSNotificationCenter defaultCenter] addObserver:self 
@@ -93,13 +67,6 @@
 	
 }
 
-- (void)resizedSplitView:(id)theSplitview toSize:(float)newSize
-{
-	if(splitView == splitView){
-		NSTableColumn *tc = [gamesOutlineView tableColumnWithIdentifier:@"gamesColumn"];
-		[tc setWidth:newSize];
-	}
-}
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
@@ -122,17 +89,6 @@
 	}
 	
 	return YES;
-}
-
-#pragma mark Accessor Methods
-- (id)mainSplitView
-{
-	return [[splitView retain] autorelease];
-}
-
-- (id)innerRigthSplitView
-{
-	return [[rightSplitView retain] autorelease];
 }
 
 #pragma mark -
@@ -225,11 +181,18 @@
 {
 	NSArray *selServers = [serversController selectedObjects];
 	MServerList *currentServerList = [serverTreeController selectedServerList];
+	
 	BOOL ret;
-	if([selServers count] > 0)
+	if([selServers count] > 0){
 		ret = [currentServerList refreshServers:selServers];
-	else
-		ret = [currentServerList refreshServers:nil];
+	}else{
+		if([serverTreeController isServerListSelected]){
+			ret = [currentServerList refreshServers:nil];
+		}else{
+			MSmartServerList *currentSmartServerList = [serverTreeController selectedSmartServerList];
+			ret = [currentServerList refreshServers:[[currentSmartServerList servers] allObjects]];
+		}
+	}
 	if(ret){
 		[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
 	}
@@ -238,8 +201,16 @@
 - (IBAction)refreshServerList:(id)sender
 {
 	MServerList *currentServerList = [serverTreeController selectedServerList];
-	if([currentServerList refreshServers:nil]){ // talvez o melhor seja passar todos em vez de nil
-		[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
+	
+	if([serverTreeController isServerListSelected]){
+		if([currentServerList refreshServers:nil]){ // talvez o melhor seja passar todos em vez de nil
+			[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
+		}
+	}else{
+		MSmartServerList *currentSmartServerList = [serverTreeController selectedSmartServerList];
+		if([currentServerList refreshServers:[[currentSmartServerList servers] allObjects]]){
+			[[NSNotificationCenter defaultCenter] postNotificationName:MQueryStarted object:self];
+		}
 	}
 }
 
@@ -269,6 +240,9 @@
 	}
 	[smartListEditorWindowController setServerList:[serverTreeController selectedServerList]];
 	[smartListEditorWindowController runModalSheetForWindow:mainWindow];
+	
+	//this is a little hack to get the alternate button back to the default "+" button
+	[mainWindow toggleAlternateButtons];
 }
 
 - (IBAction)editSmartList:(id)sender
@@ -291,7 +265,7 @@
 
 - (void)windowWillClose:(NSNotification *)aNotification
 {
-	[splitView storeLayoutWithName:THINSPLITVIEW_SAVE_NAME];
+	// I'm sure I'll be using this method for something
 }
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
@@ -311,52 +285,11 @@
 		[[NSFileManager defaultManager] removeFileAtPath:[NSString stringWithFormat:@"%@/%@",NSTemporaryDirectory(),file] 
 												 handler:nil];
 	}
-	
-	[splitView storeLayoutWithName:THINSPLITVIEW_SAVE_NAME];
 }
 
 - (void)queryTerminated:(id)sl
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:MQueryEnded object:self];
 }
-
-//#pragma mark Ouline View Delegate Methods
-//- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
-//{
-//	if ([(MOutlineView *)gamesOutlineView mouseOverRow] == [outlineView rowForItem:item])
-//		NSLog(@"%d could be highlighted", [outlineView rowForItem:item]);
-//	else NSLog(@"%d shouldn't be highlighted", [outlineView rowForItem:item]);
-//	
-//	NSLog(@"cell address %@",cell);
-//}
-//
-//- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
-//{
-//	// If the row is selected and the current drawing isn't being used to create a drag image,
-//	// colour the text white; otherwise, colour it black
-////	int rowIndex = [outlineView rowForItem:item];
-////	NSColor *fontColor = ( [[outlineView selectedRowIndexes] containsIndex:rowIndex] && 
-////						   ([outlineView editedRow] != rowIndex) && 
-////						   (![[(KBGradientOutlineView *)outlineView draggedRows] containsIndex:rowIndex]) ) ?
-////		[NSColor whiteColor] : [NSColor blackColor];
-////	[cell setTextColor:fontColor];
-//}
-//
-//- (void)outlineViewSelectionDidChange:(NSNotification *)notification
-//{
-	//MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
-//	if([currentServerList needsReload]){
-//		[self reloadCurrentServerListFromStore:self];
-//	}
-//}
-
-//- (void)serveListNeedsReload:(NSNotification *)notification
-//{
-//	MServerList *currentServerList = [[serverTreeController selectedObjects] objectAtIndex:0];
-//	MServerList *sl = [notification object];
-//	if(sl ==  currentServerList){
-//		[self reloadCurrentServerListFromStore:self];
-//	}
-//}
 
 @end

@@ -7,9 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "KBGradientOutlineView.h"
 
-@interface MOutlineView : KBGradientOutlineView {
+@interface MOutlineView : NSOutlineView {
 }
 
 @end

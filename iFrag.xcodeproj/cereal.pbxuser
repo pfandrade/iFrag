@@ -17,7 +17,7 @@
 			8D1107260486CEB800E47090 /* iFrag */,
 		);
 		breakpoints = (
-			D259D2C90D2055A60000C6FA /* MMainController.m:294 */,
+			D259D2C90D2055A60000C6FA /* MMainController.m:296 */,
 		);
 		codeSenseManager = D24CA2360AFE38AB003C3289 /* Code sense */;
 		executables = (
@@ -209,8 +209,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 221004554;
-			PBXWorkspaceStateSaveDate = 221004554;
+			PBXPerProjectTemplateStateSaveDate = 228665186;
+			PBXWorkspaceStateSaveDate = 228665186;
 		};
 		sourceControlManager = D24CA2350AFE38AB003C3289 /* Source Control */;
 		userBuildSettings = {
@@ -247,7 +247,7 @@
 	};
 	D21351090BE794AE0035C46A /* MServerListsController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {750, 692}}";
+			sepNavIntBoundsRect = "{{0, 0}, {750, 636}}";
 			sepNavSelRange = "{496, 0}";
 			sepNavVisRange = "{0, 503}";
 			sepNavVisRect = "{{0, 0}, {930, 464}}";
@@ -256,11 +256,11 @@
 	};
 	D213510A0BE794AE0035C46A /* MServerListsController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1148, 2310}}";
-			sepNavSelRange = "{2933, 0}";
-			sepNavVisRange = "{1920, 1962}";
+			sepNavIntBoundsRect = "{{0, 0}, {1152, 2366}}";
+			sepNavSelRange = "{2098, 0}";
+			sepNavVisRange = "{1576, 2179}";
 			sepNavVisRect = "{{0, 0}, {930, 464}}";
-			sepNavWindowFrame = "{{558, 41}, {809, 764}}";
+			sepNavWindowFrame = "{{324, 55}, {809, 764}}";
 		};
 	};
 	D21DCA1F0CE9392A00D17030 /* MSmartListEditorController.h */ = {
@@ -395,19 +395,20 @@
 	};
 	D248AFB30BBE72C30040B90B /* MOutlineCell.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {938, 578}}";
-			sepNavSelRange = "{171, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {924, 579}}";
+			sepNavSelRange = "{225, 15}";
+			sepNavVisRange = "{0, 445}";
 			sepNavVisRect = "{{0, 0}, {938, 578}}";
 			sepNavWindowFrame = "{{80, 26}, {983, 707}}";
 		};
 	};
 	D248AFB40BBE72C30040B90B /* MOutlineCell.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {924, 3444}}";
-			sepNavSelRange = "{4192, 0}";
-			sepNavVisRange = "{664, 1177}";
+			sepNavIntBoundsRect = "{{0, 0}, {1058, 3402}}";
+			sepNavSelRange = "{3940, 0}";
+			sepNavVisRange = "{5500, 1374}";
 			sepNavVisRect = "{{0, 0}, {938, 578}}";
-			sepNavWindowFrame = "{{127, 37}, {983, 707}}";
+			sepNavWindowFrame = "{{145, 20}, {1117, 808}}";
 		};
 	};
 	D249B0A90C15792100ED8743 /* MInspectorWindowController.h */ = {
@@ -582,9 +583,9 @@
 	};
 	D24CA2400AFE39AA003C3289 /* MQStatTask.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {922, 1932}}";
-			sepNavSelRange = "{922, 0}";
-			sepNavVisRange = "{0, 1452}";
+			sepNavIntBoundsRect = "{{0, 0}, {922, 1848}}";
+			sepNavSelRange = "{1891, 5}";
+			sepNavVisRange = "{998, 1190}";
 			sepNavVisRect = "{{0, 721}, {936, 656}}";
 			sepNavWindowFrame = "{{310, 84}, {981, 785}}";
 		};
@@ -606,7 +607,7 @@
 			sepNavWindowFrame = "{{38, 7}, {878, 799}}";
 		};
 	};
-	D259D2C90D2055A60000C6FA /* MMainController.m:294 */ = {
+	D259D2C90D2055A60000C6FA /* MMainController.m:296 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -618,7 +619,7 @@
 		functionName = "-outlineView:toolTipForCell:rect:tableColumn:item:mouseLocation:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 294;
+		lineNumber = 296;
 		location = iFrag;
 		modificationTime = 220541870.81532;
 		state = 2;
@@ -664,11 +665,11 @@
 	D27349CB0B05F9AB00C219F1 /* MQStatXMLParser.m */ = {
 		uiCtxt = {
 			sepNavFolds = "{\n    c =     (\n                {\n            r = \"{5535, 24}\";\n        },\n                {\n            r = \"{5655, 24}\";\n        },\n                {\n            r = \"{5764, 24}\";\n        },\n                {\n            r = \"{5887, 24}\";\n        },\n                {\n            r = \"{6010, 24}\";\n        },\n                {\n            r = \"{6121, 24}\";\n        },\n                {\n            r = \"{6663, 180}\";\n        },\n                {\n            r = \"{6934, 134}\";\n        },\n                {\n            c =             (\n                                {\n                    r = \"{8002, 124}\";\n                }\n            );\n            r = \"{7985, 264}\";\n        },\n                {\n            r = \"{8344, 132}\";\n        },\n                {\n            r = \"{8561, 127}\";\n        },\n                {\n            r = \"{8787, 170}\";\n        },\n                {\n            r = \"{9055, 170}\";\n        },\n                {\n            r = \"{9312, 470}\";\n        },\n                {\n            r = \"{10364, 80}\";\n        },\n                {\n            r = \"{10535, 110}\";\n        },\n                {\n            r = \"{10734, 165}\";\n        }\n    );\n    r = \"{0, 13537}\";\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {826, 5782}}";
-			sepNavSelRange = "{3693, 0}";
-			sepNavVisRange = "{2675, 1489}";
+			sepNavIntBoundsRect = "{{0, 0}, {826, 5642}}";
+			sepNavSelRange = "{2355, 0}";
+			sepNavVisRange = "{1433, 1690}";
 			sepNavVisRect = "{{0, 3487}, {972, 561}}";
-			sepNavWindowFrame = "{{377, -53}, {885, 770}}";
+			sepNavWindowFrame = "{{297, 108}, {885, 770}}";
 		};
 	};
 	D2780DF90BDD401B008CF458 /* MQuery.h */ = {
@@ -734,19 +735,19 @@
 	};
 	D28923290B6C02D500AD2D6D /* MGenericGame.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {924, 1078}}";
+			sepNavIntBoundsRect = "{{0, 0}, {963, 1022}}";
 			sepNavSelRange = "{188, 18}";
-			sepNavVisRange = "{147, 1116}";
+			sepNavVisRange = "{608, 1205}";
 			sepNavVisRect = "{{0, 0}, {938, 578}}";
 			sepNavWindowFrame = "{{264, 33}, {983, 707}}";
 		};
 	};
 	D289232A0B6C02D500AD2D6D /* MGenericGame.m */ = {
 		uiCtxt = {
-			sepNavFolds = "{\n    c =     (\n                {\n            r = \"{754, 102}\";\n        },\n                {\n            r = \"{887, 90}\";\n        },\n                {\n            r = \"{1072, 168}\";\n        },\n                {\n            r = \"{1728, 73}\";\n        },\n                {\n            r = \"{1910, 116}\";\n        },\n                {\n            r = \"{2046, 96}\";\n        },\n                {\n            r = \"{2175, 140}\";\n        },\n                {\n            r = \"{2336, 34}\";\n        },\n                {\n            r = \"{2423, 41}\";\n        },\n                {\n            r = \"{2502, 85}\";\n        },\n                {\n            r = \"{2613, 349}\";\n        },\n                {\n            r = \"{3003, 94}\";\n        },\n                {\n            r = \"{3126, 47}\";\n        },\n                {\n            r = \"{3217, 103}\";\n        },\n                {\n            r = \"{3342, 160}\";\n        },\n                {\n            r = \"{3539, 85}\";\n        },\n                {\n            r = \"{3659, 53}\";\n        },\n                {\n            r = \"{3762, 123}\";\n        },\n                {\n            r = \"{3944, 44}\";\n        },\n                {\n            r = \"{4025, 199}\";\n        },\n                {\n            r = \"{4289, 181}\";\n        },\n                {\n            r = \"{4504, 183}\";\n        },\n                {\n            r = \"{4724, 186}\";\n        },\n                {\n            r = \"{4943, 182}\";\n        },\n                {\n            r = \"{5160, 184}\";\n        },\n                {\n            r = \"{5394, 184}\";\n        },\n                {\n            r = \"{5618, 219}\";\n        },\n                {\n            r = \"{5888, 1655}\";\n        },\n                {\n            r = \"{7599, 183}\";\n        },\n                {\n            r = \"{7847, 305}\";\n        }\n    );\n    r = \"{0, 8160}\";\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {924, 1316}}";
+			sepNavFolds = "{\n    c =     (\n                {\n            r = \"{754, 102}\";\n            s = 0;\n        },\n                {\n            r = \"{887, 90}\";\n            s = 0;\n        },\n                {\n            r = \"{1072, 168}\";\n            s = 0;\n        },\n                {\n            r = \"{1728, 73}\";\n            s = 0;\n        },\n                {\n            r = \"{1910, 116}\";\n            s = 0;\n        },\n                {\n            r = \"{2046, 96}\";\n            s = 0;\n        },\n                {\n            r = \"{2175, 140}\";\n            s = 0;\n        },\n                {\n            r = \"{2336, 34}\";\n            s = 0;\n        },\n                {\n            r = \"{2423, 41}\";\n            s = 0;\n        },\n                {\n            r = \"{2502, 85}\";\n            s = 0;\n        },\n                {\n            r = \"{2613, 349}\";\n            s = 0;\n        },\n                {\n            r = \"{3003, 94}\";\n            s = 0;\n        },\n                {\n            r = \"{3126, 47}\";\n            s = 0;\n        },\n                {\n            r = \"{3217, 103}\";\n            s = 0;\n        },\n                {\n            r = \"{3342, 160}\";\n            s = 0;\n        },\n                {\n            r = \"{3539, 85}\";\n            s = 0;\n        },\n                {\n            r = \"{3659, 53}\";\n            s = 0;\n        },\n                {\n            r = \"{3762, 123}\";\n            s = 0;\n        },\n                {\n            r = \"{3944, 44}\";\n            s = 0;\n        },\n                {\n            r = \"{4025, 199}\";\n            s = 0;\n        },\n                {\n            r = \"{4289, 181}\";\n            s = 0;\n        },\n                {\n            r = \"{4504, 183}\";\n            s = 0;\n        },\n                {\n            r = \"{4724, 186}\";\n            s = 0;\n        },\n                {\n            r = \"{4943, 182}\";\n            s = 0;\n        },\n                {\n            r = \"{5160, 184}\";\n            s = 0;\n        },\n                {\n            r = \"{5394, 184}\";\n            s = 0;\n        },\n                {\n            r = \"{5618, 219}\";\n            s = 0;\n        },\n                {\n            r = \"{5888, 1655}\";\n            s = 0;\n        },\n                {\n            r = \"{7599, 183}\";\n            s = 0;\n        },\n                {\n            r = \"{7847, 305}\";\n            s = 0;\n        }\n    );\n    r = \"{0, 8160}\";\n    s = 0;\n}";
+			sepNavIntBoundsRect = "{{0, 0}, {963, 1680}}";
 			sepNavSelRange = "{146, 0}";
-			sepNavVisRange = "{146, 1338}";
+			sepNavVisRange = "{146, 1360}";
 			sepNavVisRect = "{{0, 2164}, {938, 578}}";
 			sepNavWindowFrame = "{{381, 151}, {983, 707}}";
 		};
@@ -762,12 +763,12 @@
 	};
 	D28923860B6CD4F500AD2D6D /* MQuake3.m */ = {
 		uiCtxt = {
-			sepNavFolds = "{\n    c =     (\n                {\n            r = \"{777, 133}\";\n        },\n                {\n            r = \"{967, 2718}\";\n        },\n                {\n            r = \"{4612, 235}\";\n        }\n    );\n    r = \"{0, 5429}\";\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {1048, 1078}}";
+			sepNavFolds = "{\n    c =     (\n                {\n            r = \"{777, 133}\";\n            s = 0;\n        },\n                {\n            r = \"{967, 2718}\";\n            s = 0;\n        },\n                {\n            r = \"{4612, 235}\";\n            s = 0;\n        }\n    );\n    r = \"{0, 5429}\";\n    s = 0;\n}";
+			sepNavIntBoundsRect = "{{0, 0}, {963, 1288}}";
 			sepNavSelRange = "{988, 0}";
-			sepNavVisRange = "{141, 1626}";
+			sepNavVisRange = "{0, 1590}";
 			sepNavVisRect = "{{0, 0}, {1062, 654}}";
-			sepNavWindowFrame = "{{209, 56}, {1107, 783}}";
+			sepNavWindowFrame = "{{253, 54}, {1022, 794}}";
 		};
 	};
 	D28923890B6CD50900AD2D6D /* MFavorites.h */ = {
@@ -814,10 +815,11 @@
 	};
 	D294F87C0BC5A5B3004C48B7 /* MServersController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {938, 4144}}";
-			sepNavSelRange = "{1370, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1058, 4144}}";
+			sepNavSelRange = "{2, 0}";
+			sepNavVisRange = "{0, 1566}";
 			sepNavVisRect = "{{0, 193}, {938, 578}}";
-			sepNavWindowFrame = "{{255, 84}, {983, 707}}";
+			sepNavWindowFrame = "{{228, 35}, {1117, 808}}";
 		};
 	};
 	D29C6DC20BD952F900F816AD /* domain.xcdatamodel */ = {
@@ -825,7 +827,7 @@
 			"Xdesign Model Editor Bookmark Key" = {
 				UIContextForDetailArea = {
 					_indexOfSelectedPane = 0;
-					_indexOfSelectedView = 0;
+					_indexOfSelectedView = 1;
 				};
 				UIContextForEntityArea = {
 					_indexOfSelectedView = 0;
@@ -846,7 +848,7 @@
 					chosenTableWidths = (
 						103.000000,
 						22.000000,
-						68.080078,
+						69.080078,
 					);
 				};
 				UIContextForLayoutManager = {
@@ -856,8 +858,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {660, 218}}",
-							"{{665, 0}, {357, 218}}",
+							"{{0, 0}, {660, 220}}",
+							"{{665, 0}, {357, 220}}",
 						);
 					};
 					diagramSplitGeometry = {
@@ -867,7 +869,7 @@
 						isCollapsed = yes;
 						sizes = (
 							"{{0, 0}, {1022, 220}}",
-							"{{0, 225}, {1022, 512}}",
+							"{{0, 225}, {1022, 456}}",
 						);
 					};
 					tableSplitGeometry = {
@@ -876,8 +878,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {218, 218}}",
-							"{{223, 0}, {435, 218}}",
+							"{{0, 0}, {219, 220}}",
+							"{{224, 0}, {436, 220}}",
 						);
 					};
 				};
@@ -966,7 +968,7 @@
 					chosenTableWidthsPT = (
 						128.000000,
 						108.110840,
-						172.570801,
+						173.570801,
 					);
 					chosenTableWidthsRT = (
 						128.000000,
@@ -974,9 +976,9 @@
 					);
 				};
 				"xdesign model browser state key - shown/hidden" = 1;
-				"xdesign model diagram view visible rect key" = "{{-180, -33}, {1007, 497}}";
+				"xdesign model diagram view visible rect key" = "{{-155, -13}, {1007, 441}}";
 			};
-			sepNavWindowFrame = "{{213, 74}, {1022, 794}}";
+			sepNavWindowFrame = "{{175, 42}, {1022, 794}}";
 		};
 	};
 	D29FA3B80C8F74920016B965 /* MServerPasswordController.h */ = {
@@ -1029,18 +1031,18 @@
 	};
 	D2BF91240B03A383004BCD69 /* MServer.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {962, 1232}}";
+			sepNavIntBoundsRect = "{{0, 0}, {962, 1176}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{871, 981}";
+			sepNavVisRange = "{79, 865}";
 			sepNavVisRect = "{{0, 583}, {976, 500}}";
 			sepNavWindowFrame = "{{131, 127}, {1021, 629}}";
 		};
 	};
 	D2BF91250B03A383004BCD69 /* MServer.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {962, 6958}}";
-			sepNavSelRange = "{5837, 14}";
-			sepNavVisRange = "{5132, 1186}";
+			sepNavIntBoundsRect = "{{0, 0}, {962, 5110}}";
+			sepNavSelRange = "{12280, 44}";
+			sepNavVisRange = "{11444, 1273}";
 			sepNavVisRect = "{{0, 4153}, {976, 500}}";
 			sepNavWindowFrame = "{{293, 68}, {1021, 629}}";
 		};
@@ -1109,11 +1111,11 @@
 	};
 	D2F0ADAD0B06698A00037C58 /* MServerList.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {873, 1078}}";
-			sepNavSelRange = "{1223, 0}";
-			sepNavVisRange = "{336, 1090}";
+			sepNavIntBoundsRect = "{{0, 0}, {873, 1064}}";
+			sepNavSelRange = "{369, 0}";
+			sepNavVisRange = "{0, 1079}";
 			sepNavVisRect = "{{0, 0}, {930, 464}}";
-			sepNavWindowFrame = "{{443, 150}, {932, 728}}";
+			sepNavWindowFrame = "{{277, 72}, {932, 728}}";
 		};
 	};
 	D2F0ADAE0B06698A00037C58 /* MServerList.m */ = {
@@ -1127,7 +1129,7 @@
 	};
 	D2F2894C0BDA632900FF3AD4 /* MRules.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1037, 584}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1037, 528}}";
 			sepNavSelRange = "{225, 67}";
 			sepNavVisRange = "{0, 507}";
 			sepNavVisRect = "{{0, 99}, {999, 291}}";
@@ -1136,9 +1138,9 @@
 	};
 	D2F2894D0BDA632900FF3AD4 /* MRules.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1037, 1190}}";
-			sepNavSelRange = "{205, 185}";
-			sepNavVisRange = "{0, 1130}";
+			sepNavIntBoundsRect = "{{0, 0}, {1037, 1064}}";
+			sepNavSelRange = "{783, 0}";
+			sepNavVisRange = "{26, 1011}";
 			sepNavVisRect = "{{0, 231}, {1051, 527}}";
 			sepNavWindowFrame = "{{38, 150}, {1096, 656}}";
 		};
@@ -1178,11 +1180,11 @@
 	};
 	D2FBCCC00B3B48460055AFFA /* MMainController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {720, 4158}}";
-			sepNavSelRange = "{1178, 0}";
-			sepNavVisRange = "{1073, 560}";
+			sepNavIntBoundsRect = "{{0, 0}, {768, 4410}}";
+			sepNavSelRange = "{7067, 0}";
+			sepNavVisRange = "{6674, 1774}";
 			sepNavVisRect = "{{0, 74}, {930, 464}}";
-			sepNavWindowFrame = "{{189, 34}, {1117, 808}}";
+			sepNavWindowFrame = "{{172, 13}, {1117, 808}}";
 		};
 	};
 	D2FCDB490C53944000BC889F /* MTableColumnsController.h */ = {
@@ -1196,11 +1198,11 @@
 	};
 	D2FCDB4A0C53944000BC889F /* MTableColumnsController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {828, 4298}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1146, 4116}}";
 			sepNavSelRange = "{5304, 0}";
-			sepNavVisRange = "{4814, 780}";
+			sepNavVisRange = "{1395, 2187}";
 			sepNavVisRect = "{{0, 3465}, {1072, 679}}";
-			sepNavWindowFrame = "{{163, 57}, {1117, 808}}";
+			sepNavWindowFrame = "{{144, 42}, {1117, 808}}";
 		};
 	};
 	D2FCDC050C54A05E00BC889F /* MTableHeaderView.h */ = {

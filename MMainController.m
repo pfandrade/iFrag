@@ -292,4 +292,23 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:MQueryEnded object:self];
 }
 
+#pragma mark -
+#pragma mark NSOutlineView delegate methods
+
+- (NSString *)outlineView:(NSOutlineView *)ov 
+		   toolTipForCell:(NSCell *)cell 
+					 rect:(NSRectPointer)rect 
+			  tableColumn:(NSTableColumn *)tc 
+					 item:(id)item 
+			mouseLocation:(NSPoint)mouseLocation
+{
+	return nil;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView 
+shouldShowCellExpansionForTableColumn:(NSTableColumn *)tableColumn 
+			   item:(id)item
+{
+	return NO;
+}
 @end

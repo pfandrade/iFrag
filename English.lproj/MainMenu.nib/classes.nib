@@ -41,7 +41,7 @@
 				<key>gamesOutlineView</key>
 				<string>id</string>
 				<key>mainWindow</key>
-				<string>NSWindow</string>
+				<string>MWindow</string>
 				<key>serverListsController</key>
 				<string>MServerListsController</string>
 				<key>serverTreeController</key>

@@ -263,6 +263,7 @@
 				D2F28C8B0BDABEC700FF3AD4 /* Models */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				D23FE4FF0D3B91D700E6A751 /* Aux Executables */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -285,7 +286,6 @@
 				D29B20700BCD769900228D51 /* Images */,
 				D29B206F0BCD765B00228D51 /* Icons */,
 				D26E57DB0B568AE80020EC68 /* Credits.rtf */,
-				D2FF2C440AFFAA870014B41D /* qstat */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				D2A797D10CDFBEC3007B5D4D /* ServerPasswordDialog.nib */,
@@ -357,6 +357,14 @@
 				D247E1050C7F931000473939 /* MCallOfDuty2.m */,
 			);
 			name = Game;
+			sourceTree = "<group>";
+		};
+		D23FE4FF0D3B91D700E6A751 /* Aux Executables */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF2C440AFFAA870014B41D /* qstat */,
+			);
+			name = "Aux Executables";
 			sourceTree = "<group>";
 		};
 		D29B206F0BCD765B00228D51 /* Icons */ = {

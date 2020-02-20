@@ -26,15 +26,18 @@ static NSMutableDictionary *existingAddresses = nil;
 
 + (void)initExistingAddresses
 {
-	NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
-	
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
-	[fetchRequest setEntity:ed];
-	
-	NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
-	existingAddresses = [[NSMutableDictionary alloc] initWithObjects:[results valueForKey:@"objectID"] 
-															 forKeys:[results valueForKey:@"address"]];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSManagedObjectContext *context = [[NSApp delegate] managedObjectContext];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *ed = [NSEntityDescription entityForName:@"Server" inManagedObjectContext:context];
+        [fetchRequest setEntity:ed];
+        
+        NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
+        existingAddresses = [[NSMutableDictionary alloc] initWithObjects:[results valueForKey:@"objectID"]
+                                                                 forKeys:[results valueForKey:@"address"]];
+    });
+
 	
 }
 

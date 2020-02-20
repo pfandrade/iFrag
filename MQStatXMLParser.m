@@ -86,7 +86,11 @@
 	
 	// create new context for this thread
 	context = [[NSManagedObjectContext alloc] init];
-	[context setPersistentStoreCoordinator:[[NSApp delegate] persistentStoreCoordinator]];
+    __block NSPersistentStoreCoordinator *coordinator = nil;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        coordinator = [[NSApp delegate] persistentStoreCoordinator];
+    });
+	[context setPersistentStoreCoordinator:coordinator];
 	[context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
 	[context setUndoManager:nil];
 	

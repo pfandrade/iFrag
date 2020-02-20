@@ -266,6 +266,8 @@ didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qName
 {
+    if (currentString == nil) { currentString = [[NSMutableString alloc] init]; }
+    
 	// --------- Element server ---------
 	if ([elementName isEqualToString:@"server"]) {
 		if(currentServer == nil){ //isto esta aqui para o caso especial do header

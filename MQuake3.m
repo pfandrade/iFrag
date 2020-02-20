@@ -12,10 +12,10 @@
 #include <stdlib.h> //para o abs
 // this game name is not used anymore, we now use the bundleName
 static NSString *const _gameName			= @"Quake 3";
-static NSString *const _bundleIdentifier	= @"com.idsoftware.Quake3";
+static NSString *const _bundleIdentifier	= @"org.ioquake.ioquake3";
 static NSString *const _serverTypeString	= @"q3s";
 static NSString *const _masterServerFlag	= @"q3m";
-static NSString *const _masterServerAddress = @"master3.idsoftware.com";
+static NSString *const _masterServerAddress = @"master.ioquake3.org";
 static NSString *const _defaultGameType		= @"baseq3";
 static NSString *const _defaultServerPort	= @"27960";
 
